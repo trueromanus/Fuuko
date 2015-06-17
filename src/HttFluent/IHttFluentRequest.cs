@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Models.ParameterModels;
+using HttFluent.Models.RequestModels;
 
 namespace HttFluent {
 
@@ -13,106 +14,113 @@ namespace HttFluent {
 	public interface IHttFluentRequest {
 
 		/// <summary>
+		/// Settings.
+		/// </summary>
+		RequestSettingsModel Settings {
+			get;
+		}
+
+		/// <summary>
 		/// Url.
 		/// </summary>
-		/// <param name="value">Url.</param>
-		void Url ( string value );
+		/// <param name="url">Url.</param>
+		IHttFluentRequest Url ( string url );
 
 		/// <summary>
 		/// Method.
 		/// </summary>
 		/// <param name="method">Method.</param>
-		void Method ( RequestMethod method );
+		IHttFluentRequest Method ( RequestMethod method );
 
 		/// <summary>
 		/// Parameters.
 		/// </summary>
 		/// <param name="parameters">Parameters.</param>
-		void Parameters ( IEnumerable<RequestParameterModel> parameters );
+		IHttFluentRequest Parameters ( IEnumerable<RequestParameterModel> parameters );
 
 		/// <summary>
 		/// Content type header.
 		/// </summary>
 		/// <param name="type"></param>
-		void ContentType ( string type );
+		IHttFluentRequest ContentType ( string type );
 
 		/// <summary>
 		/// Content lenght.
 		/// </summary>
 		/// <param name="contentLength">Content lenght.</param>
-		void ContentLength ( string contentLength );
+		IHttFluentRequest ContentLength ( long contentLength );
 
 		/// <summary>
 		/// Referer.
 		/// </summary>
 		/// <param name="referer">Referer.</param>
-		void Referer ( string referer );
+		IHttFluentRequest Referer ( string referer );
 
 		/// <summary>
 		/// Accept.
 		/// </summary>
 		/// <param name="accept">Accept.</param>
-		void Accept ( string accept );
+		IHttFluentRequest Accept ( string accept );
 
 		/// <summary>
 		/// Accept encodings.
 		/// </summary>
 		/// <param name="encodings">Encodings.</param>
-		void AcceptCharset ( IEnumerable<AcceptEncoding> encodings );
+		IHttFluentRequest AcceptCharset ( IEnumerable<AcceptEncoding> encodings );
 
 		/// <summary>
 		/// Accept language.
 		/// </summary>
 		/// <param name="locales">Locales.</param>
-		void AcceptLanguage ( IEnumerable<CultureInfo> locales );
+		IHttFluentRequest AcceptLanguage ( IEnumerable<CultureInfo> locales );
 
 		/// <summary>
 		/// Allows a 304 Not Modified to be returned if content is unchanged.
 		/// </summary>
 		/// <param name="date"></param>
-		void IfModifiedSince ( DateTime date );
+		IHttFluentRequest IfModifiedSince ( DateTime date );
 
 		/// <summary>
 		/// Origin.
 		/// </summary>
 		/// <param name="origin">Origin.</param>
-		void Origin ( string origin );
+		IHttFluentRequest Origin ( string origin );
 
 		/// <summary>
 		/// Accept datetime.
 		/// </summary>
 		/// <param name="date">Date.</param>
-		void AcceptDatetime ( DateTime date );
+		IHttFluentRequest AcceptDatetime ( DateTime date );
 
 		/// <summary>
 		/// From e-mail address.
 		/// </summary>
 		/// <param name="email">E-mail address.</param>
-		void From ( string email );
+		IHttFluentRequest From ( string email );
 
 		/// <summary>
 		/// Host.
 		/// </summary>
 		/// <param name="host">Host.</param>
-		void Host ( string host );
+		IHttFluentRequest Host ( string host );
 
 		/// <summary>
 		/// Date.
 		/// </summary>
 		/// <param name="date">Date.</param>
-		void Date ( DateTime date );
+		IHttFluentRequest Date ( DateTime date );
 
 		/// <summary>
 		/// User agent.
 		/// </summary>
 		/// <param name="userAgent">User agent.</param>
-		void UserAgent ( string userAgent );
+		IHttFluentRequest UserAgent ( string userAgent );
 
 		/// <summary>
 		/// Cookie header.
 		/// </summary>
 		/// <param name="values">Cookie values.</param>
-		void Cookie ( IEnumerable<string> values );
+		IHttFluentRequest Cookie ( IDictionary<string , string> values );
 
 		/// <summary>
 		/// Send request.

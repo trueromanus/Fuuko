@@ -6,6 +6,8 @@ namespace HttFluent.Classifiers {
 	/// </summary>
 	public enum RequestMethod {
 
+		Undefined = 0,
+
 		Get = 1 ,
 
 		Post = 2 ,
