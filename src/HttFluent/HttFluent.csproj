@@ -20,6 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,14 +45,16 @@
     <Compile Include="Classifiers\AcceptEncoding.cs" />
     <Compile Include="Classifiers\RequestMethod.cs" />
     <Compile Include="IHttFluentRequest.cs" />
+    <Compile Include="IHttpBroker.cs" />
     <Compile Include="IHttpFluentResponse.cs" />
-    <Compile Include="Implementations\HttpClientHttFluentRequest.cs" />
+    <Compile Include="Implementations\HttFluentRequest.cs" />
     <Compile Include="Models\CookieModels\CookieModel.cs" />
     <Compile Include="Models\ParameterModels\RequestFileParameterModel.cs" />
     <Compile Include="Models\ParameterModels\RequestNumberParameterModel.cs" />
     <Compile Include="Models\ParameterModels\RequestParameterModel.cs" />
     <Compile Include="Models\ParameterModels\RequestStringParameterModel.cs" />
     <Compile Include="Models\RequestModels\RequestSettingsModel.cs" />
+    <Compile Include="Models\ResponseModels\ResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
