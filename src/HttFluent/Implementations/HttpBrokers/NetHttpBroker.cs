@@ -1,27 +1,34 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using HttFluent.Models.RequestModels;
 using HttFluent.Models.ResponseModels;
 
-namespace HttFluent {
+namespace HttFluent.Implementations.HttpBrokers {
 
 	/// <summary>
-	/// Http broker.
+	/// Net http broker.
 	/// </summary>
-	public interface IHttpBroker {
+	public class NetHttpBroker : IHttpBroker {
 
 		/// <summary>
 		/// Send request.
 		/// </summary>
 		/// <param name="requestSettings">Request settings.</param>
 		/// <returns>Response model.</returns>
-		ResponseModel SendRequest ( RequestSettingsModel requestSettings );
+		public ResponseModel SendRequest ( RequestSettingsModel requestSettings ) {
+			return null;
+		}
 
 		/// <summary>
 		/// Send request asynchronized.
 		/// </summary>
 		/// <param name="requestSettings">Request settings.</param>
 		/// <returns>Response model.</returns>
-		Task<ResponseModel> SendRequestAsync ( RequestSettingsModel requestSettings );
+		public Task<ResponseModel> SendRequestAsync ( RequestSettingsModel requestSettings ) {
+			using ( var client = new HttpClient () ) {
+				return null;
+			}
+		}
 
 	}
 

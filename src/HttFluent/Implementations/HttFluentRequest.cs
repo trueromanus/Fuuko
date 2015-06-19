@@ -292,12 +292,24 @@ namespace HttFluent.Implementations {
 			return this;
 		}
 
+		/// <summary>
+		/// Send request.
+		/// </summary>
+		/// <returns>Response.</returns>
 		public IHttpFluentResponse Send () {
-			throw new NotImplementedException ();
+			var response = m_HttpBroker.SendRequest ( m_RequestSettings );
+			
+			return null;
 		}
 
-		public Task<IHttpFluentResponse> SendAsync () {
-			throw new NotImplementedException ();
+		/// <summary>
+		/// Send request asynchronized.
+		/// </summary>
+		/// <returns>Response.</returns>
+		public async Task<IHttpFluentResponse> SendAsync () {
+			var response = await m_HttpBroker.SendRequestAsync ( m_RequestSettings );
+
+			return null;
 		}
 
 	}
