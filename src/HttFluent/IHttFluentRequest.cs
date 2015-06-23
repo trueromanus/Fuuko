@@ -59,8 +59,8 @@ namespace HttFluent {
 		/// <summary>
 		/// Accept.
 		/// </summary>
-		/// <param name="accept">Accept.</param>
-		IHttFluentRequest Accept ( string accept );
+		/// <param name="accepts">Accept sequence.</param>
+		IHttFluentRequest Accept ( IEnumerable<string> accepts );
 
 		/// <summary>
 		/// Accept encodings.

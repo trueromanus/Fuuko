@@ -126,11 +126,13 @@ namespace HttFluent.Implementations {
 		/// </summary>
 		/// <param name="accept">Accept.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Accept ( string accept ) {
-			Contract.Requires ( accept != null );
-			if ( accept == null ) throw new ArgumentNullException ( "accept" );
+		public IHttFluentRequest Accept ( IEnumerable<string> accepts ) {
+			Contract.Requires ( accepts != null );
+			Contract.Requires ( accepts.Count () > 0 );
+			if ( accepts == null ) throw new ArgumentNullException ( "accepts" );
+			if ( accepts.Count () == 0 ) throw new ArgumentException ( "Accepts sequence is empty." );
 
-			m_RequestSettings.Accept = accept;
+			m_RequestSettings.Accepts = accepts;
 
 			return this;
 		}

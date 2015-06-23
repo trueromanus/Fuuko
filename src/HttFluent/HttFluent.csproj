@@ -43,7 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classifiers\AcceptEncoding.cs" />
+    <Compile Include="Classifiers\ContentDispositionType.cs" />
     <Compile Include="Classifiers\RequestMethod.cs" />
+    <Compile Include="Exceptions\NetBrokerException.cs" />
     <Compile Include="IHttFluentRequest.cs" />
     <Compile Include="IHttpBroker.cs" />
     <Compile Include="IHttpFluentResponse.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="Models\ParameterModels\RequestParameterModel.cs" />
     <Compile Include="Models\ParameterModels\RequestStringParameterModel.cs" />
     <Compile Include="Models\RequestModels\RequestSettingsModel.cs" />
+    <Compile Include="Models\ResponseModels\ContentDispositionModel.cs" />
     <Compile Include="Models\ResponseModels\ResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

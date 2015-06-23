@@ -71,7 +71,7 @@ namespace HttFluent.Models.RequestModels {
 		/// <summary>
 		/// Accept.
 		/// </summary>
-		public string Accept {
+		public IEnumerable<string> Accepts {
 			get;
 			set;
 		}
