@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Models.ParameterModels;
@@ -66,7 +67,13 @@ namespace HttFluent {
 		/// Accept encodings.
 		/// </summary>
 		/// <param name="encodings">Encodings.</param>
-		IHttFluentRequest AcceptCharset ( IEnumerable<AcceptEncoding> encodings );
+		IHttFluentRequest AcceptEncodings ( IEnumerable<AcceptEncoding> encodings );
+
+		/// <summary>
+		/// Accept charsets.
+		/// </summary>
+		/// <param name="charsets">Charsets.</param>
+		IHttFluentRequest AcceptCharsets ( IEnumerable<Encoding> charsets );
 
 		/// <summary>
 		/// Accept language.

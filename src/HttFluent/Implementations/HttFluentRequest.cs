@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Models.CookieModels;
@@ -143,7 +144,7 @@ namespace HttFluent.Implementations {
 		/// <param name="encodings">Encoding.</param>
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="ArgumentException"></exception>
-		public IHttFluentRequest AcceptCharset ( IEnumerable<AcceptEncoding> encodings ) {
+		public IHttFluentRequest AcceptEncodings ( IEnumerable<AcceptEncoding> encodings ) {
 			Contract.Requires ( encodings != null );
 			Contract.Requires ( encodings.Count () > 0 );
 			if ( encodings == null ) throw new ArgumentNullException ( "encodings" );
@@ -290,6 +291,24 @@ namespace HttFluent.Implementations {
 					}
 				)
 				.ToList ();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Accept charsets.
+		/// </summary>
+		/// <param name="charsets">Charsets.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="ArgumentException"></exception>
+		public IHttFluentRequest AcceptCharsets ( IEnumerable<Encoding> charsets ) {
+			Contract.Requires ( charsets != null );
+			Contract.Requires ( charsets.Count() > 0 );
+			Contract.Ensures ( m_RequestSettings.Charsets.Count() == charsets.Count() );
+			if ( charsets == null ) throw new ArgumentNullException ( "charsets" );
+			if ( charsets.Count() == 0 ) throw new ArgumentException ( "Locales sequence is empty." );
+
+			m_RequestSettings.Charsets = charsets;
 
 			return this;
 		}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -30,6 +31,16 @@ namespace HttFluent.Implementations.HttpBrokers {
 
 			foreach ( var accept in requestSettings.Accepts ) {
 				client.DefaultRequestHeaders.Accept.Add ( new MediaTypeWithQualityHeaderValue ( accept ) );
+			}
+			foreach ( var locale in requestSettings.Locales ) {
+				var regionInfo = new RegionInfo ( locale.LCID );
+				client.DefaultRequestHeaders.AcceptLanguage.Add ( new StringWithQualityHeaderValue ( regionInfo.TwoLetterISORegionName ) );
+			}
+			foreach ( var encoding in requestSettings.Encodings ) {
+				client.DefaultRequestHeaders.AcceptEncoding.Add ( new StringWithQualityHeaderValue ( encoding.ToString () ) );
+			}
+			foreach (var encoding in requestSettings.Charsets){
+				client.DefaultRequestHeaders.AcceptCharset.Add ( new StringWithQualityHeaderValue ( encoding.WebName ) );
 			}
 		}
 

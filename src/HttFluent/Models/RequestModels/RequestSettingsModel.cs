@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using HttFluent.Classifiers;
 using HttFluent.Models.CookieModels;
 using HttFluent.Models.ParameterModels;
@@ -88,6 +89,14 @@ namespace HttFluent.Models.RequestModels {
 		/// Locales which accept client.
 		/// </summary>
 		public IEnumerable<CultureInfo> Locales {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Charsets.
+		/// </summary>
+		public IEnumerable<Encoding> Charsets {
 			get;
 			set;
 		}

@@ -16,7 +16,7 @@ namespace HttFluent.Classifiers {
 
 		identity = 5,
 
-		pack200gzip = 6,
+		//pack200gzip = 6, - not supported
 
 		bzip2 = 7,
 
