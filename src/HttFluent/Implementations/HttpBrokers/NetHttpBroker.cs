@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
-using HttFluent.Exceptions;
 using HttFluent.Models.RequestModels;
 using HttFluent.Models.ResponseModels;
 
@@ -23,11 +24,65 @@ namespace HttFluent.Implementations.HttpBrokers {
 		/// </summary>
 		/// <param name="client">Client.</param>
 		/// <param name="clientHandler">Client handler.</param>
+		/// <exception cref="ArgumentNullException"></exception>
 		private void PrepareRequest ( HttpClient client , HttpClientHandler clientHandler , RequestSettingsModel requestSettings ) {
+			Contract.Requires ( clientHandler != null );
+			Contract.Requires ( client != null );
+			Contract.Requires ( requestSettings != null );
+			if ( clientHandler == null ) throw new ArgumentNullException ( "clientHandler" );
+			if ( client == null ) throw new ArgumentNullException ( "client" );
+			if ( requestSettings == null ) throw new ArgumentNullException ( "requestSettings" );
+
 			client.DefaultRequestHeaders.Date = requestSettings.Date;
 			client.DefaultRequestHeaders.From = requestSettings.FromEmail;
 			client.DefaultRequestHeaders.Host = requestSettings.Host;
 			client.DefaultRequestHeaders.UserAgent.Add ( new ProductInfoHeaderValue ( new ProductHeaderValue ( requestSettings.UserAgent ) ) );
+			if ( !string.IsNullOrEmpty ( requestSettings.Referer ) ) {
+				client.DefaultRequestHeaders.Referrer = new Uri ( requestSettings.Referer );
+			}
+
+			SetAcceptHeaders ( client , requestSettings );
+			SetCookies ( clientHandler , requestSettings );
+		}
+
+		/// <summary>
+		/// Set cookies.
+		/// </summary>
+		/// <param name="clientHandler">Client handler.</param>
+		/// <param name="requestSettings">Request settings.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		private static void SetCookies ( HttpClientHandler clientHandler , RequestSettingsModel requestSettings ) {
+			Contract.Requires ( clientHandler != null );
+			Contract.Requires ( requestSettings != null );
+			if ( clientHandler == null ) throw new ArgumentNullException ( "clientHandler" );
+			if ( requestSettings == null ) throw new ArgumentNullException ( "requestSettings" );
+
+			foreach ( var cookie in requestSettings.Cookies ) {
+				clientHandler.CookieContainer.Add (
+					new Cookie {
+						Name = cookie.Name ,
+						Path = cookie.Path ,
+						Secure = cookie.Secure ,
+						Value = cookie.Value ,
+						Expires = cookie.Expires ,
+						Expired = cookie.Expires < DateTime.Now ,
+						Domain = cookie.Domain
+					}
+				);
+			}
+		}
+
+		/// <summary>
+		/// Set accept handlers.
+		/// </summary>
+		/// <param name="client">Http client.</param>
+		/// <param name="requestSettings">Request settings.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		private static void SetAcceptHeaders ( HttpClient client , RequestSettingsModel requestSettings ) {
+			Contract.Requires ( client != null );
+			Contract.Requires ( requestSettings != null );
+			if ( client == null ) throw new ArgumentNullException ( "client" );
+			if ( requestSettings == null ) throw new ArgumentNullException ( "requestSettings" );
 
 			foreach ( var accept in requestSettings.Accepts ) {
 				client.DefaultRequestHeaders.Accept.Add ( new MediaTypeWithQualityHeaderValue ( accept ) );
@@ -39,7 +94,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 			foreach ( var encoding in requestSettings.Encodings ) {
 				client.DefaultRequestHeaders.AcceptEncoding.Add ( new StringWithQualityHeaderValue ( encoding.ToString () ) );
 			}
-			foreach (var encoding in requestSettings.Charsets){
+			foreach ( var encoding in requestSettings.Charsets ) {
 				client.DefaultRequestHeaders.AcceptCharset.Add ( new StringWithQualityHeaderValue ( encoding.WebName ) );
 			}
 		}
