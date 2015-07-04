@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
+using HttFluent.Models.ParameterModels;
 using HttFluent.Models.RequestModels;
 using HttFluent.Models.ResponseModels;
 
@@ -16,8 +18,6 @@ namespace HttFluent.Implementations.HttpBrokers {
 	/// Net http broker.
 	/// </summary>
 	public class NetHttpBroker : IHttpBroker {
-
-		private string ContentDispositionHeader = "Content-Disposition";
 
 		/// <summary>
 		/// Prepare request.
@@ -104,34 +104,29 @@ namespace HttFluent.Implementations.HttpBrokers {
 		/// </summary>
 		/// <param name="headers">Headers.</param>
 		/// <returns>Content disposition model.</returns>
-		private ContentDispositionModel GetContentDisposition ( HttpResponseHeaders headers ) {
-			if ( !headers.Contains ( ContentDispositionHeader ) ) {
+		private ContentDispositionModel GetContentDisposition ( HttpContentHeaders contentHeaders ) {
+			if ( contentHeaders.ContentDisposition == null ) {
 				return new ContentDispositionModel {
 					Type = ContentDispositionType.NotDefined
 				};
 			}
-			var header = string.Join ( "\n" , headers.GetValues ( ContentDispositionHeader ) );
-			var parameters = header.Split ( ';' );
-			var type = parameters.First ();
-			var value = "";
-			if ( parameters.Length > 1 ) value = parameters.Last ();
-
+			
 			var model = new ContentDispositionModel ();
-			switch ( header ) {
+			switch ( contentHeaders.ContentDisposition.DispositionType ) {
 				case "attachment":
 					model.Type = ContentDispositionType.Attachment;
+					model.Value = contentHeaders.ContentDisposition.FileName;
 					break;
 				case "inline":
 					model.Type = ContentDispositionType.Inline;
 					break;
 				default:
 					model.Type = ContentDispositionType.DispExtType;
-					model.CustomKey = type;
+					model.CustomKey = contentHeaders.ContentDisposition.Name;
+					//TODO:Multiple values supported
 					break;
 			}
-
-			model.Value = value;
-
+			
 			return model;
 		}
 
@@ -141,17 +136,103 @@ namespace HttFluent.Implementations.HttpBrokers {
 		/// <param name="responseMessage">Response message.</param>
 		/// <returns></returns>
 		private ResponseModel CreateResponse ( HttpResponseMessage responseMessage ) {
-
 			return new ResponseModel {
 				StatusCode = (int) responseMessage.StatusCode ,
 				ProtocolVersion = responseMessage.Version ,
 				Age = responseMessage.Headers.Age ,
-				ContentDisposition = GetContentDisposition ( responseMessage.Headers )
+				ContentDisposition = GetContentDisposition ( responseMessage.Content.Headers )
 			};
 		}
 
+		/// <summary>
+		/// Prepare sender.
+		/// </summary>
+		/// <param name="client">Client.</param>
+		/// <param name="requestSettings">Request settings.</param>
+		/// <returns></returns>
+		private Task<HttpResponseMessage> PrepareSender ( HttpClient client , RequestSettingsModel requestSettings ) {
+			switch ( requestSettings.Method ) {
+				case RequestMethod.Get:
+					var url = requestSettings.Url.ToString ();
+					if ( requestSettings.Parameters.Any () ) {
+						var parameters = requestSettings.Parameters
+							.Select (
+								( parameter ) => {
+									var value = "";
+									if ( parameter is RequestStringParameterModel ) {
+										value = ( parameter as RequestStringParameterModel ).Value;
+									}
+									if ( parameter is RequestNumberParameterModel ) {
+										value = ( parameter as RequestNumberParameterModel ).Value.ToString ();
+									}
+									return string.Format ( "{0}={1}" , parameter.Name , value );
+								}
+							)
+							.ToList ();
+						if ( !url.EndsWith ( "/" ) ) url += "/";
+						url = string.Format ( "{0}?{1}" , url , string.Join ( "&" , parameters ) );
+					}
+					return client.GetAsync ( url );
+				case RequestMethod.Post:
+					HttpContent content = null;
+					if ( requestSettings.Parameters.Any ( a => a is RequestFileParameterModel ) ) {
+						//TODO:Make multipart content
+						/*
+						using (var content =
+									 new MultipartFormDataContent("Upload----" + DateTime.Now.ToString(CultureInfo.InvariantCulture)))
+								 {
+									 content.Add(new StreamContent(new MemoryStream(image)), "bilddatei", "upload.jpg");
+
+									  using (
+										 var message =
+											 await client.PostAsync("http://www.directupload.net/index.php?mode=upload", content))
+									  {
+										  var input = await message.Content.ReadAsStringAsync();
+
+									  }
+								  }
+						 */
+					}
+					else {
+						content = new FormUrlEncodedContent (
+							requestSettings.Parameters
+								.Select (
+									( parameter ) => {
+										var value = "";
+										if ( parameter is RequestStringParameterModel ) {
+											value = ( parameter as RequestStringParameterModel ).Value;
+										}
+										if ( parameter is RequestNumberParameterModel ) {
+											value = ( parameter as RequestNumberParameterModel ).Value.ToString ();
+										}
+										return new KeyValuePair<string , string> ( parameter.Name , value );
+									}
+								)
+								.ToList ()
+						);
+					}					
+					return client.PostAsync ( requestSettings.Url , content );
+				case RequestMethod.Put:
+				case RequestMethod.Delete:
+				default:
+					throw new NotSupportedException ( "Request method not supported." );
+			}
+		}
+
+		/// <summary>
+		/// Send request.
+		/// </summary>
+		/// <param name="requestSettings">Request settings.</param>
+		/// <returns>Response model.</returns>
 		public ResponseModel SendRequest ( RequestSettingsModel requestSettings ) {
-			throw new NotImplementedException ();
+			using ( var clientHandler = new HttpClientHandler () )
+			using ( var client = new HttpClient ( clientHandler ) ) {
+				PrepareRequest ( client , clientHandler , requestSettings );
+
+				var sender = PrepareSender ( client , requestSettings );
+
+				return CreateResponse ( sender.Result );
+			}
 		}
 
 		/// <summary>
@@ -165,21 +246,9 @@ namespace HttFluent.Implementations.HttpBrokers {
 			using ( var client = new HttpClient ( clientHandler ) ) {
 				PrepareRequest ( client , clientHandler , requestSettings );
 
-				switch ( requestSettings.Method ) {
-					case RequestMethod.Get:
-						var response = await client.GetAsync ( requestSettings.Url );
+				var response = await PrepareSender ( client , requestSettings );
 
-						break;
-					case RequestMethod.Post:
-						break;
-					case RequestMethod.Put:
-					case RequestMethod.Delete:
-					case RequestMethod.Undefined:
-					default:
-						throw new NotSupportedException ( "Request method not supported." );
-				}
-
-				return null;
+				return CreateResponse ( response );
 			}
 		}
 

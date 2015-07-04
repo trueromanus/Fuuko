@@ -2,10 +2,17 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HttFluentTests {
+	
+	/// <summary>
+	/// Http request unit tests.
+	/// </summary>
 	[TestClass]
-	public class UnitTest1 {
+	public class HttRequestUnitTests {
+		
 		[TestMethod]
 		public void TestMethod1 () {
 		}
+
 	}
+
 }

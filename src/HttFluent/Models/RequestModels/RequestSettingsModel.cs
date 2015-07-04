@@ -14,6 +14,18 @@ namespace HttFluent.Models.RequestModels {
 	public class RequestSettingsModel {
 
 		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public RequestSettingsModel () {
+			Parameters = new List<RequestParameterModel> ();
+			Accepts = new List<string> ();
+			Encodings = new List<AcceptEncoding> ();
+			Locales = new List<CultureInfo> ();
+			Charsets = new List<Encoding> ();
+			Cookies = new List<CookieModel> ();
+		}
+
+		/// <summary>
 		/// Url.
 		/// </summary>
 		public Uri Url {
@@ -104,7 +116,7 @@ namespace HttFluent.Models.RequestModels {
 		/// <summary>
 		/// If modified since.
 		/// </summary>
-		public DateTime IfModifiedSince {
+		public DateTimeOffset? IfModifiedSince {
 			get;
 			set;
 		}
@@ -120,7 +132,7 @@ namespace HttFluent.Models.RequestModels {
 		/// <summary>
 		/// Accept date time.
 		/// </summary>
-		public DateTime AcceptDatetime {
+		public DateTimeOffset? AcceptDatetime {
 			get;
 			set;
 		}
@@ -144,7 +156,7 @@ namespace HttFluent.Models.RequestModels {
 		/// <summary>
 		/// Date.
 		/// </summary>
-		public DateTime Date {
+		public DateTimeOffset? Date {
 			get;
 			set;
 		}

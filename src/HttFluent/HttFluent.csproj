@@ -48,8 +48,9 @@
     <Compile Include="Exceptions\NetBrokerException.cs" />
     <Compile Include="IHttFluentRequest.cs" />
     <Compile Include="IHttpBroker.cs" />
-    <Compile Include="IHttpFluentResponse.cs" />
+    <Compile Include="IHttpResponse.cs" />
     <Compile Include="Implementations\HttFluentRequest.cs" />
+    <Compile Include="Implementations\HttpResponse.cs" />
     <Compile Include="Implementations\HttpBrokers\NetHttpBroker.cs" />
     <Compile Include="Models\CookieModels\CookieModel.cs" />
     <Compile Include="Models\ParameterModels\RequestFileParameterModel.cs" />

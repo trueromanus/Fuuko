@@ -133,13 +133,13 @@ namespace HttFluent {
 		/// Send request.
 		/// </summary>
 		/// <returns>Response.</returns>
-		IHttpFluentResponse Send ();
+		IHttpResponse Send ();
 
 		/// <summary>
 		/// Send asynchronized.
 		/// </summary>
 		/// <returns></returns>
-		Task<IHttpFluentResponse> SendAsync ();
+		Task<IHttpResponse> SendAsync ();
 
 	}
 

@@ -17,9 +17,9 @@ namespace HttFluent.Implementations {
 	/// </summary>
 	public class HttFluentRequest : IHttFluentRequest {
 
-		private RequestSettingsModel m_RequestSettings = new RequestSettingsModel ();
-		
-		private IHttpBroker m_HttpBroker;
+		private readonly RequestSettingsModel m_RequestSettings = new RequestSettingsModel ();
+
+		private readonly IHttpBroker m_HttpBroker;
 
 		/// <summary>
 		/// Constructor injection.
@@ -303,10 +303,10 @@ namespace HttFluent.Implementations {
 		/// <exception cref="ArgumentException"></exception>
 		public IHttFluentRequest AcceptCharsets ( IEnumerable<Encoding> charsets ) {
 			Contract.Requires ( charsets != null );
-			Contract.Requires ( charsets.Count() > 0 );
-			Contract.Ensures ( m_RequestSettings.Charsets.Count() == charsets.Count() );
+			Contract.Requires ( charsets.Count () > 0 );
+			Contract.Ensures ( m_RequestSettings.Charsets.Count () == charsets.Count () );
 			if ( charsets == null ) throw new ArgumentNullException ( "charsets" );
-			if ( charsets.Count() == 0 ) throw new ArgumentException ( "Locales sequence is empty." );
+			if ( charsets.Count () == 0 ) throw new ArgumentException ( "Locales sequence is empty." );
 
 			m_RequestSettings.Charsets = charsets;
 
@@ -317,20 +317,20 @@ namespace HttFluent.Implementations {
 		/// Send request.
 		/// </summary>
 		/// <returns>Response.</returns>
-		public IHttpFluentResponse Send () {
+		public IHttpResponse Send () {
 			var response = m_HttpBroker.SendRequest ( m_RequestSettings );
-			
-			return null;
+
+			return new HttpResponse ( response );
 		}
 
 		/// <summary>
 		/// Send request asynchronized.
 		/// </summary>
 		/// <returns>Response.</returns>
-		public async Task<IHttpFluentResponse> SendAsync () {
+		public async Task<IHttpResponse> SendAsync () {
 			var response = await m_HttpBroker.SendRequestAsync ( m_RequestSettings );
 
-			return null;
+			return new HttpResponse ( response );
 		}
 
 	}
