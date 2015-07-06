@@ -169,7 +169,6 @@ namespace HttFluent.Implementations.HttpBrokers {
 								}
 							)
 							.ToList ();
-						if ( !url.EndsWith ( "/" ) ) url += "/";
 						url = string.Format ( "{0}?{1}" , url , string.Join ( "&" , parameters ) );
 					}
 					return client.GetAsync ( url );

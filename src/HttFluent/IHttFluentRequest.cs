@@ -40,6 +40,20 @@ namespace HttFluent {
 		IHttFluentRequest Parameters ( IEnumerable<RequestParameterModel> parameters );
 
 		/// <summary>
+		/// Parameter.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="value">Value.</param>
+		IHttFluentRequest Parameter ( string name , string value );
+
+		/// <summary>
+		/// Parameter.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="value">Value.</param>
+		IHttFluentRequest Parameter ( string name , int value );
+
+		/// <summary>
 		/// Content type header.
 		/// </summary>
 		/// <param name="type"></param>

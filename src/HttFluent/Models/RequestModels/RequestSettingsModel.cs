@@ -44,7 +44,7 @@ namespace HttFluent.Models.RequestModels {
 		/// <summary>
 		/// Parameters.
 		/// </summary>
-		public IEnumerable<RequestParameterModel>Parameters {
+		public ICollection<RequestParameterModel>Parameters {
 			get;
 			set;
 		}

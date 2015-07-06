@@ -75,7 +75,49 @@ namespace HttFluent.Implementations {
 			if ( parameters == null ) throw new ArgumentNullException ( "parameters" );
 			if ( !parameters.Any () ) throw new ArgumentException ( "Parameters sequence is empty." );
 
-			m_RequestSettings.Parameters = parameters;
+			m_RequestSettings.Parameters = parameters.ToList();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Parameter.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="value">Value.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public IHttFluentRequest Parameter ( string name , string value ) {
+			Contract.Requires ( name != null );
+			Contract.Requires ( value != null );
+			if ( name == null ) throw new ArgumentNullException ( "name" );
+			if ( value == null ) throw new ArgumentNullException ( "value" );
+
+			m_RequestSettings.Parameters.Add (
+				new RequestStringParameterModel {
+					Name = name,
+					Value = value
+				}
+			);
+
+			return this;
+		}
+
+		/// <summary>
+		/// Parameter.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="value">Value.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public IHttFluentRequest Parameter ( string name , int value ) {
+			Contract.Requires ( name != null );
+			if ( name == null ) throw new ArgumentNullException ( "name" );
+
+			m_RequestSettings.Parameters.Add (
+				new RequestNumberParameterModel {
+					Name = name ,
+					Value = value
+				}
+			);
 
 			return this;
 		}
