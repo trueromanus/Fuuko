@@ -98,6 +98,63 @@ namespace HttFluentTests {
 			wrapper.Request.Parameters ( new List<RequestParameterModel> () );
 		}
 
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Parameter_String_Throw_Name_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( null , "" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Parameter_String_Throw_Value_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "" , null );
+		}
+
+		[TestMethod]
+		public void Parameter_String_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "test" , "value" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 1 );
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.First ().Name , "test" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Parameter_Number_Throw_Name_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( null , 0 );
+		}
+
+		[TestMethod]
+		public void Parameter_Number_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "test" , 1 );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 1 );
+			var parameter = wrapper.Request.Settings.Parameters.First () as RequestNumberParameterModel;
+			Assert.AreEqual ( parameter.Name , "test" );
+			Assert.AreEqual ( parameter.Value , 1 );
+		}
+
+		[TestMethod]
+		public void ContentType_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.ContentType ( "application/json" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.ContentType , "application/json" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void ContentType_Throw_ContentType_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.ContentType ( null );
+		}
+
+
 	}
 
 }
