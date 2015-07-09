@@ -7,6 +7,7 @@ using HttFluent.Implementations;
 using HttFluent.Models.ParameterModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Globalization;
 
 namespace HttFluentTests {
 
@@ -154,7 +155,182 @@ namespace HttFluentTests {
 			wrapper.Request.ContentType ( null );
 		}
 
+		[TestMethod]
+		public void ContentLength_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
 
+			wrapper.Request.ContentLength ( 1000000000 );
+
+			Assert.AreEqual ( wrapper.Request.Settings.ContentLength , 1000000000 );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentOutOfRangeException ) )]
+		public void ContentLength_Throw_ContentLength_OutOfRange () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.ContentLength ( -1 );
+		}
+
+		[TestMethod]
+		public void Referer_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Referer ( "http://test.com" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Referer , "http://test.com" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Referer_Throw_Referer_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Referer ( null );
+		}
+
+		[TestMethod]
+		public void Accept_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Accept (
+				new List<string> {
+					"application/json",
+					"text/html"
+				}
+			);
+
+			Assert.AreEqual ( wrapper.Request.Settings.Accepts.Count () , 2 );
+			Assert.AreEqual ( wrapper.Request.Settings.Accepts.First () , "application/json" );
+			Assert.AreEqual ( wrapper.Request.Settings.Accepts.Last () , "text/html" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Accept_Throw_Accepts_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Accept ( null );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentException ) )]
+		public void Accept_Throw_Accepts_Empty () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Accept ( new List<string> () );
+		}
+
+		[TestMethod]
+		public void AcceptLanguage_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptLanguage (
+				new List<CultureInfo> {
+					new CultureInfo("ru-RU"),
+					new CultureInfo("en-US")
+				}
+			);
+
+			Assert.AreEqual ( wrapper.Request.Settings.Locales.Count () , 2 );
+			Assert.AreEqual ( wrapper.Request.Settings.Locales.First () , new CultureInfo ( "ru-RU" ) );
+			Assert.AreEqual ( wrapper.Request.Settings.Locales.Last () , new CultureInfo ( "en-US" ) );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void AcceptLanguage_Throw_Accepts_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptLanguage ( null );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentException ) )]
+		public void AcceptLanguage_Throw_Accepts_Empty () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptLanguage ( new List<CultureInfo> () );
+		}
+
+		[TestMethod]
+		public void IfModifiedSince_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.IfModifiedSince ( new DateTimeOffset ( new DateTime ( 2015 , 11 , 10 , 0 , 0 , 0 ) , new TimeSpan ( 3 , 0 , 0 ) ) );
+
+			Assert.AreEqual (
+				wrapper.Request.Settings.IfModifiedSince ,
+				new DateTimeOffset ( new DateTime ( 2015 , 11 , 10 , 0 , 0 , 0 ) , new TimeSpan ( 3 , 0 , 0 ) )
+			);
+		}
+
+		[TestMethod]
+		public void Origin_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Origin ( "http://allowcors.com" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Origin , "http://allowcors.com" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Origin_Throw_Origin_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Origin ( null );
+		}
+
+		[TestMethod]
+		public void AcceptDatetime_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptDatetime ( new DateTimeOffset ( new DateTime ( 2015 , 11 , 10 , 0 , 0 , 0 ) , new TimeSpan ( 3 , 0 , 0 ) ) );
+
+			Assert.AreEqual ( wrapper.Request.Settings.AcceptDatetime , new DateTimeOffset ( new DateTime ( 2015 , 11 , 10 , 0 , 0 , 0 ) , new TimeSpan ( 3 , 0 , 0 ) ) );
+		}
+
+		[TestMethod]
+		public void From_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.From ( "test@test.com" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.FromEmail , "test@test.com" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void From_Throw_From_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.From ( null );
+		}
+
+		[TestMethod]
+		public void Host_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Host ( "ciri@cintra.com" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Host , "ciri@cintra.com" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Host_Throw_Host_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Host ( null );
+		}
+
+		[TestMethod]
+		public void Date_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Date ( new DateTimeOffset ( new DateTime ( 2015 , 11 , 10 , 0 , 0 , 0 ) , new TimeSpan ( 3 , 0 , 0 ) ) );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Date , new DateTimeOffset ( new DateTime ( 2015 , 11 , 10 , 0 , 0 , 0 ) , new TimeSpan ( 3 , 0 , 0 ) ) );
+		}
+
+		[TestMethod]
+		public void UserAgent_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.UserAgent ( "geralt_best_regards" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.UserAgent , "geralt_best_regards" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void UserAgent_Throw_UserAgent_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.UserAgent ( null );
+		}
+		
 	}
 
 }

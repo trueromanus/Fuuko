@@ -99,7 +99,7 @@ namespace HttFluent {
 		/// Allows a 304 Not Modified to be returned if content is unchanged.
 		/// </summary>
 		/// <param name="date"></param>
-		IHttFluentRequest IfModifiedSince ( DateTime date );
+		IHttFluentRequest IfModifiedSince ( DateTimeOffset date );
 
 		/// <summary>
 		/// Origin.
@@ -111,7 +111,7 @@ namespace HttFluent {
 		/// Accept datetime.
 		/// </summary>
 		/// <param name="date">Date.</param>
-		IHttFluentRequest AcceptDatetime ( DateTime date );
+		IHttFluentRequest AcceptDatetime ( DateTimeOffset date );
 
 		/// <summary>
 		/// From e-mail address.
@@ -129,7 +129,7 @@ namespace HttFluent {
 		/// Date.
 		/// </summary>
 		/// <param name="date">Date.</param>
-		IHttFluentRequest Date ( DateTime date );
+		IHttFluentRequest Date ( DateTimeOffset date );
 
 		/// <summary>
 		/// User agent.

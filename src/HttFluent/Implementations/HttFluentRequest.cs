@@ -143,6 +143,7 @@ namespace HttFluent.Implementations {
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
 		public IHttFluentRequest ContentLength ( long contentLength ) {
 			Contract.Requires ( contentLength > -1 );
+			Contract.Ensures ( m_RequestSettings.ContentLength == contentLength );
 			if ( contentLength < 0 ) throw new ArgumentOutOfRangeException ( "contentLength" );
 
 			m_RequestSettings.ContentLength = contentLength;
@@ -157,6 +158,7 @@ namespace HttFluent.Implementations {
 		/// <exception cref="ArgumentNullException"></exception>
 		public IHttFluentRequest Referer ( string referer ) {
 			Contract.Requires ( referer != null );
+			Contract.Ensures ( m_RequestSettings.Referer == referer );
 			if ( referer == null ) throw new ArgumentNullException ( "referer" );
 
 			m_RequestSettings.Referer = referer;
@@ -217,7 +219,7 @@ namespace HttFluent.Implementations {
 		/// If modified since (If-Modified-Since header).
 		/// </summary>
 		/// <param name="date">Date.</param>
-		public IHttFluentRequest IfModifiedSince ( DateTime date ) {
+		public IHttFluentRequest IfModifiedSince ( DateTimeOffset date ) {
 			Contract.Ensures ( m_RequestSettings.IfModifiedSince == date );
 
 			m_RequestSettings.IfModifiedSince = date;
@@ -244,7 +246,7 @@ namespace HttFluent.Implementations {
 		/// Accept-Datetime header.
 		/// </summary>
 		/// <param name="date">Date.</param>
-		public IHttFluentRequest AcceptDatetime ( DateTime date ) {
+		public IHttFluentRequest AcceptDatetime ( DateTimeOffset date ) {
 			Contract.Ensures ( m_RequestSettings.AcceptDatetime == date );
 
 			m_RequestSettings.AcceptDatetime = date;
@@ -286,7 +288,7 @@ namespace HttFluent.Implementations {
 		/// Date header.
 		/// </summary>
 		/// <param name="date">Date.</param>
-		public IHttFluentRequest Date ( DateTime date ) {
+		public IHttFluentRequest Date ( DateTimeOffset date ) {
 			Contract.Ensures ( m_RequestSettings.Date == date );
 
 			m_RequestSettings.Date = date;
