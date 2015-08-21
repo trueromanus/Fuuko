@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using HttFluent.Classifiers;
 
 namespace HttFluent.Models.ResponseModels {
@@ -48,6 +46,30 @@ namespace HttFluent.Models.ResponseModels {
 		/// Content Disposition.
 		/// </summary>
 		public ContentDispositionModel ContentDisposition {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Content type.
+		/// </summary>
+		public string ContentType {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Content length.
+		/// </summary>
+		public long ContentLength {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Content.
+		/// </summary>
+		public Stream Content {
 			get;
 			set;
 		}

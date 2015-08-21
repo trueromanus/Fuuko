@@ -84,6 +84,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 			if ( client == null ) throw new ArgumentNullException ( "client" );
 			if ( requestSettings == null ) throw new ArgumentNullException ( "requestSettings" );
 
+
 			foreach ( var accept in requestSettings.Accepts ) {
 				client.DefaultRequestHeaders.Accept.Add ( new MediaTypeWithQualityHeaderValue ( accept ) );
 			}
@@ -110,7 +111,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 					Type = ContentDispositionType.NotDefined
 				};
 			}
-			
+
 			var model = new ContentDispositionModel ();
 			switch ( contentHeaders.ContentDisposition.DispositionType ) {
 				case "attachment":
@@ -126,7 +127,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 					//TODO:Multiple values supported
 					break;
 			}
-			
+
 			return model;
 		}
 
@@ -135,12 +136,15 @@ namespace HttFluent.Implementations.HttpBrokers {
 		/// </summary>
 		/// <param name="responseMessage">Response message.</param>
 		/// <returns></returns>
-		private ResponseModel CreateResponse ( HttpResponseMessage responseMessage ) {
+		private async Task<ResponseModel> CreateResponse ( HttpResponseMessage responseMessage ) {
 			return new ResponseModel {
 				StatusCode = (int) responseMessage.StatusCode ,
 				ProtocolVersion = responseMessage.Version ,
 				Age = responseMessage.Headers.Age ,
-				ContentDisposition = GetContentDisposition ( responseMessage.Content.Headers )
+				ContentDisposition = GetContentDisposition ( responseMessage.Content.Headers ) ,
+				ContentType = responseMessage.Content.Headers.ContentType.MediaType ,
+				ContentLength = responseMessage.Content.Headers.ContentLength ?? 0 ,
+				Content = await responseMessage.Content.ReadAsStreamAsync ()
 			};
 		}
 
@@ -174,42 +178,46 @@ namespace HttFluent.Implementations.HttpBrokers {
 					return client.GetAsync ( url );
 				case RequestMethod.Post:
 					HttpContent content = null;
-					if ( requestSettings.Parameters.Any ( a => a is RequestFileParameterModel ) ) {
-						//TODO:Make multipart content
-						/*
-						using (var content =
-									 new MultipartFormDataContent("Upload----" + DateTime.Now.ToString(CultureInfo.InvariantCulture)))
-								 {
-									 content.Add(new StreamContent(new MemoryStream(image)), "bilddatei", "upload.jpg");
-
-									  using (
-										 var message =
-											 await client.PostAsync("http://www.directupload.net/index.php?mode=upload", content))
-									  {
-										  var input = await message.Content.ReadAsStringAsync();
-
-									  }
-								  }
-						 */
+					if ( requestSettings.Parameters.Any ( a => a is RequestPlainBodyParameterModel ) ) {
+						var parameter = requestSettings.Parameters.First ( a => a is RequestPlainBodyParameterModel );
+						content = new StreamContent ( ( parameter as RequestPlainBodyParameterModel ).Content );
 					}
-					else {
-						content = new FormUrlEncodedContent (
-							requestSettings.Parameters
-								.Select (
-									( parameter ) => {
-										var value = "";
-										if ( parameter is RequestStringParameterModel ) {
-											value = ( parameter as RequestStringParameterModel ).Value;
-										}
-										if ( parameter is RequestNumberParameterModel ) {
-											value = ( parameter as RequestNumberParameterModel ).Value.ToString ();
-										}
-										return new KeyValuePair<string , string> ( parameter.Name , value );
-									}
-								)
-								.ToList ()
-						);
-					}					
+					//if ( requestSettings.Parameters.Any ( a => a is RequestFileParameterModel ) ) {
+					//	//TODO:Make multipart content
+					//	/*
+					//	using (var content =
+					//				 new MultipartFormDataContent("Upload----" + DateTime.Now.ToString(CultureInfo.InvariantCulture)))
+					//			 {
+					//				 content.Add(new StreamContent(new MemoryStream(image)), "bilddatei", "upload.jpg");
+
+					//				  using (
+					//					 var message =
+					//						 await client.PostAsync("http://www.directupload.net/index.php?mode=upload", content))
+					//				  {
+					//					  var input = await message.Content.ReadAsStringAsync();
+
+					//				  }
+					//			  }
+					//	 */
+					//}
+					//else {
+					//	content = new FormUrlEncodedContent (
+					//		requestSettings.Parameters
+					//			.Select (
+					//				( parameter ) => {
+					//					var value = "";
+					//					if ( parameter is RequestStringParameterModel ) {
+					//						value = ( parameter as RequestStringParameterModel ).Value;
+					//					}
+					//					if ( parameter is RequestNumberParameterModel ) {
+					//						value = ( parameter as RequestNumberParameterModel ).Value.ToString ();
+					//					}
+					//					return new KeyValuePair<string , string> ( parameter.Name , value );
+					//				}
+					//			)
+					//			.ToList ()
+					//	);
+					//}
 					return client.PostAsync ( requestSettings.Url , content );
 				case RequestMethod.Put:
 				case RequestMethod.Delete:
@@ -230,7 +238,9 @@ namespace HttFluent.Implementations.HttpBrokers {
 
 				var sender = PrepareSender ( client , requestSettings );
 
-				return CreateResponse ( sender.Result );
+				var task = CreateResponse ( sender.Result );
+				task.Wait ();
+				return task.Result;
 			}
 		}
 
@@ -247,7 +257,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 
 				var response = await PrepareSender ( client , requestSettings );
 
-				return CreateResponse ( response );
+				return await CreateResponse ( response );
 			}
 		}
 

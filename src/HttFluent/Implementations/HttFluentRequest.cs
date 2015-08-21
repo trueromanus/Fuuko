@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -116,6 +117,28 @@ namespace HttFluent.Implementations {
 				new RequestNumberParameterModel {
 					Name = name ,
 					Value = value
+				}
+			);
+
+			return this;
+		}
+
+		/// <summary>
+		/// Parameter.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="value">Value.</param>
+		/// <returns></returns>
+		public IHttFluentRequest Parameter ( string name , Stream value ) {
+			Contract.Requires ( name != null );
+			Contract.Requires ( value != null );
+			if ( name == null ) throw new ArgumentNullException ( "name" );
+			if ( value == null ) throw new ArgumentNullException ( "value" );
+
+			m_RequestSettings.Parameters.Add (
+				new RequestPlainBodyParameterModel {
+					Name = name ,
+					Content = value
 				}
 			);
 
@@ -315,7 +338,11 @@ namespace HttFluent.Implementations {
 		/// Cookie header.
 		/// </summary>
 		/// <param name="values">Values.</param>
-		public IHttFluentRequest Cookie ( IDictionary<string , string> values ) {
+		/// <param name="domain">Domain.</param>
+		/// <param name="path">Path.</param>
+		/// <param name="secure">Secure.</param>
+		/// <param name="expires">Expires.</param>
+		public IHttFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires  ) {
 			Contract.Requires ( values != null );
 			Contract.Requires ( values.Count () > 0 );
 			Contract.Ensures ( m_RequestSettings.Cookies.Count () == values.Count );
@@ -328,10 +355,10 @@ namespace HttFluent.Implementations {
 					cookie => new CookieModel {
 						Name = cookie.Key ,
 						Value = cookie.Value ,
-						Secure = false ,
-						Path = "/" ,
-						Expires = DateTime.Now.AddDays ( 7 ) ,
-						Domain = ""
+						Secure = secure ,
+						Path = path ,
+						Expires = expires ,
+						Domain = domain
 					}
 				)
 				.ToList ();

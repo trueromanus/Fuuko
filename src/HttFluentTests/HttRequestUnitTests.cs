@@ -8,6 +8,7 @@ using HttFluent.Models.ParameterModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Globalization;
+using System.IO;
 
 namespace HttFluentTests {
 
@@ -110,7 +111,8 @@ namespace HttFluentTests {
 		[ExpectedException ( typeof ( ArgumentNullException ) )]
 		public void Parameter_String_Throw_Value_Null () {
 			var wrapper = CreateWrapper ();
-			wrapper.Request.Parameter ( "" , null );
+			string str = null;
+			wrapper.Request.Parameter ( "" , str );
 		}
 
 		[TestMethod]

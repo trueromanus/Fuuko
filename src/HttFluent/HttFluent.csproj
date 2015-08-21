@@ -56,6 +56,7 @@
     <Compile Include="Models\ParameterModels\RequestFileParameterModel.cs" />
     <Compile Include="Models\ParameterModels\RequestNumberParameterModel.cs" />
     <Compile Include="Models\ParameterModels\RequestParameterModel.cs" />
+    <Compile Include="Models\ParameterModels\RequestPlainBodyParameterModel.cs" />
     <Compile Include="Models\ParameterModels\RequestStringParameterModel.cs" />
     <Compile Include="Models\RequestModels\RequestSettingsModel.cs" />
     <Compile Include="Models\ResponseModels\ContentDispositionModel.cs" />

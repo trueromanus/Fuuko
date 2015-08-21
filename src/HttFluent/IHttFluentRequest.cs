@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
@@ -52,6 +53,13 @@ namespace HttFluent {
 		/// <param name="name">Name.</param>
 		/// <param name="value">Value.</param>
 		IHttFluentRequest Parameter ( string name , int value );
+
+		/// <summary>
+		/// Parameter.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="value">Value.</param>
+		IHttFluentRequest Parameter ( string name , Stream value );
 
 		/// <summary>
 		/// Content type header.
@@ -141,7 +149,11 @@ namespace HttFluent {
 		/// Cookie header.
 		/// </summary>
 		/// <param name="values">Cookie values.</param>
-		IHttFluentRequest Cookie ( IDictionary<string , string> values );
+		/// <param name="domain">Domain.</param>
+		/// <param name="path">Path.</param>
+		/// <param name="secure">Secure.</param>
+		/// <param name="expires">Expires.</param>
+		IHttFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires );
 
 		/// <summary>
 		/// Send request.
