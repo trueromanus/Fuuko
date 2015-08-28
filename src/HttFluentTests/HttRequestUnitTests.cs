@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Globalization;
 using System.IO;
+using System.Text;
 
 namespace HttFluentTests {
 
@@ -332,7 +333,220 @@ namespace HttFluentTests {
 			var wrapper = CreateWrapper ();
 			wrapper.Request.UserAgent ( null );
 		}
-		
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void AcceptCharsets_Throw_CharSets_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptCharsets ( null );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentException ) )]
+		public void AcceptCharsets_Throw_CharSets_Empty () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptCharsets ( new List<Encoding> () );
+		}
+
+		[TestMethod]
+		public void AcceptCharsets_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptCharsets (
+				new List<Encoding> {
+					Encoding.UTF8
+				}
+			);
+
+			Assert.IsTrue ( wrapper.Request.Settings.Charsets.First () == Encoding.UTF8 );
+			Assert.IsTrue ( wrapper.Request.Settings.Charsets.Count () == 1 );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void AcceptEncodings_Throw_Encodings_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptEncodings ( null );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentException ) )]
+		public void AcceptEncodings_Throw_Encodings_Empty () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptEncodings ( new List<AcceptEncoding> () );
+		}
+
+		[TestMethod]
+		public void AcceptEncodings_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.AcceptEncodings (
+				new List<AcceptEncoding> {
+					AcceptEncoding.gzip,
+					AcceptEncoding.deflate
+				}
+			);
+
+			Assert.AreEqual ( wrapper.Request.Settings.Encodings.Count () , 2 );
+			Assert.AreEqual ( wrapper.Request.Settings.Encodings.First () , AcceptEncoding.gzip );
+			Assert.AreEqual ( wrapper.Request.Settings.Encodings.Last () , AcceptEncoding.deflate );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void ParameterStream_Throw_Name_Null () {
+			var wrapper = CreateWrapper ();
+			var stream = new MemoryStream ();
+			wrapper.Request.Parameter ( null , stream );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void ParameterStream_Throw_Stream_Null () {
+			var wrapper = CreateWrapper ();
+			Stream stream = null;
+			wrapper.Request.Parameter ( "" , stream );
+		}
+
+		[TestMethod]
+		public void ParameterStream_CheckResult_CheckName () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "test" , new MemoryStream () );
+
+			Assert.IsTrue ( wrapper.Request.Settings.Parameters.Any ( a => a.Name == "test" ) );
+		}
+
+		[TestMethod]
+		public void ParameterStream_CheckResult_CheckStream () {
+			var wrapper = CreateWrapper ();
+			var stream = new MemoryStream ();
+			wrapper.Request.Parameter ( "test" , stream );
+
+			Assert.AreEqual ( ( wrapper.Request.Settings.Parameters.First () as RequestPlainBodyParameterModel ).Content , stream );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Cookie_Throw_Values_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie ( null , "" , "" , false , DateTime.Now );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Cookie_Throw_Domain_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie ( new Dictionary<string , string> () , null , "" , false , DateTime.Now );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Cookie_Throw_Path_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie ( new Dictionary<string , string> () , "" , null , false , DateTime.Now );
+		}
+
+		[TestMethod]
+		public void Cookie_CheckResult_Count () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie (
+				new Dictionary<string , string> {
+					{ "test" , "value" }
+				} ,
+				"sex.com" ,
+				"/" ,
+				false ,
+				DateTime.Now
+			);
+
+			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count () , 1 );
+		}
+
+		[TestMethod]
+		public void Cookie_CheckResult_Value () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie (
+				new Dictionary<string , string> {
+					{ "test" , "value" }
+				} ,
+				"sex.com" ,
+				"/" ,
+				false ,
+				DateTime.Now
+			);
+
+			var firstValue = wrapper.Request.Settings.Cookies.First ();
+			Assert.AreEqual ( firstValue.Name , "test" );
+			Assert.AreEqual ( firstValue.Value , "value" );
+		}
+
+		[TestMethod]
+		public void Cookie_CheckResult_Domain () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie (
+				new Dictionary<string , string> {
+					{ "test" , "value" }
+				} ,
+				"sex.com" ,
+				"/" ,
+				false ,
+				DateTime.Now
+			);
+
+			var firstValue = wrapper.Request.Settings.Cookies.First ();
+			Assert.AreEqual ( firstValue.Domain , "sex.com" );
+		}
+
+		[TestMethod]
+		public void Cookie_CheckResult_Path () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie (
+				new Dictionary<string , string> {
+					{ "test" , "value" }
+				} ,
+				"sex.com" ,
+				"/" ,
+				false ,
+				DateTime.Now
+			);
+
+			var firstValue = wrapper.Request.Settings.Cookies.First ();
+			Assert.AreEqual ( firstValue.Path , "/" );
+		}
+
+		[TestMethod]
+		public void Cookie_CheckResult_Secure () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie (
+				new Dictionary<string , string> {
+					{ "test" , "value" }
+				} ,
+				"sex.com" ,
+				"/" ,
+				true ,
+				DateTime.Now
+			);
+
+			var firstValue = wrapper.Request.Settings.Cookies.First ();
+			Assert.AreEqual ( firstValue.Secure , true );
+		}
+
+		[TestMethod]
+		public void Cookie_CheckResult_Expires () {
+			var wrapper = CreateWrapper ();
+			var date = DateTime.Now;
+			wrapper.Request.Cookie (
+				new Dictionary<string , string> {
+					{ "test" , "value" }
+				} ,
+				"sex.com" ,
+				"/" ,
+				true ,
+				date
+			);
+
+			var firstValue = wrapper.Request.Settings.Cookies.First ();
+			Assert.AreEqual ( firstValue.Expires , date );
+		}
+
 	}
 
 }

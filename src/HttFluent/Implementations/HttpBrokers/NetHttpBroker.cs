@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
@@ -239,7 +238,6 @@ namespace HttFluent.Implementations.HttpBrokers {
 				var sender = PrepareSender ( client , requestSettings );
 
 				var task = CreateResponse ( sender.Result );
-				task.Wait ();
 				return task.Result;
 			}
 		}

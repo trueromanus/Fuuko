@@ -342,14 +342,15 @@ namespace HttFluent.Implementations {
 		/// <param name="path">Path.</param>
 		/// <param name="secure">Secure.</param>
 		/// <param name="expires">Expires.</param>
+		/// <exception cref="ArgumentNullException"></exception>
 		public IHttFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires  ) {
 			Contract.Requires ( values != null );
-			Contract.Requires ( values.Count () > 0 );
-			Contract.Ensures ( m_RequestSettings.Cookies.Count () == values.Count );
+			Contract.Requires ( domain != null );
+			Contract.Requires ( path != null );
 			if ( values == null ) throw new ArgumentNullException ( "locales" );
-			if ( values.Count () == 0 ) throw new ArgumentException ( "Cookie values sequence is empty." );
-
-			//in cookie used default settings: expires +7 days, domain empty, path / and secure disabled.
+			if ( domain == null ) throw new ArgumentNullException ( "domain" );
+			if ( path == null ) throw new ArgumentNullException ( "path" );
+				
 			m_RequestSettings.Cookies = values
 				.Select (
 					cookie => new CookieModel {
