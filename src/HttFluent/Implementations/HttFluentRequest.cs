@@ -76,7 +76,7 @@ namespace HttFluent.Implementations {
 			if ( parameters == null ) throw new ArgumentNullException ( "parameters" );
 			if ( !parameters.Any () ) throw new ArgumentException ( "Parameters sequence is empty." );
 
-			m_RequestSettings.Parameters = parameters.ToList();
+			m_RequestSettings.Parameters = parameters.ToList ();
 
 			return this;
 		}
@@ -95,7 +95,7 @@ namespace HttFluent.Implementations {
 
 			m_RequestSettings.Parameters.Add (
 				new RequestStringParameterModel {
-					Name = name,
+					Name = name ,
 					Value = value
 				}
 			);
@@ -343,14 +343,14 @@ namespace HttFluent.Implementations {
 		/// <param name="secure">Secure.</param>
 		/// <param name="expires">Expires.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires  ) {
+		public IHttFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires ) {
 			Contract.Requires ( values != null );
 			Contract.Requires ( domain != null );
 			Contract.Requires ( path != null );
 			if ( values == null ) throw new ArgumentNullException ( "locales" );
 			if ( domain == null ) throw new ArgumentNullException ( "domain" );
 			if ( path == null ) throw new ArgumentNullException ( "path" );
-				
+
 			m_RequestSettings.Cookies = values
 				.Select (
 					cookie => new CookieModel {
@@ -403,6 +403,16 @@ namespace HttFluent.Implementations {
 			var response = await m_HttpBroker.SendRequestAsync ( m_RequestSettings );
 
 			return new HttpResponse ( response );
+		}
+
+		/// <summary>
+		/// Clear parameters.
+		/// </summary>
+		/// <returns></returns>
+		public IHttFluentRequest ClearParameters () {
+			m_RequestSettings.Parameters.Clear ();
+
+			return this;
 		}
 
 	}

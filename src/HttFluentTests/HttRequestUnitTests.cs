@@ -547,6 +547,14 @@ namespace HttFluentTests {
 			Assert.AreEqual ( firstValue.Expires , date );
 		}
 
+		[TestMethod]
+		public void ClearParameters_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.ClearParameters ();
+
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 0 );
+		}
+
 	}
 
 }

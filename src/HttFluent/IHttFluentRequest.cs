@@ -62,6 +62,11 @@ namespace HttFluent {
 		IHttFluentRequest Parameter ( string name , Stream value );
 
 		/// <summary>
+		/// Clear parameters.
+		/// </summary>
+		IHttFluentRequest ClearParameters ();
+
+		/// <summary>
 		/// Content type header.
 		/// </summary>
 		/// <param name="type"></param>
