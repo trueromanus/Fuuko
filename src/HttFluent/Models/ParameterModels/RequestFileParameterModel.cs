@@ -14,6 +14,14 @@ namespace HttFluent.Models.ParameterModels {
 			set;
 		}
 
+		/// <summary>
+		/// File name.
+		/// </summary>
+		public string FileName {
+			get;
+			set;
+		}
+
 	}
 
 }

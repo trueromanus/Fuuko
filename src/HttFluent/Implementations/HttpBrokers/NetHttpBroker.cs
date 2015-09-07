@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -156,72 +158,77 @@ namespace HttFluent.Implementations.HttpBrokers {
 		private Task<HttpResponseMessage> PrepareSender ( HttpClient client , RequestSettingsModel requestSettings ) {
 			switch ( requestSettings.Method ) {
 				case RequestMethod.Get:
+				case RequestMethod.Delete:
 					var url = requestSettings.Url.ToString ();
 					if ( requestSettings.Parameters.Any () ) {
 						var parameters = requestSettings.Parameters
 							.Select (
 								( parameter ) => {
-									var value = "";
-									if ( parameter is RequestStringParameterModel ) {
-										value = ( parameter as RequestStringParameterModel ).Value;
-									}
-									if ( parameter is RequestNumberParameterModel ) {
-										value = ( parameter as RequestNumberParameterModel ).Value.ToString ();
-									}
-									return string.Format ( "{0}={1}" , parameter.Name , value );
+									return string.Format ( "{0}={1}" , parameter.Name , GetParameterValue ( parameter ) );
 								}
 							)
 							.ToList ();
 						url = string.Format ( "{0}?{1}" , url , string.Join ( "&" , parameters ) );
 					}
 					return client.GetAsync ( url );
-				case RequestMethod.Post:
-					HttpContent content = null;
-					if ( requestSettings.Parameters.Any ( a => a is RequestPlainBodyParameterModel ) ) {
-						var parameter = requestSettings.Parameters.First ( a => a is RequestPlainBodyParameterModel );
-						content = new StreamContent ( ( parameter as RequestPlainBodyParameterModel ).Content );
-					}
-					//if ( requestSettings.Parameters.Any ( a => a is RequestFileParameterModel ) ) {
-					//	//TODO:Make multipart content
-					//	/*
-					//	using (var content =
-					//				 new MultipartFormDataContent("Upload----" + DateTime.Now.ToString(CultureInfo.InvariantCulture)))
-					//			 {
-					//				 content.Add(new StreamContent(new MemoryStream(image)), "bilddatei", "upload.jpg");
-
-					//				  using (
-					//					 var message =
-					//						 await client.PostAsync("http://www.directupload.net/index.php?mode=upload", content))
-					//				  {
-					//					  var input = await message.Content.ReadAsStringAsync();
-
-					//				  }
-					//			  }
-					//	 */
-					//}
-					//else {
-					//	content = new FormUrlEncodedContent (
-					//		requestSettings.Parameters
-					//			.Select (
-					//				( parameter ) => {
-					//					var value = "";
-					//					if ( parameter is RequestStringParameterModel ) {
-					//						value = ( parameter as RequestStringParameterModel ).Value;
-					//					}
-					//					if ( parameter is RequestNumberParameterModel ) {
-					//						value = ( parameter as RequestNumberParameterModel ).Value.ToString ();
-					//					}
-					//					return new KeyValuePair<string , string> ( parameter.Name , value );
-					//				}
-					//			)
-					//			.ToList ()
-					//	);
-					//}
-					return client.PostAsync ( requestSettings.Url , content );
 				case RequestMethod.Put:
-				case RequestMethod.Delete:
+				case RequestMethod.Post:
+					return client.PostAsync ( requestSettings.Url , CreateBodyContent ( requestSettings ) );
 				default:
 					throw new NotSupportedException ( "Request method not supported." );
+			}
+		}
+
+		/// <summary>
+		/// Get parameter value.
+		/// </summary>
+		/// <param name="parameter">Parameter.</param>
+		/// <returns></returns>
+		private static string GetParameterValue ( RequestParameterModel parameter ) {
+			var value = "";
+			if ( parameter is RequestStringParameterModel ) {
+				value = ( parameter as RequestStringParameterModel ).Value;
+			}
+			if ( parameter is RequestNumberParameterModel ) {
+				value = ( parameter as RequestNumberParameterModel ).Value.ToString ();
+			}
+			return value;
+		}
+
+		/// <summary>
+		/// Create body content.
+		/// </summary>
+		/// <param name="requestSettings">Request settings.</param>
+		/// <param name="content">Content.</param>
+		private static HttpContent CreateBodyContent ( RequestSettingsModel requestSettings ) {
+			if ( requestSettings.Parameters.Any ( a => a is RequestPlainBodyParameterModel ) ) {
+				var parameter = requestSettings.Parameters.First ( a => a is RequestPlainBodyParameterModel );
+				return new StreamContent ( ( parameter as RequestPlainBodyParameterModel ).Content );
+			}
+			if ( requestSettings.Parameters.Any ( a => a is RequestFileParameterModel ) ) {
+				var content = new MultipartFormDataContent ();
+				var otherParameters = requestSettings.Parameters.Where ( a => !( a is RequestFileParameterModel ) );
+				foreach ( var parameter in otherParameters ) {
+					content.Add ( new StringContent ( GetParameterValue ( parameter ) ) , parameter.Name );
+				}
+				var files = requestSettings.Parameters.Where ( a => a is RequestFileParameterModel );
+				foreach ( var file in files ) {
+					var fileParameter = file as RequestFileParameterModel;
+					var fileName = string.IsNullOrEmpty ( fileParameter.FileName ) ? Path.GetFileName ( fileParameter.FilePath ) : fileParameter.FileName;
+					content.Add ( new StreamContent ( File.OpenRead ( fileParameter.FilePath ) ) , fileParameter.Name , fileName );
+				}
+				return content;
+			}
+			else {
+				return new FormUrlEncodedContent (
+					requestSettings.Parameters
+						.Select (
+							( parameter ) => {
+								return new KeyValuePair<string , string> ( parameter.Name , GetParameterValue ( parameter ) );
+							}
+						)
+						.ToList ()
+				);
 			}
 		}
 
