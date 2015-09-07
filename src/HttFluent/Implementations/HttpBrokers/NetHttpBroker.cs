@@ -37,7 +37,9 @@ namespace HttFluent.Implementations.HttpBrokers {
 			client.DefaultRequestHeaders.Date = requestSettings.Date;
 			client.DefaultRequestHeaders.From = requestSettings.FromEmail;
 			client.DefaultRequestHeaders.Host = requestSettings.Host;
-			client.DefaultRequestHeaders.UserAgent.Add ( new ProductInfoHeaderValue ( new ProductHeaderValue ( requestSettings.UserAgent ) ) );
+			if ( requestSettings.UserAgent != null ) {
+				client.DefaultRequestHeaders.UserAgent.Add ( new ProductInfoHeaderValue ( requestSettings.UserAgent , "" ) );
+			}
 			if ( !string.IsNullOrEmpty ( requestSettings.Referer ) ) {
 				client.DefaultRequestHeaders.Referrer = new Uri ( requestSettings.Referer );
 			}
@@ -84,7 +86,6 @@ namespace HttFluent.Implementations.HttpBrokers {
 			Contract.Requires ( requestSettings != null );
 			if ( client == null ) throw new ArgumentNullException ( "client" );
 			if ( requestSettings == null ) throw new ArgumentNullException ( "requestSettings" );
-
 
 			foreach ( var accept in requestSettings.Accepts ) {
 				client.DefaultRequestHeaders.Accept.Add ( new MediaTypeWithQualityHeaderValue ( accept ) );
@@ -143,7 +144,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 				ProtocolVersion = responseMessage.Version ,
 				Age = responseMessage.Headers.Age ,
 				ContentDisposition = GetContentDisposition ( responseMessage.Content.Headers ) ,
-				ContentType = responseMessage.Content.Headers.ContentType.MediaType ,
+				ContentType = responseMessage.Content.Headers.ContentType != null ? responseMessage.Content.Headers.ContentType.MediaType : "" ,
 				ContentLength = responseMessage.Content.Headers.ContentLength ?? 0 ,
 				Content = await responseMessage.Content.ReadAsStreamAsync ()
 			};
@@ -173,7 +174,9 @@ namespace HttFluent.Implementations.HttpBrokers {
 					return client.GetAsync ( url );
 				case RequestMethod.Put:
 				case RequestMethod.Post:
-					return client.PostAsync ( requestSettings.Url , CreateBodyContent ( requestSettings ) );
+					var bodyContent = CreateBodyContent ( requestSettings );
+					bodyContent.Headers.ContentType = new MediaTypeHeaderValue ( requestSettings.ContentType );
+					return client.PostAsync ( requestSettings.Url , bodyContent );
 				default:
 					throw new NotSupportedException ( "Request method not supported." );
 			}
@@ -243,8 +246,9 @@ namespace HttFluent.Implementations.HttpBrokers {
 				PrepareRequest ( client , clientHandler , requestSettings );
 
 				var sender = PrepareSender ( client , requestSettings );
-
+				Task.WaitAll ( new List<Task> { sender }.ToArray () );
 				var task = CreateResponse ( sender.Result );
+				task.Wait ();
 				return task.Result;
 			}
 		}
