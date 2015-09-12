@@ -151,6 +151,12 @@ namespace HttFluent {
 		IHttFluentRequest UserAgent ( string userAgent );
 
 		/// <summary>
+		/// Timeout.
+		/// </summary>
+		/// <param name="timeout">Timeout.</param>
+		IHttFluentRequest Timeout ( TimeSpan timeout );
+
+		/// <summary>
 		/// Cookie header.
 		/// </summary>
 		/// <param name="values">Cookie values.</param>

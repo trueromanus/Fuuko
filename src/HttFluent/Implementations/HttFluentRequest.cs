@@ -415,6 +415,21 @@ namespace HttFluent.Implementations {
 			return this;
 		}
 
+		/// <summary>
+		/// Timeout.
+		/// </summary>
+		/// <param name="timeout">Timeout.</param>
+		/// <exception cref="ArgumentOutOfRangeException"></exception>
+		public IHttFluentRequest Timeout ( TimeSpan timeout ) {
+			Contract.Requires ( timeout > TimeSpan.Zero );
+			Contract.Ensures ( timeout == m_RequestSettings.Timeout );
+			if ( timeout < TimeSpan.Zero ) throw new ArgumentOutOfRangeException ( "timeout" );
+
+			m_RequestSettings.Timeout = timeout;
+
+			return this;
+		}
+
 	}
 
 }

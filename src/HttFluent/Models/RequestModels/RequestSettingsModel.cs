@@ -7,7 +7,7 @@ using HttFluent.Models.CookieModels;
 using HttFluent.Models.ParameterModels;
 
 namespace HttFluent.Models.RequestModels {
-	
+
 	/// <summary>
 	/// Request model.
 	/// </summary>
@@ -23,6 +23,7 @@ namespace HttFluent.Models.RequestModels {
 			Locales = new List<CultureInfo> ();
 			Charsets = new List<Encoding> ();
 			Cookies = new List<CookieModel> ();
+			Timeout = new TimeSpan ( 0 , 1 , 40 );
 		}
 
 		/// <summary>
@@ -44,7 +45,7 @@ namespace HttFluent.Models.RequestModels {
 		/// <summary>
 		/// Parameters.
 		/// </summary>
-		public ICollection<RequestParameterModel>Parameters {
+		public ICollection<RequestParameterModel> Parameters {
 			get;
 			set;
 		}
@@ -173,6 +174,14 @@ namespace HttFluent.Models.RequestModels {
 		/// Cookies
 		/// </summary>
 		public IEnumerable<CookieModel> Cookies {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Timeout.
+		/// </summary>
+		public TimeSpan Timeout {
 			get;
 			set;
 		}

@@ -43,6 +43,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 			if ( !string.IsNullOrEmpty ( requestSettings.Referer ) ) {
 				client.DefaultRequestHeaders.Referrer = new Uri ( requestSettings.Referer );
 			}
+			client.Timeout = requestSettings.Timeout;
 
 			SetAcceptHeaders ( client , requestSettings );
 			SetCookies ( clientHandler , requestSettings );

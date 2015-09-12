@@ -555,6 +555,21 @@ namespace HttFluentTests {
 			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 0 );
 		}
 
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentOutOfRangeException ) )]
+		public void Timeout_Throw_Timeout_OutOfRange () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Timeout ( TimeSpan.Zero - new TimeSpan ( 0 , 1 , 0 ) );
+		}
+
+		[TestMethod]
+		public void Timeout_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Timeout ( new TimeSpan ( 0 , 1 , 0 ) );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Timeout , new TimeSpan ( 0 , 1 , 0 ) );
+		}
+
 	}
 
 }
