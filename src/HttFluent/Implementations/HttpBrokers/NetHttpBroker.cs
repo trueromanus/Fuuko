@@ -20,6 +20,8 @@ namespace HttFluent.Implementations.HttpBrokers {
 	/// </summary>
 	public class NetHttpBroker : IHttpBroker {
 
+		public const string DefaultPostPutContentType = "application/x-www-form-urlencoded";
+
 		/// <summary>
 		/// Prepare request.
 		/// </summary>
@@ -176,7 +178,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 				case RequestMethod.Put:
 				case RequestMethod.Post:
 					var bodyContent = CreateBodyContent ( requestSettings );
-					bodyContent.Headers.ContentType = new MediaTypeHeaderValue ( requestSettings.ContentType );
+					bodyContent.Headers.ContentType = new MediaTypeHeaderValue ( requestSettings.ContentType ?? DefaultPostPutContentType );
 					return client.PostAsync ( requestSettings.Url , bodyContent );
 				default:
 					throw new NotSupportedException ( "Request method not supported." );

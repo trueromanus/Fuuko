@@ -128,7 +128,7 @@ namespace HttFluent.Implementations {
 		/// </summary>
 		/// <param name="name">Name.</param>
 		/// <param name="value">Value.</param>
-		/// <returns></returns>
+		/// <exception cref="ArgumentNullException"></exception>
 		public IHttFluentRequest Parameter ( string name , Stream value ) {
 			Contract.Requires ( name != null );
 			Contract.Requires ( value != null );
@@ -139,6 +139,32 @@ namespace HttFluent.Implementations {
 				new RequestPlainBodyParameterModel {
 					Name = name ,
 					Content = value
+				}
+			);
+
+			return this;
+		}
+
+		/// <summary>
+		/// Parameter.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="filePath">File path.</param>
+		/// <param name="fileName">File name.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public IHttFluentRequest Parameter ( string name , string filePath , string fileName ) {
+			Contract.Requires ( name != null );
+			Contract.Requires ( filePath != null );
+			Contract.Requires ( fileName != null );
+			if ( name == null ) throw new ArgumentNullException ( "name" );
+			if ( filePath == null ) throw new ArgumentNullException ( "filePath" );
+			if ( fileName == null ) throw new ArgumentNullException ( "fileName" );
+
+			m_RequestSettings.Parameters.Add (
+				new RequestFileParameterModel {
+					Name = name ,
+					FilePath = filePath ,
+					FileName = fileName
 				}
 			);
 
@@ -429,6 +455,7 @@ namespace HttFluent.Implementations {
 
 			return this;
 		}
+
 
 	}
 

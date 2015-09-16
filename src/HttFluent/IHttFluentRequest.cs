@@ -62,6 +62,15 @@ namespace HttFluent {
 		IHttFluentRequest Parameter ( string name , Stream value );
 
 		/// <summary>
+		/// Parameter.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="fileName">File name.</param>
+		/// <param name="filePath">File path.</param>
+		IHttFluentRequest Parameter ( string name , string filePath , string fileName );
+
+
+		/// <summary>
 		/// Clear parameters.
 		/// </summary>
 		IHttFluentRequest ClearParameters ();
