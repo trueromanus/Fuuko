@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HttFluent")]
+[assembly: AssemblyTitle("HttFluent.NET451")]
 [assembly: AssemblyDescription ( "Performing HTTP queries in a declarative style" )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany ( "GeekIT" )]
-[assembly: AssemblyProduct("HttFluent")]
-[assembly: AssemblyCopyright ( "Copyright © RomanAsylum 2016" )]
+[assembly: AssemblyProduct ( "HttFluent" )]
+[assembly: AssemblyCopyright ( "Copyright © RomanAsylum  2016" )]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8ee600f5-cc1d-46a8-9584-5e8c6b96ee60")]
+[assembly: Guid("5eb7bb4e-fb6c-42d1-83f0-b88303004b7b")]
 
 // Version information for an assembly consists of the following four values:
 //
