@@ -17,7 +17,7 @@ namespace HttFluent.Examples.BasicExample {
 
 		public override void Execute () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
-			
+
 			var response = new HttFluentRequest ( new NetHttpBroker () )
 					.Url ( "https://www.google.ru/webhp" ) //define full url
 					.Method ( RequestMethod.Get ) // define HTTP method
@@ -31,7 +31,7 @@ namespace HttFluent.Examples.BasicExample {
 			Console.WriteLine ( "Content-Length: {0}" , response.Response.ContentLength );
 			Console.WriteLine ( "Status: {0}" , response.Response.StatusCode );
 			Console.WriteLine ( "Protocol version: {0}" , response.Response.ProtocolVersion );
-			Console.WriteLine ( "Content: {0}" , Encoding.UTF8.GetString ( ( response.Response.Content as MemoryStream ).ToArray () ) );
+			Console.WriteLine ( "Content: {0}" , response.GetContentAsString ( Encoding.UTF8 ) );
 		}
 
 	}
