@@ -156,6 +156,16 @@ namespace HttFluent.Implementations {
 			Contract.Requires ( name != null );
 			Contract.Requires ( filePath != null );
 			Contract.Requires ( fileName != null );
+			Contract.Ensures (
+				m_RequestSettings.Parameters
+					.Cast<RequestFileParameterModel> ()
+					.FirstOrDefault (
+						a =>
+							a.Name == name &&
+							a.FilePath == filePath &&
+							a.FileName == fileName
+					) != null
+			);
 			if ( name == null ) throw new ArgumentNullException ( "name" );
 			if ( filePath == null ) throw new ArgumentNullException ( "filePath" );
 			if ( fileName == null ) throw new ArgumentNullException ( "fileName" );

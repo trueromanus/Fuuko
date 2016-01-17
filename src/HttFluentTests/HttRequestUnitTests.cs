@@ -144,6 +144,39 @@ namespace HttFluentTests {
 		}
 
 		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Parameter_File_Throw_Name_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( null , @"c:\robocop\part2\scenewithcar\" , "robocop_punish_to_bad_boys!!!.txt" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Parameter_File_Throw_FilePath_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "robocop 2" , null , "robocop_punish_to_bad_boys!!!.txt" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Parameter_File_Throw_FileName_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "robocop 2" , @"c:\robocop\part2\scenewithcar\" , null );
+		}
+
+		[TestMethod]
+		public void Parameter_File_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "robocop 2" , @"c:\robocop\part2\scenewithcar\" , "robocop_punish_to_bad_boys!!!.txt" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 1 );
+			var parameter = wrapper.Request.Settings.Parameters.First () as RequestFileParameterModel;
+			Assert.AreEqual ( parameter.Name , "robocop 2" );
+			Assert.AreEqual ( parameter.FileName , "robocop_punish_to_bad_boys!!!.txt" );
+			Assert.AreEqual ( parameter.FilePath , @"c:\robocop\part2\scenewithcar\" );
+		}
+
+		[TestMethod]
 		public void ContentType_CheckResult_HappyPath () {
 			var wrapper = CreateWrapper ();
 			wrapper.Request.ContentType ( "application/json" );
