@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
+using HttFluent.Exceptions;
 using HttFluent.Models.CookieModels;
 using HttFluent.Models.ParameterModels;
 using HttFluent.Models.RequestModels;
@@ -66,19 +67,23 @@ namespace HttFluent.Implementations {
 		}
 
 		/// <summary>
-		/// Parameters.
+		/// Add or update parameter.
 		/// </summary>
-		/// <param name="parameters">Request parameters.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-		public IHttFluentRequest Parameters ( IEnumerable<RequestParameterModel> parameters ) {
-			Contract.Requires ( parameters != null );
-			if ( parameters == null ) throw new ArgumentNullException ( "parameters" );
-			if ( !parameters.Any () ) throw new ArgumentException ( "Parameters sequence is empty." );
+		/// <typeparam name="T">Concrete type of parameter.</typeparam>
+		private T GetParameter<T> ( string name ) where T : RequestParameterModel , new () {
+			var parameter = m_RequestSettings.Parameters.FirstOrDefault ( a => a.Name == name );
+			if ( parameter == null ) {
+				var newParameter = new T {
+					Name = name
+				};
+				m_RequestSettings.Parameters.Add ( newParameter );
+				return newParameter;
+			}
 
-			m_RequestSettings.Parameters = parameters.ToList ();
+			var existParameter = ( parameter as T );
+			if ( existParameter == null ) throw new ParameterException ( string.Format ( "Parameter with name {0} already exists and have another type." , name ) );
 
-			return this;
+			return existParameter;
 		}
 
 		/// <summary>
@@ -93,12 +98,8 @@ namespace HttFluent.Implementations {
 			if ( name == null ) throw new ArgumentNullException ( "name" );
 			if ( value == null ) throw new ArgumentNullException ( "value" );
 
-			m_RequestSettings.Parameters.Add (
-				new RequestStringParameterModel {
-					Name = name ,
-					Value = value
-				}
-			);
+			var parameter = GetParameter<RequestStringParameterModel> ( name );
+			parameter.Value = value;
 
 			return this;
 		}
@@ -113,12 +114,8 @@ namespace HttFluent.Implementations {
 			Contract.Requires ( name != null );
 			if ( name == null ) throw new ArgumentNullException ( "name" );
 
-			m_RequestSettings.Parameters.Add (
-				new RequestNumberParameterModel {
-					Name = name ,
-					Value = value
-				}
-			);
+			var parameter = GetParameter<RequestNumberParameterModel> ( name );
+			parameter.Value = value;
 
 			return this;
 		}
@@ -132,15 +129,21 @@ namespace HttFluent.Implementations {
 		public IHttFluentRequest Parameter ( string name , Stream value ) {
 			Contract.Requires ( name != null );
 			Contract.Requires ( value != null );
+			Contract.Ensures (
+				m_RequestSettings.Parameters
+					.Cast<RequestPlainBodyParameterModel> ()
+					.FirstOrDefault (
+						a =>
+							a.Name == name &&
+							a.Content == value
+					) != null
+			);
 			if ( name == null ) throw new ArgumentNullException ( "name" );
 			if ( value == null ) throw new ArgumentNullException ( "value" );
 
-			m_RequestSettings.Parameters.Add (
-				new RequestPlainBodyParameterModel {
-					Name = name ,
-					Content = value
-				}
-			);
+
+			var parameter = GetParameter<RequestPlainBodyParameterModel> ( name );
+			parameter.Content = value;
 
 			return this;
 		}
@@ -170,13 +173,9 @@ namespace HttFluent.Implementations {
 			if ( filePath == null ) throw new ArgumentNullException ( "filePath" );
 			if ( fileName == null ) throw new ArgumentNullException ( "fileName" );
 
-			m_RequestSettings.Parameters.Add (
-				new RequestFileParameterModel {
-					Name = name ,
-					FilePath = filePath ,
-					FileName = fileName
-				}
-			);
+			var parameter = GetParameter<RequestFileParameterModel> ( name );
+			parameter.FilePath = filePath;
+			parameter.FileName = fileName;
 
 			return this;
 		}
@@ -236,7 +235,10 @@ namespace HttFluent.Implementations {
 			if ( accepts == null ) throw new ArgumentNullException ( "accepts" );
 			if ( accepts.Count () == 0 ) throw new ArgumentException ( "Accepts sequence is empty." );
 
-			m_RequestSettings.Accepts = accepts;
+			m_RequestSettings.Accepts.Clear ();
+			foreach ( var accept in accepts ) {
+				m_RequestSettings.Accepts.Add ( accept );
+			}
 
 			return this;
 		}
@@ -253,7 +255,10 @@ namespace HttFluent.Implementations {
 			if ( encodings == null ) throw new ArgumentNullException ( "encodings" );
 			if ( encodings.Count () == 0 ) throw new ArgumentException ( "Encodings sequence is empty." );
 
-			m_RequestSettings.Encodings = encodings;
+			m_RequestSettings.Encodings.Clear ();
+			foreach ( var encoding in encodings ) {
+				m_RequestSettings.Encodings.Add ( encoding );
+			}
 
 			return this;
 		}
@@ -262,14 +267,18 @@ namespace HttFluent.Implementations {
 		/// Accept language (Accept-Language header).
 		/// </summary>
 		/// <param name="locales"></param>
-		/// <returns></returns>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="ArgumentException"></exception>
 		public IHttFluentRequest AcceptLanguage ( IEnumerable<CultureInfo> locales ) {
 			Contract.Requires ( locales != null );
 			Contract.Requires ( locales.Count () > 0 );
 			if ( locales == null ) throw new ArgumentNullException ( "locales" );
 			if ( locales.Count () == 0 ) throw new ArgumentException ( "Locales sequence is empty." );
 
-			m_RequestSettings.Locales = locales;
+			m_RequestSettings.Locales.Clear ();
+			foreach ( var locale in locales ) {
+				m_RequestSettings.Locales.Add ( locale );
+			}
 
 			return this;
 		}
@@ -387,18 +396,18 @@ namespace HttFluent.Implementations {
 			if ( domain == null ) throw new ArgumentNullException ( "domain" );
 			if ( path == null ) throw new ArgumentNullException ( "path" );
 
-			m_RequestSettings.Cookies = values
-				.Select (
-					cookie => new CookieModel {
-						Name = cookie.Key ,
-						Value = cookie.Value ,
+			foreach ( var value in values ) {
+				m_RequestSettings.Cookies.Add (
+					new CookieModel {
+						Name = value.Key ,
+						Value = value.Value ,
 						Secure = secure ,
 						Path = path ,
 						Expires = expires ,
 						Domain = domain
 					}
-				)
-				.ToList ();
+				);
+			}
 
 			return this;
 		}
@@ -416,7 +425,10 @@ namespace HttFluent.Implementations {
 			if ( charsets == null ) throw new ArgumentNullException ( "charsets" );
 			if ( charsets.Count () == 0 ) throw new ArgumentException ( "Locales sequence is empty." );
 
-			m_RequestSettings.Charsets = charsets;
+			m_RequestSettings.Charsets.Clear ();
+			foreach ( var charset in charsets ) {
+				m_RequestSettings.Charsets.Add ( charset );
+			}
 
 			return this;
 		}

@@ -10,6 +10,7 @@ using Moq;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using HttFluent.Exceptions;
 
 namespace HttFluentTests {
 
@@ -72,40 +73,18 @@ namespace HttFluentTests {
 		}
 
 		[TestMethod]
-		public void Parameters_CheckResult_HappyPath () {
-			var wrapper = CreateWrapper ();
-			wrapper.Request.Parameters (
-				new List<RequestParameterModel> {
-					new RequestNumberParameterModel{
-						Name = "test",
-						Value = 20
-					}
-				}
-			);
-
-			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 1 );
-			Assert.AreEqual ( wrapper.Request.Settings.Parameters.First ().Name , "test" );
-		}
-
-		[TestMethod]
-		[ExpectedException ( typeof ( ArgumentNullException ) )]
-		public void Parameters_Throw_Parameters_Null () {
-			var wrapper = CreateWrapper ();
-			wrapper.Request.Parameters ( null );
-		}
-
-		[TestMethod]
-		[ExpectedException ( typeof ( ArgumentException ) )]
-		public void Parameters_Throw_Parameters_Empty () {
-			var wrapper = CreateWrapper ();
-			wrapper.Request.Parameters ( new List<RequestParameterModel> () );
-		}
-
-		[TestMethod]
 		[ExpectedException ( typeof ( ArgumentNullException ) )]
 		public void Parameter_String_Throw_Name_Null () {
 			var wrapper = CreateWrapper ();
 			wrapper.Request.Parameter ( null , "" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ParameterException ) )]
+		public void Parameter_String_Throw_Add_Twice_OtherType () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "test" , 1 );
+			wrapper.Request.Parameter ( "test" , "fail type" );
 		}
 
 		[TestMethod]
@@ -126,10 +105,40 @@ namespace HttFluentTests {
 		}
 
 		[TestMethod]
+		public void Parameter_String_HappyPath_Update_Value () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "test" , "first value" );
+			wrapper.Request.Parameter ( "test" , "second value" );
+
+			var parameter = wrapper.Request.Settings.Parameters.First () as RequestStringParameterModel;
+			Assert.AreEqual ( parameter.Name , "test" );
+			Assert.AreEqual ( parameter.Value , "second value" );
+		}
+
+		[TestMethod]
 		[ExpectedException ( typeof ( ArgumentNullException ) )]
 		public void Parameter_Number_Throw_Name_Null () {
 			var wrapper = CreateWrapper ();
 			wrapper.Request.Parameter ( null , 0 );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ParameterException ) )]
+		public void Parameter_Number_Throw_Add_Twice_OtherType () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "test" , "fail type" );
+			wrapper.Request.Parameter ( "test" , 1 );
+		}
+
+		[TestMethod]
+		public void Parameter_Number_CheckResult_Update_Value () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "test" , 4 );
+			wrapper.Request.Parameter ( "test" , 1 );
+
+			var parameter = wrapper.Request.Settings.Parameters.First () as RequestNumberParameterModel;
+			Assert.AreEqual ( parameter.Name , "test" );
+			Assert.AreEqual ( parameter.Value , 1 );
 		}
 
 		[TestMethod]
@@ -165,6 +174,14 @@ namespace HttFluentTests {
 		}
 
 		[TestMethod]
+		[ExpectedException ( typeof ( ParameterException ) )]
+		public void Parameter_File_Throw_Twice_Update_Other_Type () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "robocop 2" , 1 );
+			wrapper.Request.Parameter ( "robocop 2" , @"c:\robocop\part2\scenewithcar\" , "robocop_punish_to_bad_boys!!!.txt" );
+		}
+
+		[TestMethod]
 		public void Parameter_File_CheckResult_HappyPath () {
 			var wrapper = CreateWrapper ();
 			wrapper.Request.Parameter ( "robocop 2" , @"c:\robocop\part2\scenewithcar\" , "robocop_punish_to_bad_boys!!!.txt" );
@@ -174,6 +191,18 @@ namespace HttFluentTests {
 			Assert.AreEqual ( parameter.Name , "robocop 2" );
 			Assert.AreEqual ( parameter.FileName , "robocop_punish_to_bad_boys!!!.txt" );
 			Assert.AreEqual ( parameter.FilePath , @"c:\robocop\part2\scenewithcar\" );
+		}
+
+		[TestMethod]
+		public void Parameter_File_CheckResult_HappyPath_Update () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "movie" , @"c:\robocop\part2\scenewithcar\" , "robocop_punish_to_bad_boys!!!.txt" );
+			wrapper.Request.Parameter ( "movie" , @"c:\terminator\part2\majordialog\" , "astalavista_baby!!!.txt" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 1 );
+			var parameter = (RequestFileParameterModel) wrapper.Request.Settings.Parameters.First ( a => a.Name == "movie" );
+			Assert.AreEqual ( parameter.FileName , "astalavista_baby!!!.txt" );
+			Assert.AreEqual ( parameter.FilePath , @"c:\terminator\part2\majordialog\" );
 		}
 
 		[TestMethod]
@@ -440,11 +469,34 @@ namespace HttFluentTests {
 		}
 
 		[TestMethod]
+		[ExpectedException ( typeof ( ParameterException ) )]
+		public void ParameterStream_Throw_Twice_Update_Other_Type () {
+			var wrapper = CreateWrapper ();
+
+			wrapper.Request.Parameter ( "stream" , "lala" );
+			Stream stream = new MemoryStream ();
+			wrapper.Request.Parameter ( "stream" , stream );
+		}
+
+		[TestMethod]
 		public void ParameterStream_CheckResult_CheckName () {
 			var wrapper = CreateWrapper ();
 			wrapper.Request.Parameter ( "test" , new MemoryStream () );
 
 			Assert.IsTrue ( wrapper.Request.Settings.Parameters.Any ( a => a.Name == "test" ) );
+		}
+
+		[TestMethod]
+		public void ParameterStream_CheckResult_Update_Content () {
+			var wrapper = CreateWrapper ();
+			var firstStream = new MemoryStream ();
+			wrapper.Request.Parameter ( "test" , firstStream );
+			firstStream.Dispose ();
+			var secondStream = new MemoryStream ();
+			wrapper.Request.Parameter ( "test" , secondStream );
+
+			var parameter = (RequestPlainBodyParameterModel) wrapper.Request.Settings.Parameters.First ( a => a.Name == "test" );
+			Assert.AreEqual ( parameter.Content , secondStream );
 		}
 
 		[TestMethod]

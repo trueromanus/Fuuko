@@ -35,18 +35,8 @@ namespace HttFluentTests {
 			var response = request
 				.Url ( "http://go.mail.ru/search" )
 				.Method ( RequestMethod.Get )
-				.Parameters (
-					new List<RequestParameterModel> {
-						new RequestNumberParameterModel{
-							Name = "fm",
-							Value = 1
-						},
-						new RequestStringParameterModel{
-							Name = "q",
-							Value = "Test"
-						},
-					}
-				)
+				.Parameter("fm",1)
+				.Parameter("q","Test")
 				.UserAgent ( "HttFluentRequestLibraryIntegrateTest" )
 				.SendAsync ().Result;
 

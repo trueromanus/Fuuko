@@ -47,7 +47,7 @@ namespace HttFluent.Models.RequestModels {
 		/// </summary>
 		public ICollection<RequestParameterModel> Parameters {
 			get;
-			set;
+			private set;
 		}
 
 		/// <summary>
@@ -85,33 +85,33 @@ namespace HttFluent.Models.RequestModels {
 		/// <summary>
 		/// Accept.
 		/// </summary>
-		public IEnumerable<string> Accepts {
+		public ICollection<string> Accepts {
 			get;
-			set;
+			private set;
 		}
 
 		/// <summary>
 		/// Encodings.
 		/// </summary>
-		public IEnumerable<AcceptEncoding> Encodings {
+		public ICollection<AcceptEncoding> Encodings {
 			get;
-			set;
+			private set;
 		}
 
 		/// <summary>
 		/// Locales which accept client.
 		/// </summary>
-		public IEnumerable<CultureInfo> Locales {
+		public ICollection<CultureInfo> Locales {
 			get;
-			set;
+			private set;
 		}
 
 		/// <summary>
 		/// Charsets.
 		/// </summary>
-		public IEnumerable<Encoding> Charsets {
+		public ICollection<Encoding> Charsets {
 			get;
-			set;
+			private set;
 		}
 
 		/// <summary>
@@ -173,9 +173,9 @@ namespace HttFluent.Models.RequestModels {
 		/// <summary>
 		/// Cookies
 		/// </summary>
-		public IEnumerable<CookieModel> Cookies {
+		public ICollection<CookieModel> Cookies {
 			get;
-			set;
+			private set;
 		}
 
 		/// <summary>

@@ -35,12 +35,6 @@ namespace HttFluent {
 		IHttFluentRequest Method ( RequestMethod method );
 
 		/// <summary>
-		/// Parameters.
-		/// </summary>
-		/// <param name="parameters">Parameters.</param>
-		IHttFluentRequest Parameters ( IEnumerable<RequestParameterModel> parameters );
-
-		/// <summary>
 		/// Parameter.
 		/// </summary>
 		/// <param name="name">Name.</param>
