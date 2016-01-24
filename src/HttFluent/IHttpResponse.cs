@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using HttFluent.Models.ResponseModels;
 
 namespace HttFluent {
@@ -25,6 +21,12 @@ namespace HttFluent {
 		/// <param name="encoding">Encoding for content.</param>
 		/// <returns>Content as string.</returns>
 		string GetContentAsString ( Encoding encoding );
+
+		/// <summary>
+		/// Get content as string.
+		/// </summary>
+		/// <returns>Content as string.</returns>
+		string GetContentAsString ();
 
 	}
 

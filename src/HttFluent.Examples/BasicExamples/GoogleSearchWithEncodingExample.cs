@@ -1,19 +1,19 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using HttFluent.Classifiers;
 using HttFluent.Implementations;
 using HttFluent.Implementations.HttpBrokers;
 
-namespace HttFluent.Examples.BasicExample {
+namespace HttFluent.Examples.BasicExamples {
 
 	/// <summary>
-	/// Google search example.
+	/// Google search with encoding example.
 	/// </summary>
 	/// <remarks>
-	/// Perform google search and pass result to console output.
+	/// In example google search has issue relate to response encoding.
+	/// In this example will be executed method response.GetContentAsString without parameter encoding.
+	/// Instead used Encoding for stream defined within Http response.
 	/// </remarks>
-	public class GoogleSearchExample : Example {
+	public class GoogleSearchWithoutEncodingExample : Example {
 
 		public override void Execute () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
@@ -31,8 +31,7 @@ namespace HttFluent.Examples.BasicExample {
 			Console.WriteLine ( "Content-Length: {0}" , response.Response.ContentLength );
 			Console.WriteLine ( "Status: {0}" , response.Response.StatusCode );
 			Console.WriteLine ( "Protocol version: {0}" , response.Response.ProtocolVersion );
-			//this encoding only for cyrillic Windows
-			Console.WriteLine ( "Content: {0}" , response.GetContentAsString ( Encoding.GetEncoding ( 1251 ) ) );
+			Console.WriteLine ( "Content: {0}" , response.GetContentAsString () );//encoding do not need
 		}
 
 	}

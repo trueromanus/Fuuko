@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Models.ParameterModels;
@@ -142,15 +143,38 @@ namespace HttFluent.Implementations.HttpBrokers {
 		/// <param name="responseMessage">Response message.</param>
 		/// <returns></returns>
 		private async Task<ResponseModel> CreateResponse ( HttpResponseMessage responseMessage ) {
-			return new ResponseModel {
+
+			var contentType = responseMessage.Content.Headers.ContentType;
+			
+			var model = new ResponseModel {
 				StatusCode = (int) responseMessage.StatusCode ,
 				ProtocolVersion = responseMessage.Version ,
 				Age = responseMessage.Headers.Age ,
 				ContentDisposition = GetContentDisposition ( responseMessage.Content.Headers ) ,
-				ContentType = responseMessage.Content.Headers.ContentType != null ? responseMessage.Content.Headers.ContentType.MediaType : "" ,
+				ContentType = contentType != null ? contentType.MediaType : "" ,
 				ContentLength = responseMessage.Content.Headers.ContentLength ?? 0 ,
-				Content = await responseMessage.Content.ReadAsStreamAsync ()
+				Content = await responseMessage.Content.ReadAsStreamAsync () ,
 			};
+
+			SetContentEncoding ( contentType , model );
+			
+			return model;
+		}
+
+		/// <summary>
+		/// Set content encoding.
+		/// </summary>
+		/// <param name="contentType">Content type header.</param>
+		/// <param name="model">Response model.</param>
+		private static void SetContentEncoding ( MediaTypeHeaderValue contentType , ResponseModel model ) {
+			if ( contentType != null && !string.IsNullOrEmpty ( contentType.CharSet ) ) {
+				try {
+					model.ContentEncoding = Encoding.GetEncoding ( contentType.CharSet );
+				}
+				catch ( ArgumentException ) {
+					model.ContentEncoding = null;
+				}
+			}
 		}
 
 		/// <summary>

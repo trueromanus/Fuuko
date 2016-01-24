@@ -7,9 +7,6 @@ using HttFluent.Exceptions;
 namespace HttFluent.Examples {
 	class Program {
 		static void Main ( string[] args ) {
-
-			Console.OutputEncoding = Encoding.UTF8;
-
 			var basicExampleType = typeof ( Example );
 
 			var exampleTypes = Assembly.GetEntryAssembly ().GetTypes ()

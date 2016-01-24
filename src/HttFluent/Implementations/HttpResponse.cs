@@ -53,6 +53,20 @@ namespace HttFluent.Implementations {
 			return encoding.GetString ( memoryStream.ToArray () );
 		}
 
+		/// <summary>
+		/// Get content as string.
+		/// </summary>
+		/// <returns>Content as string.</returns>
+		public string GetContentAsString () {
+			if ( m_Response.Content == null ) return String.Empty;
+			if ( m_Response.ContentEncoding == null ) return String.Empty;
+
+			var memoryStream = Response.Content as MemoryStream;
+			if ( memoryStream == null ) throw new InvalidProgramException ( "Failed cast response content with MemoryStream." );
+
+			return m_Response.ContentEncoding.GetString ( memoryStream.ToArray () );
+		}
+
 	}
 
 }

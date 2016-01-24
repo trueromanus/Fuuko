@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using HttFluent.Classifiers;
 
 namespace HttFluent.Models.ResponseModels {
@@ -70,6 +71,14 @@ namespace HttFluent.Models.ResponseModels {
 		/// Content.
 		/// </summary>
 		public Stream Content {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Content encoding.
+		/// </summary>
+		public Encoding ContentEncoding {
 			get;
 			set;
 		}
