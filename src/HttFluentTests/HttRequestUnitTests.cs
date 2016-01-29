@@ -655,6 +655,21 @@ namespace HttFluentTests {
 			Assert.AreEqual ( wrapper.Request.Settings.Timeout , new TimeSpan ( 0 , 1 , 0 ) );
 		}
 
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void ExtraParameterUrl_Throw_Null () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.ExtraParameterUri ( null );
+		}
+
+		[TestMethod]
+		public void ExtraParameterUrl_CheckResult_HappyPath () {
+			var wrapper = CreateWrapper ();
+			wrapper.Request.ExtraParameterUri ( "arg/12/" );
+
+			Assert.AreEqual ( wrapper.Request.Settings.ExtraParameterUrl , "arg/12/" );
+		}
+
 	}
 
 }

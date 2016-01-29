@@ -47,11 +47,26 @@ namespace HttFluent.Implementations {
 		/// Set url.
 		/// </summary>
 		/// <param name="url">Url.</param>
+		/// <exception cref="ArgumentNullException"></exception>
 		public IHttFluentRequest Url ( string url ) {
 			Contract.Requires ( url != null );
-			if ( url == null ) throw new ArgumentNullException ( "value" );
+			if ( url == null ) throw new ArgumentNullException ( "url" );
 
 			m_RequestSettings.Url = new Uri ( url );
+
+			return this;
+		}
+
+		/// <summary>
+		/// Extra parameter uri.
+		/// </summary>
+		/// <param name="extraParameterUri">Value.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public IHttFluentRequest ExtraParameterUri ( string extraParameterUri ) {
+			Contract.Requires ( extraParameterUri != null );
+			if ( extraParameterUri == null ) throw new ArgumentNullException ( "extraParameterUri" );
+
+			m_RequestSettings.ExtraParameterUrl = extraParameterUri;
 
 			return this;
 		}
@@ -477,7 +492,6 @@ namespace HttFluent.Implementations {
 
 			return this;
 		}
-
 
 	}
 

@@ -35,6 +35,14 @@ namespace HttFluent.Models.RequestModels {
 		}
 
 		/// <summary>
+		/// Extra parameter url.
+		/// </summary>
+		public string ExtraParameterUrl {
+			get;
+			set;
+		}
+
+		/// <summary>
 		/// Method.
 		/// </summary>
 		public RequestMethod Method {

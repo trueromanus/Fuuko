@@ -145,7 +145,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 		private async Task<ResponseModel> CreateResponse ( HttpResponseMessage responseMessage ) {
 
 			var contentType = responseMessage.Content.Headers.ContentType;
-			
+
 			var model = new ResponseModel {
 				StatusCode = (int) responseMessage.StatusCode ,
 				ProtocolVersion = responseMessage.Version ,
@@ -157,7 +157,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 			};
 
 			SetContentEncoding ( contentType , model );
-			
+
 			return model;
 		}
 
@@ -178,6 +178,45 @@ namespace HttFluent.Implementations.HttpBrokers {
 		}
 
 		/// <summary>
+		/// Url combine.
+		/// </summary>
+		/// <param name="fragments">Fragments.</param>
+		/// <returns>Combined uri.</returns>
+		private string UriCombine ( params string[] fragments ) {
+			return 
+				string.Join (
+					"/" ,
+					fragments.Select (
+						( value , index ) => {
+							if ( value == "/" ) return "";
+							if ( value.EndsWith ( "/" ) ) value = value.Substring ( 0 , value.Length - 1 );
+							if ( value.StartsWith ( "/" ) && index != 0 ) value = value.Substring ( 1 );
+
+							return value;
+						}
+					)
+					.ToArray ()
+				) +
+				"/";
+		}
+
+		/// <summary>
+		/// Get full request URI.
+		/// </summary>
+		/// <param name="requestSettings">Request settings.</param>
+		/// <returns>Full URI.</returns>
+		private Uri GetFullUri ( RequestSettingsModel requestSettings ) {
+			if ( string.IsNullOrEmpty ( requestSettings.ExtraParameterUrl ) ) return requestSettings.Url;
+
+			var relativePath = requestSettings.ExtraParameterUrl;
+			if ( requestSettings.Url.PathAndQuery != "/" ) {
+				relativePath = UriCombine ( requestSettings.Url.PathAndQuery , relativePath );
+			}
+
+			return new Uri ( requestSettings.Url , relativePath );
+		}
+
+		/// <summary>
 		/// Prepare sender.
 		/// </summary>
 		/// <param name="client">Client.</param>
@@ -187,7 +226,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 			switch ( requestSettings.Method ) {
 				case RequestMethod.Get:
 				case RequestMethod.Delete:
-					var url = requestSettings.Url.ToString ();
+					var url = GetFullUri ( requestSettings ).ToString ();
 					if ( requestSettings.Parameters.Any () ) {
 						var parameters = requestSettings.Parameters
 							.Select (
@@ -203,7 +242,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 				case RequestMethod.Post:
 					var bodyContent = CreateBodyContent ( requestSettings );
 					bodyContent.Headers.ContentType = new MediaTypeHeaderValue ( requestSettings.ContentType ?? DefaultPostPutContentType );
-					return client.PostAsync ( requestSettings.Url , bodyContent );
+					return client.PostAsync ( GetFullUri ( requestSettings ) , bodyContent );
 				default:
 					throw new NotSupportedException ( "Request method not supported." );
 			}

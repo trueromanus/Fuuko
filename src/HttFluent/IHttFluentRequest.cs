@@ -29,6 +29,17 @@ namespace HttFluent {
 		IHttFluentRequest Url ( string url );
 
 		/// <summary>
+		/// Extra parameter uri.
+		/// </summary>
+		/// <param name="extraParameterUri">Value.</param>
+		/// <remarks>
+		/// Example 
+		///      -    /1   for  full url http://test.com/1/
+		///      -    /aurora/profile   for  full url http://socialnetwork.com/aurora/profile/
+		/// </remarks>
+		IHttFluentRequest ExtraParameterUri ( string extraParameterUri );
+
+		/// <summary>
 		/// Method.
 		/// </summary>
 		/// <param name="method">Method.</param>

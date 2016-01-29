@@ -44,6 +44,7 @@
     <Compile Include="BasicExamples\GoogleSearchExample.cs" />
     <Compile Include="BasicExamples\GoogleSearchWithEncodingExample.cs" />
     <Compile Include="Example.cs" />
+    <Compile Include="MultipleRequests\SimpleMultipleRequestExample.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
