@@ -181,6 +181,11 @@ namespace HttFluent {
 		IHttFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires );
 
 		/// <summary>
+		/// Clear cookie.
+		/// </summary>
+		IHttFluentRequest ClearCookie ();
+
+		/// <summary>
 		/// Send request.
 		/// </summary>
 		/// <returns>Response.</returns>

@@ -670,6 +670,19 @@ namespace HttFluentTests {
 			Assert.AreEqual ( wrapper.Request.Settings.ExtraParameterUrl , "arg/12/" );
 		}
 
+		[TestMethod]
+		public void ClearCookie_CheckResult_HappyPath () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie ( new Dictionary<string , string> () , "test" , "/" , true , DateTime.Now );
+			
+			//Act
+			wrapper.Request.ClearCookie ();
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count , 0 );
+		}
+
 	}
 
 }

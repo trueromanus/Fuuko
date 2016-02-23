@@ -85,6 +85,7 @@ namespace HttFluent.Implementations {
 		/// Add or update parameter.
 		/// </summary>
 		/// <typeparam name="T">Concrete type of parameter.</typeparam>
+		/// <exception cref="ParameterException"></exception>
 		private T GetParameter<T> ( string name ) where T : RequestParameterModel , new () {
 			var parameter = m_RequestSettings.Parameters.FirstOrDefault ( a => a.Name == name );
 			if ( parameter == null ) {
@@ -474,6 +475,15 @@ namespace HttFluent.Implementations {
 		/// <returns></returns>
 		public IHttFluentRequest ClearParameters () {
 			m_RequestSettings.Parameters.Clear ();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Clear cookie.
+		/// </summary>
+		public IHttFluentRequest ClearCookie () {
+			m_RequestSettings.Cookies.Clear ();
 
 			return this;
 		}
