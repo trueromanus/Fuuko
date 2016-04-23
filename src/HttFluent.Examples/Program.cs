@@ -48,7 +48,7 @@ namespace HttFluent.Examples {
 			}
 		}
 
-		private static async void ExecuteAsync ( Example example ) {//TODO:Change this method
+		private static async void ExecuteAsync ( Example example ) {
 			await example.ExecuteAsync ();
 			m_IsExecuteAsynchronized = true;
 		}
