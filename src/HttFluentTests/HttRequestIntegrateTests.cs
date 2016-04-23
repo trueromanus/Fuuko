@@ -26,7 +26,7 @@ namespace HttFluentTests {
 				.UserAgent ( "HttFluentRequestLibraryIntegrateTest" )
 				.Send ();
 
-			Assert.AreEqual ( response.Response.StatusCode , 200 );
+			Assert.AreEqual ( response.Response.StatusCode , ResponseStatusCode.OK );
 		}
 
 		[TestMethod]
@@ -40,7 +40,7 @@ namespace HttFluentTests {
 				.UserAgent ( "HttFluentRequestLibraryIntegrateTest" )
 				.SendAsync ().Result;
 
-			Assert.AreEqual ( response.Response.StatusCode , 200 );
+			Assert.AreEqual ( response.Response.StatusCode , ResponseStatusCode.OK );
 		}
 
 		[TestMethod]

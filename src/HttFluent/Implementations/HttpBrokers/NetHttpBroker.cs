@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Models.ParameterModels;
@@ -147,18 +148,56 @@ namespace HttFluent.Implementations.HttpBrokers {
 			var contentType = responseMessage.Content.Headers.ContentType;
 
 			var model = new ResponseModel {
-				StatusCode = (int) responseMessage.StatusCode ,
+				StatusCode = GetResponseStatusCode ( responseMessage.StatusCode ) ,
 				ProtocolVersion = responseMessage.Version ,
 				Age = responseMessage.Headers.Age ,
 				ContentDisposition = GetContentDisposition ( responseMessage.Content.Headers ) ,
 				ContentType = contentType != null ? contentType.MediaType : "" ,
 				ContentLength = responseMessage.Content.Headers.ContentLength ?? 0 ,
 				Content = await responseMessage.Content.ReadAsStreamAsync () ,
+				Allow = GetAllows ( responseMessage.Content.Headers.Allow ) ,
 			};
 
 			SetContentEncoding ( contentType , model );
 
 			return model;
+		}
+
+		/// <summary>
+		/// Get status code.
+		/// </summary>
+		/// <param name="httpStatusCode">Http status code.</param>
+		/// <returns>Response status code.</returns>
+		/// <remarks>This enum need for independenting from <see cref="HttpStatusCode"/>.</remarks>
+		private ResponseStatusCode GetResponseStatusCode ( HttpStatusCode httpStatusCode ) {
+			var code = (int) httpStatusCode;
+			var isKnowStatus = Enum.GetValues ( typeof ( ResponseStatusCode ) )
+				.Cast<int> ()
+				.Any ( a => a == code );
+			return isKnowStatus ? (ResponseStatusCode) code : ResponseStatusCode.Unknown;
+		}
+
+		/// <summary>
+		/// Get allows.
+		/// </summary>
+		/// <param name="collection">Allow collection.</param>
+		/// <returns></returns>
+		private IEnumerable<RequestMethod> GetAllows ( ICollection<string> collection ) {
+			var names = Enum.GetNames ( typeof ( RequestMethod ) )
+				.Select ( a => a.ToUpperInvariant () )
+				.ToList ();
+			var values = Enum.GetValues ( typeof ( RequestMethod ) )
+				.Cast<RequestMethod> ()
+				.ToArray ();
+
+			var result = new List<RequestMethod> ();
+
+			foreach ( var allow in collection ) {
+				var index = names.IndexOf ( allow.ToUpperInvariant () );
+				if ( index > -1 ) result.Add ( values[index] );
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -183,7 +222,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 		/// <param name="fragments">Fragments.</param>
 		/// <returns>Combined uri.</returns>
 		private string UriCombine ( params string[] fragments ) {
-			return 
+			return
 				string.Join (
 					"/" ,
 					fragments.Select (
@@ -222,7 +261,7 @@ namespace HttFluent.Implementations.HttpBrokers {
 		/// <param name="client">Client.</param>
 		/// <param name="requestSettings">Request settings.</param>
 		/// <returns></returns>
-		private Task<HttpResponseMessage> PrepareSender ( HttpClient client , RequestSettingsModel requestSettings ) {
+		private Task<HttpResponseMessage> PrepareSender ( HttpClient client , RequestSettingsModel requestSettings , CancellationToken cancellationToken = default(CancellationToken) ) {
 			switch ( requestSettings.Method ) {
 				case RequestMethod.Get:
 				case RequestMethod.Delete:
@@ -237,12 +276,12 @@ namespace HttFluent.Implementations.HttpBrokers {
 							.ToList ();
 						url = string.Format ( "{0}?{1}" , url , string.Join ( "&" , parameters ) );
 					}
-					return client.GetAsync ( url );
+					return client.GetAsync ( url , cancellationToken );
 				case RequestMethod.Put:
 				case RequestMethod.Post:
 					var bodyContent = CreateBodyContent ( requestSettings );
 					bodyContent.Headers.ContentType = new MediaTypeHeaderValue ( requestSettings.ContentType ?? DefaultPostPutContentType );
-					return client.PostAsync ( GetFullUri ( requestSettings ) , bodyContent );
+					return client.PostAsync ( GetFullUri ( requestSettings ) , bodyContent , cancellationToken );
 				default:
 					throw new NotSupportedException ( "Request method not supported." );
 			}
@@ -325,12 +364,12 @@ namespace HttFluent.Implementations.HttpBrokers {
 		/// <param name="requestSettings">Request settings.</param>
 		/// <returns>Response model.</returns>
 		/// <exception cref="NotSupportedException"></exception>
-		public async Task<ResponseModel> SendRequestAsync ( RequestSettingsModel requestSettings ) {
+		public async Task<ResponseModel> SendRequestAsync ( RequestSettingsModel requestSettings , CancellationToken cancellationToken = default(CancellationToken) ) {
 			using ( var clientHandler = new HttpClientHandler () )
 			using ( var client = new HttpClient ( clientHandler ) ) {
 				PrepareRequest ( client , clientHandler , requestSettings );
 
-				var response = await PrepareSender ( client , requestSettings );
+				var response = await PrepareSender ( client , requestSettings , cancellationToken );
 
 				return await CreateResponse ( response );
 			}

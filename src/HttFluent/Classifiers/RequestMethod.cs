@@ -16,6 +16,13 @@ namespace HttFluent.Classifiers {
 
 		Delete = 4,
 
+		Head = 5,
+
+		Options = 6 ,
+
+		Trace = 7 ,
+
+		Connect = 8 ,
 	};
 
 }

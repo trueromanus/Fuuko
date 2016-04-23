@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Implementations;
 using HttFluent.Implementations.HttpBrokers;
@@ -15,18 +16,40 @@ namespace HttFluent.Examples.BasicExample {
 	/// </remarks>
 	public class GoogleSearchExample : Example {
 
+		/// <summary>
+		/// Execute request synchronized.
+		/// </summary>
 		public override void Execute () {
-			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
-
-			var response = new HttFluentRequest ( new NetHttpBroker () )
-					.Url ( "https://www.google.ru/webhp" ) //define full url
-					.Method ( RequestMethod.Get ) // define HTTP method
-					.Parameter ( "q" , "cats" ) // define parameter q=cats
-					.Parameter ( "ie" , "UTF-8" ) // define parameter ie=UTF-8
-					.Send (); //send request synchronized
+			var response = GetRequest ().Send ();
 
 			//output to console some response properties
 
+			WriteResult ( response );
+		}
+
+		/// <summary>
+		/// Execute request asynchronized.
+		/// </summary>
+		public override async Task ExecuteAsync () {
+			var response = await GetRequest ().SendAsync ();
+
+			//output to console some response properties
+
+			WriteResult ( response );
+		}
+
+		private static IHttFluentRequest GetRequest()
+		{
+			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
+
+			return new HttFluentRequest ( new NetHttpBroker () )
+				.Url ( "https://www.google.ru/webhp" ) //define full url
+				.Method ( RequestMethod.Get ) // define HTTP method
+				.Parameter ( "q" , "cats" ) // define parameter q=cats
+				.Parameter ( "ie" , "UTF-8" ); // define parameter ie=UTF-8;
+		}
+
+		private static void WriteResult ( IHttpResponse response ) {
 			Console.WriteLine ( "Content-Type: {0}" , response.Response.ContentType );
 			Console.WriteLine ( "Content-Length: {0}" , response.Response.ContentLength );
 			Console.WriteLine ( "Status: {0}" , response.Response.StatusCode );

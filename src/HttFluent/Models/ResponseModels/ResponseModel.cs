@@ -14,7 +14,7 @@ namespace HttFluent.Models.ResponseModels {
 		/// <summary>
 		/// Status code.
 		/// </summary>
-		public int StatusCode {
+		public ResponseStatusCode StatusCode {
 			get;
 			set;
 		}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Implementations;
 using HttFluent.Implementations.HttpBrokers;
@@ -18,20 +19,45 @@ namespace HttFluent.Examples.BasicExamples {
 		public override void Execute () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
-			var response = new HttFluentRequest ( new NetHttpBroker () )
-					.Url ( "https://www.google.ru/webhp" ) //define full url
-					.Method ( RequestMethod.Get ) // define HTTP method
-					.Parameter ( "q" , "cats" ) // define parameter q=cats
-					.Parameter ( "ie" , "UTF-8" ) // define parameter ie=UTF-8
-					.Send (); //send request synchronized
+			var response = CreateRequest().Send (); //send request synchronized
 
 			//output to console some response properties
 
+			WriteToConsole ( response );
+		}
+
+		/// <summary>
+		/// Write information to console.
+		/// </summary>
+		/// <param name="response"></param>
+		private static void WriteToConsole ( IHttpResponse response ) {
 			Console.WriteLine ( "Content-Type: {0}" , response.Response.ContentType );
 			Console.WriteLine ( "Content-Length: {0}" , response.Response.ContentLength );
 			Console.WriteLine ( "Status: {0}" , response.Response.StatusCode );
 			Console.WriteLine ( "Protocol version: {0}" , response.Response.ProtocolVersion );
 			Console.WriteLine ( "Content: {0}" , response.GetContentAsString () );//encoding do not need
+		}
+
+		public override async Task ExecuteAsync () {
+			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
+
+			var response = await CreateRequest ().SendAsync();
+
+			//output to console some response properties
+			WriteToConsole ( response );
+		}
+
+		/// <summary>
+		/// Create full request settings.
+		/// </summary>
+		/// <returns></returns>
+		private static IHttFluentRequest CreateRequest () {
+			var response = new HttFluentRequest ( new NetHttpBroker () )
+				.Url ( "https://www.google.ru/webhp" ) //define full url
+				.Method ( RequestMethod.Get ) // define HTTP method
+				.Parameter ( "q" , "cats" ) // define parameter q=cats
+				.Parameter ( "ie" , "UTF-8" ); // define parameter ie=UTF-8
+			return response;
 		}
 
 	}

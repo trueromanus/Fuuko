@@ -50,6 +50,9 @@
     <Compile Include="..\HttFluent\Classifiers\RequestMethod.cs">
       <Link>RequestMethod.cs</Link>
     </Compile>
+    <Compile Include="..\HttFluent\Classifiers\ResponseStatusCode.cs">
+      <Link>ResponseStatusCode.cs</Link>
+    </Compile>
     <Compile Include="..\HttFluent\Exceptions\NetBrokerException.cs">
       <Link>NetBrokerException.cs</Link>
     </Compile>

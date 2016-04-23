@@ -17,6 +17,8 @@ namespace HttFluent.Examples {
 
 		public abstract void Execute ();
 
+		public abstract Task ExecuteAsync ();
+
 	}
 
 }

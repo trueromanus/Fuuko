@@ -2,17 +2,22 @@
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using HttFluent.Exceptions;
 
 namespace HttFluent.Examples {
 	class Program {
+
+		private static bool m_IsExecuteAsynchronized = true;
+
 		static void Main ( string[] args ) {
 			var basicExampleType = typeof ( Example );
+			var isAsynchronized = args.Any ( a => a == "async" );
 
 			var exampleTypes = Assembly.GetEntryAssembly ().GetTypes ()
 				.Where (
 					type =>
-						basicExampleType.IsAssignableFrom(type) &&
+						basicExampleType.IsAssignableFrom ( type ) &&
 						type != basicExampleType
 				)
 				.ToList ();
@@ -22,7 +27,15 @@ namespace HttFluent.Examples {
 				Console.WriteLine ( "Execute example: {0}" , instance.GetName () );
 
 				try {
-					instance.Execute ();
+					if ( isAsynchronized ) {
+						m_IsExecuteAsynchronized = false;
+						ExecuteAsync ( instance );
+						while ( !m_IsExecuteAsynchronized ) {
+						}
+					}
+					else {
+						instance.Execute ();
+					}
 				}
 				catch ( NetBrokerException e ) {
 					Console.WriteLine ( "Exception with message: {0}" , e.Message );
@@ -34,5 +47,11 @@ namespace HttFluent.Examples {
 				Console.ReadKey ();
 			}
 		}
+
+		private static async void ExecuteAsync ( Example example ) {//TODO:Change this method
+			await example.ExecuteAsync ();
+			m_IsExecuteAsynchronized = true;
+		}
+
 	}
 }

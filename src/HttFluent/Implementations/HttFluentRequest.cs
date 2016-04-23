@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Exceptions;
@@ -463,8 +464,8 @@ namespace HttFluent.Implementations {
 		/// Send request asynchronized.
 		/// </summary>
 		/// <returns>Response.</returns>
-		public async Task<IHttpResponse> SendAsync () {
-			var response = await m_HttpBroker.SendRequestAsync ( m_RequestSettings );
+		public async Task<IHttpResponse> SendAsync ( CancellationToken cancellationToken = default(CancellationToken) ) {
+			var response = await m_HttpBroker.SendRequestAsync ( m_RequestSettings , cancellationToken );
 
 			return new HttpResponse ( response );
 		}

@@ -45,6 +45,7 @@
     <Compile Include="Classifiers\AcceptEncoding.cs" />
     <Compile Include="Classifiers\ContentDispositionType.cs" />
     <Compile Include="Classifiers\RequestMethod.cs" />
+    <Compile Include="Classifiers\ResponseStatusCode.cs" />
     <Compile Include="Exceptions\NetBrokerException.cs" />
     <Compile Include="Exceptions\ParameterException.cs" />
     <Compile Include="IHttFluentRequest.cs" />

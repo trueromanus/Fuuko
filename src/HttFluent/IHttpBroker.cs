@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using HttFluent.Models.RequestModels;
 using HttFluent.Models.ResponseModels;
 
@@ -21,7 +22,7 @@ namespace HttFluent {
 		/// </summary>
 		/// <param name="requestSettings">Request settings.</param>
 		/// <returns>Response model.</returns>
-		Task<ResponseModel> SendRequestAsync ( RequestSettingsModel requestSettings );
+		Task<ResponseModel> SendRequestAsync ( RequestSettingsModel requestSettings , CancellationToken cancellationToken = default(CancellationToken) );
 
 	}
 

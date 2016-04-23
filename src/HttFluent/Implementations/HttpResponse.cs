@@ -20,6 +20,7 @@ namespace HttFluent.Implementations {
 		/// <exception cref="ArgumentNullException"></exception>
 		public HttpResponse ( ResponseModel response ) {
 			Contract.Requires ( response != null );
+			Contract.Ensures ( Equals ( m_Response , response ) );
 			if ( response == null ) throw new ArgumentNullException ( "response" );
 
 			m_Response = response;

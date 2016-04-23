@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using HttFluent.Classifiers;
 using HttFluent.Models.ParameterModels;
@@ -194,8 +195,8 @@ namespace HttFluent {
 		/// <summary>
 		/// Send asynchronized.
 		/// </summary>
-		/// <returns></returns>
-		Task<IHttpResponse> SendAsync ();
+		/// <returns>Response.</returns>
+		Task<IHttpResponse> SendAsync ( CancellationToken cancellationToken = default(CancellationToken) );
 
 	}
 
