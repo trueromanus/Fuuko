@@ -31,10 +31,10 @@ namespace Fuuko.Examples.BasicExamples {
 		/// </summary>
 		/// <param name="response"></param>
 		private static void WriteToConsole ( IHttpResponse response ) {
-			Console.WriteLine ( "Content-Type: {0}" , response.Response.ContentType );
-			Console.WriteLine ( "Content-Length: {0}" , response.Response.ContentLength );
-			Console.WriteLine ( "Status: {0}" , response.Response.StatusCode );
-			Console.WriteLine ( "Protocol version: {0}" , response.Response.ProtocolVersion );
+			Console.WriteLine ( "Content-Type: {0}" , response.Data.ContentType );
+			Console.WriteLine ( "Content-Length: {0}" , response.Data.ContentLength );
+			Console.WriteLine ( "Status: {0}" , response.Data.StatusCode );
+			Console.WriteLine ( "Protocol version: {0}" , response.Data.ProtocolVersion );
 			Console.WriteLine ( "Content: {0}" , response.GetContentAsString () );//encoding do not need
 		}
 

@@ -38,8 +38,7 @@ namespace Fuuko.Examples.BasicExample {
 			WriteResult ( response );
 		}
 
-		private static IHttFluentRequest GetRequest()
-		{
+		private static IHttFluentRequest GetRequest() {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
 			return new HttFluentRequest ( new NetHttpBroker () )
@@ -50,10 +49,10 @@ namespace Fuuko.Examples.BasicExample {
 		}
 
 		private static void WriteResult ( IHttpResponse response ) {
-			Console.WriteLine ( "Content-Type: {0}" , response.Response.ContentType );
-			Console.WriteLine ( "Content-Length: {0}" , response.Response.ContentLength );
-			Console.WriteLine ( "Status: {0}" , response.Response.StatusCode );
-			Console.WriteLine ( "Protocol version: {0}" , response.Response.ProtocolVersion );
+			Console.WriteLine ( "Content-Type: {0}" , response.Data.ContentType );
+			Console.WriteLine ( "Content-Length: {0}" , response.Data.ContentLength );
+			Console.WriteLine ( "Status: {0}" , response.Data.StatusCode );
+			Console.WriteLine ( "Protocol version: {0}" , response.Data.ProtocolVersion );
 			//this encoding only for cyrillic Windows
 			Console.WriteLine ( "Content: {0}" , response.GetContentAsString ( Encoding.GetEncoding ( 1251 ) ) );
 		}

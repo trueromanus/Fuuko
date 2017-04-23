@@ -29,7 +29,7 @@ namespace Fuuko.Implementations {
 		/// <summary>
 		/// Data.
 		/// </summary>
-		public ResponseModel Response {
+		public ResponseModel Data {
 			get {
 				return m_Response;
 			}
@@ -48,7 +48,7 @@ namespace Fuuko.Implementations {
 
 			if ( m_Response.Content == null ) return String.Empty;
 
-			var memoryStream = Response.Content as MemoryStream;
+			var memoryStream = Data.Content as MemoryStream;
 			if ( memoryStream == null ) throw new InvalidProgramException ( "Failed cast response content with MemoryStream." );
 
 			return encoding.GetString ( memoryStream.ToArray () );
@@ -62,7 +62,7 @@ namespace Fuuko.Implementations {
 			if ( m_Response.Content == null ) return String.Empty;
 			if ( m_Response.ContentEncoding == null ) return String.Empty;
 
-			var memoryStream = Response.Content as MemoryStream;
+			var memoryStream = Data.Content as MemoryStream;
 			if ( memoryStream == null ) throw new InvalidProgramException ( "Failed cast response content with MemoryStream." );
 
 			return m_Response.ContentEncoding.GetString ( memoryStream.ToArray () );

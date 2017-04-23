@@ -11,7 +11,7 @@ namespace Fuuko {
 		/// <summary>
 		/// Response data.
 		/// </summary>
-		ResponseModel Response {
+		ResponseModel Data {
 			get;
 		}
 

@@ -57,7 +57,7 @@ namespace HttFluentTests {
 				assert = true;
 			}
 			finally {
-				response.Response.Content.Dispose ();
+				response.Data.Content.Dispose ();
 				File.Delete ( fileName );
 			}
 			Assert.IsTrue ( assert );
