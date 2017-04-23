@@ -36,6 +36,15 @@ namespace Fuuko.Models.ResponseModels {
 		}
 
 		/// <summary>
+		/// Etag.
+		/// </summary>
+		public ETag ETag
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
 		/// Allow request's methods.
 		/// </summary>
 		public IEnumerable<RequestMethod> Allow {

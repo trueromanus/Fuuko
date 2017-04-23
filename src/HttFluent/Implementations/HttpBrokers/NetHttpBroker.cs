@@ -151,6 +151,10 @@ namespace Fuuko.Implementations.HttpBrokers {
 				StatusCode = GetResponseStatusCode ( responseMessage.StatusCode ) ,
 				ProtocolVersion = responseMessage.Version ,
 				Age = responseMessage.Headers.Age ,
+				ETag = responseMessage.Headers.ETag != null ? new ETag {
+					IsWeak = responseMessage.Headers.ETag.IsWeak ,
+					Tag = responseMessage.Headers.ETag.Tag
+				} : null ,
 				ContentDisposition = GetContentDisposition ( responseMessage.Content.Headers ) ,
 				ContentType = contentType != null ? contentType.MediaType : "" ,
 				ContentLength = responseMessage.Content.Headers.ContentLength ?? 0 ,
@@ -261,7 +265,7 @@ namespace Fuuko.Implementations.HttpBrokers {
 		/// <param name="client">Client.</param>
 		/// <param name="requestSettings">Request settings.</param>
 		/// <returns></returns>
-		private Task<HttpResponseMessage> PrepareSender ( HttpClient client , RequestSettingsModel requestSettings , CancellationToken cancellationToken = default(CancellationToken) ) {
+		private Task<HttpResponseMessage> PrepareSender ( HttpClient client , RequestSettingsModel requestSettings , CancellationToken cancellationToken = default ( CancellationToken ) ) {
 			switch ( requestSettings.Method ) {
 				case RequestMethod.Get:
 				case RequestMethod.Delete:
@@ -364,7 +368,7 @@ namespace Fuuko.Implementations.HttpBrokers {
 		/// <param name="requestSettings">Request settings.</param>
 		/// <returns>Response model.</returns>
 		/// <exception cref="NotSupportedException"></exception>
-		public async Task<ResponseModel> SendRequestAsync ( RequestSettingsModel requestSettings , CancellationToken cancellationToken = default(CancellationToken) ) {
+		public async Task<ResponseModel> SendRequestAsync ( RequestSettingsModel requestSettings , CancellationToken cancellationToken = default ( CancellationToken ) ) {
 			using ( var clientHandler = new HttpClientHandler () )
 			using ( var client = new HttpClient ( clientHandler ) ) {
 				PrepareRequest ( client , clientHandler , requestSettings );

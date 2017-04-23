@@ -62,6 +62,7 @@
     <Compile Include="Models\ParameterModels\RequestStringParameterModel.cs" />
     <Compile Include="Models\RequestModels\RequestSettingsModel.cs" />
     <Compile Include="Models\ResponseModels\ContentDispositionModel.cs" />
+    <Compile Include="Models\ResponseModels\ETag.cs" />
     <Compile Include="Models\ResponseModels\ResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
