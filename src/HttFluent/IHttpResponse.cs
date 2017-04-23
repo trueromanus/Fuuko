@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using HttFluent.Models.ResponseModels;
+using Fuuko.Models.ResponseModels;
 
-namespace HttFluent {
+namespace Fuuko {
 
 	/// <summary>
 	/// Http fluent response.

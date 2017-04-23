@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using HttFluent.Models.RequestModels;
-using HttFluent.Models.ResponseModels;
+using Fuuko.Models.RequestModels;
+using Fuuko.Models.ResponseModels;
 
-namespace HttFluent {
+namespace Fuuko {
 
 	/// <summary>
 	/// Http broker.

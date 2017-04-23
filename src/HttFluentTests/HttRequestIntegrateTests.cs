@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using HttFluent.Classifiers;
-using HttFluent.Implementations;
-using HttFluent.Implementations.HttpBrokers;
-using HttFluent.Models.ParameterModels;
+using Fuuko.Classifiers;
+using Fuuko.Implementations;
+using Fuuko.Implementations.HttpBrokers;
+using Fuuko.Models.ParameterModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HttFluentTests {

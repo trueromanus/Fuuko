@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using HttFluent.Classifiers;
-using HttFluent.Exceptions;
-using HttFluent.Models.CookieModels;
-using HttFluent.Models.ParameterModels;
-using HttFluent.Models.RequestModels;
+using Fuuko.Classifiers;
+using Fuuko.Exceptions;
+using Fuuko.Models.CookieModels;
+using Fuuko.Models.ParameterModels;
+using Fuuko.Models.RequestModels;
 
-namespace HttFluent.Implementations {
+namespace Fuuko.Implementations {
 
 	/// <summary>
 	/// Request based on <see cref="HttpClient"/> class.

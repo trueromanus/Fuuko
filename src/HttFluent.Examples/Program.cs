@@ -3,9 +3,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using HttFluent.Exceptions;
+using Fuuko.Exceptions;
 
-namespace HttFluent.Examples {
+namespace Fuuko.Examples {
 	class Program {
 
 		private static bool m_IsExecuteAsynchronized = true;

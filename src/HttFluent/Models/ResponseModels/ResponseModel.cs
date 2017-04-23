@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using HttFluent.Classifiers;
+using Fuuko.Classifiers;
 
-namespace HttFluent.Models.ResponseModels {
+namespace Fuuko.Models.ResponseModels {
 	
 	/// <summary>
 	/// Response model.

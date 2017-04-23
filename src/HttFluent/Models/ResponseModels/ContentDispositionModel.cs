@@ -1,6 +1,6 @@
-﻿using HttFluent.Classifiers;
+﻿using Fuuko.Classifiers;
 
-namespace HttFluent.Models.ResponseModels {
+namespace Fuuko.Models.ResponseModels {
 	
 	/// <summary>
 	/// Content disposition model.

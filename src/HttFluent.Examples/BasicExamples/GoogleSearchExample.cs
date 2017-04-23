@@ -2,11 +2,11 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using HttFluent.Classifiers;
-using HttFluent.Implementations;
-using HttFluent.Implementations.HttpBrokers;
+using Fuuko.Classifiers;
+using Fuuko.Implementations;
+using Fuuko.Implementations.HttpBrokers;
 
-namespace HttFluent.Examples.BasicExample {
+namespace Fuuko.Examples.BasicExample {
 
 	/// <summary>
 	/// Google search example.

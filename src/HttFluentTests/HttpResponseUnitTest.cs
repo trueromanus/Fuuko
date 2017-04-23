@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using HttFluent.Implementations;
-using HttFluent.Models.ResponseModels;
+using Fuuko.Implementations;
+using Fuuko.Models.ResponseModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HttFluentTests {

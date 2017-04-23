@@ -5,11 +5,11 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using HttFluent.Classifiers;
-using HttFluent.Models.ParameterModels;
-using HttFluent.Models.RequestModels;
+using Fuuko.Classifiers;
+using Fuuko.Models.ParameterModels;
+using Fuuko.Models.RequestModels;
 
-namespace HttFluent {
+namespace Fuuko {
 
 	/// <summary>
 	/// Http fluent interface.

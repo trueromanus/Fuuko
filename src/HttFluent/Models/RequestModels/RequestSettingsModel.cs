@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using HttFluent.Classifiers;
-using HttFluent.Models.CookieModels;
-using HttFluent.Models.ParameterModels;
+using Fuuko.Classifiers;
+using Fuuko.Models.CookieModels;
+using Fuuko.Models.ParameterModels;
 
-namespace HttFluent.Models.RequestModels {
+namespace Fuuko.Models.RequestModels {
 
 	/// <summary>
 	/// Request model.

@@ -2,9 +2,9 @@
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Text;
-using HttFluent.Models.ResponseModels;
+using Fuuko.Models.ResponseModels;
 
-namespace HttFluent.Implementations {
+namespace Fuuko.Implementations {
 
 	/// <summary>
 	/// HttFluent response.

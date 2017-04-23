@@ -1,5 +1,5 @@
 ﻿
-namespace HttFluent.Classifiers {
+namespace Fuuko.Classifiers {
 
 	/// <summary>
 	/// Request method.

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace HttFluent.Models.ParameterModels {
+namespace Fuuko.Models.ParameterModels {
 	
 	/// <summary>
 	/// Request plain body parameter model.

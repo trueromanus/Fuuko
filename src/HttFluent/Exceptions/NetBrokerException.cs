@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HttFluent.Exceptions {
+namespace Fuuko.Exceptions {
 
 	/// <summary>
 	/// Net broker exception.

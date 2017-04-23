@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HttFluent.Models.CookieModels {
+namespace Fuuko.Models.CookieModels {
 	
 	/// <summary>
 	/// Cookie settings model.

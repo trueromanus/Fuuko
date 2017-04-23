@@ -1,5 +1,5 @@
 ﻿
-namespace HttFluent.Models.ParameterModels {
+namespace Fuuko.Models.ParameterModels {
 	
 	/// <summary>
 	/// Request string parameter model.

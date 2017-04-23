@@ -10,12 +10,12 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using HttFluent.Classifiers;
-using HttFluent.Models.ParameterModels;
-using HttFluent.Models.RequestModels;
-using HttFluent.Models.ResponseModels;
+using Fuuko.Classifiers;
+using Fuuko.Models.ParameterModels;
+using Fuuko.Models.RequestModels;
+using Fuuko.Models.ResponseModels;
 
-namespace HttFluent.Implementations.HttpBrokers {
+namespace Fuuko.Implementations.HttpBrokers {
 
 	/// <summary>
 	/// Net http broker.

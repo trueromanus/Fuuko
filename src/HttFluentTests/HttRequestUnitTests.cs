@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using HttFluent;
-using HttFluent.Classifiers;
-using HttFluent.Implementations;
-using HttFluent.Models.ParameterModels;
+using Fuuko;
+using Fuuko.Classifiers;
+using Fuuko.Implementations;
+using Fuuko.Models.ParameterModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using HttFluent.Exceptions;
+using Fuuko.Exceptions;
 
 namespace HttFluentTests {
 
