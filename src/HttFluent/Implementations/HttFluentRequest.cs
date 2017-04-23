@@ -18,7 +18,7 @@ namespace Fuuko.Implementations {
 	/// <summary>
 	/// Request based on <see cref="HttpClient"/> class.
 	/// </summary>
-	public class HttFluentRequest : IHttFluentRequest {
+	public class HttpFluentRequest : IHttFluentRequest {
 
 		private readonly RequestSettingsModel m_RequestSettings = new RequestSettingsModel ();
 
@@ -28,7 +28,7 @@ namespace Fuuko.Implementations {
 		/// Constructor injection.
 		/// </summary>
 		/// <param name="httpBroker">Http broker.</param>
-		public HttFluentRequest ( IHttpBroker httpBroker ) {
+		public HttpFluentRequest ( IHttpBroker httpBroker ) {
 			Contract.Requires ( httpBroker != null );
 			if ( httpBroker == null ) throw new ArgumentNullException ( "httpBroker" );
 

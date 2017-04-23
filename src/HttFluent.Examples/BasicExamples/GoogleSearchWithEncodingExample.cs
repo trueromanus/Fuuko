@@ -52,7 +52,7 @@ namespace Fuuko.Examples.BasicExamples {
 		/// </summary>
 		/// <returns></returns>
 		private static IHttFluentRequest CreateRequest () {
-			var response = new HttFluentRequest ( new NetHttpBroker () )
+			var response = new HttpFluentRequest ( new NetHttpBroker () )
 				.Url ( "https://www.google.ru/webhp" ) //define full url
 				.Method ( RequestMethod.Get ) // define HTTP method
 				.Parameter ( "q" , "cats" ) // define parameter q=cats

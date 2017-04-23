@@ -36,7 +36,7 @@ namespace Fuuko.Examples.MultipleRequests {
 		/// Create request.
 		/// </summary>
 		private static IHttFluentRequest GetRequest () {
-			var request = new HttFluentRequest ( new NetHttpBroker () )
+			var request = new HttpFluentRequest ( new NetHttpBroker () )
 					.Url ( "http://www.thomas-bayer.com/sqlrest/CUSTOMER/" ) //define basic url
 					.Method ( RequestMethod.Get ); // define HTTP method
 			return request;

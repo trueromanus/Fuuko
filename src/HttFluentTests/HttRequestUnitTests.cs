@@ -22,7 +22,7 @@ namespace HttFluentTests {
 
 		private class Wrapper {
 
-			public HttFluentRequest Request {
+			public HttpFluentRequest Request {
 				get;
 				set;
 			}
@@ -39,14 +39,14 @@ namespace HttFluentTests {
 
 			return new Wrapper {
 				StubBroker = stubBroker ,
-				Request = new HttFluentRequest ( stubBroker.Object )
+				Request = new HttpFluentRequest ( stubBroker.Object )
 			};
 		}
 
 		[TestMethod]
 		[ExpectedException ( typeof ( ArgumentNullException ) )]
 		public void Constructor_Throw_Broker_Null () {
-			new HttFluentRequest ( null );
+			new HttpFluentRequest ( null );
 		}
 
 		[TestMethod]

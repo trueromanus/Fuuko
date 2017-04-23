@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace HttFluentTests {
 
 	/// <summary>
-	/// Integrate tests for <see cref="HttFluentRequest"/> class.
+	/// Integrate tests for <see cref="HttpFluentRequest"/> class.
 	/// </summary>
 	/// <remarks>
 	/// You need run Visual Studio as administrator for run this tests.
@@ -19,7 +19,7 @@ namespace HttFluentTests {
 
 		[TestMethod]
 		public void CheckResult_SimpleRequest () {
-			var request = new HttFluentRequest ( new NetHttpBroker () );
+			var request = new HttpFluentRequest ( new NetHttpBroker () );
 			var response = request
 				.Url ( "http://mail.ru" )
 				.Method ( RequestMethod.Get )
@@ -31,7 +31,7 @@ namespace HttFluentTests {
 
 		[TestMethod]
 		public void CheckResult_GetRequestWithParameters () {
-			var request = new HttFluentRequest ( new NetHttpBroker () );
+			var request = new HttpFluentRequest ( new NetHttpBroker () );
 			var response = request
 				.Url ( "http://go.mail.ru/search" )
 				.Method ( RequestMethod.Get )
@@ -60,7 +60,7 @@ namespace HttFluentTests {
 			);
 			var randomFile = Path.Combine ( Path.GetTempPath () , Path.GetRandomFileName () );
 			File.WriteAllText ( randomFile , testContent );
-			var httRequest = new HttFluentRequest ( new NetHttpBroker () );
+			var httRequest = new HttpFluentRequest ( new NetHttpBroker () );
 
 			using ( var file = File.OpenRead ( randomFile ) ) {
 				httRequest
@@ -96,7 +96,7 @@ namespace HttFluentTests {
 			var randomFile = Path.Combine ( Path.GetTempPath () , Path.GetRandomFileName () );
 			randomFileName = Path.GetFileName ( randomFile );
 			File.WriteAllText ( randomFile , testContent );
-			var httRequest = new HttFluentRequest ( new NetHttpBroker () );
+			var httRequest = new HttpFluentRequest ( new NetHttpBroker () );
 
 			using ( var file = File.OpenRead ( randomFile ) ) {
 				httRequest
@@ -127,7 +127,7 @@ namespace HttFluentTests {
 					response.StatusCode = 200;
 				}
 			);
-			var httRequest = new HttFluentRequest ( new NetHttpBroker () );
+			var httRequest = new HttpFluentRequest ( new NetHttpBroker () );
 
 			httRequest
 				.Url ( "http://127.0.0.1:16550/" )

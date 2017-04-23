@@ -31,7 +31,7 @@ namespace Fuuko.Examples.UploadFileExample {
 		private static IHttFluentRequest GetRequest () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
-			return new HttFluentRequest ( new NetHttpBroker () )
+			return new HttpFluentRequest ( new NetHttpBroker () )
 				.Url ( "http://posttestserver.com/post.php?dir=example" ) //define full url
 				.Method ( RequestMethod.Post ) // define HTTP method
 				.Parameter ( "file" , @"Assets\testimage.jpg" , "testimage.jpg" ) // define file parameter from file on disk
