@@ -67,11 +67,11 @@
     <Compile Include="..\HttFluent\IHttpResponse.cs">
       <Link>IHttpResponse.cs</Link>
     </Compile>
-    <Compile Include="..\HttFluent\Implementations\HttFluentRequest.cs">
-      <Link>HttFluentRequest.cs</Link>
-    </Compile>
     <Compile Include="..\HttFluent\Implementations\HttpBrokers\NetHttpBroker.cs">
       <Link>NetHttpBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\HttFluent\Implementations\HttpFluentRequest.cs">
+      <Link>HttpFluentRequest.cs</Link>
     </Compile>
     <Compile Include="..\HttFluent\Implementations\HttpResponse.cs">
       <Link>HttpResponse.cs</Link>

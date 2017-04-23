@@ -51,7 +51,7 @@
     <Compile Include="IHttFluentRequest.cs" />
     <Compile Include="IHttpBroker.cs" />
     <Compile Include="IHttpResponse.cs" />
-    <Compile Include="Implementations\HttFluentRequest.cs" />
+    <Compile Include="Implementations\HttpFluentRequest.cs" />
     <Compile Include="Implementations\HttpResponse.cs" />
     <Compile Include="Implementations\HttpBrokers\NetHttpBroker.cs" />
     <Compile Include="Models\CookieModels\CookieModel.cs" />
