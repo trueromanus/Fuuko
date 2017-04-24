@@ -38,7 +38,7 @@ namespace Fuuko.Examples.BasicExample {
 			WriteResult ( response );
 		}
 
-		private static IHttFluentRequest GetRequest() {
+		private static IHttpFluentRequest GetRequest() {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
 			return new HttpFluentRequest ( new NetHttpBroker () )

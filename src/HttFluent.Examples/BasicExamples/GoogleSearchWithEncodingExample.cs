@@ -51,7 +51,7 @@ namespace Fuuko.Examples.BasicExamples {
 		/// Create full request settings.
 		/// </summary>
 		/// <returns></returns>
-		private static IHttFluentRequest CreateRequest () {
+		private static IHttpFluentRequest CreateRequest () {
 			var response = new HttpFluentRequest ( new NetHttpBroker () )
 				.Url ( "https://www.google.ru/webhp" ) //define full url
 				.Method ( RequestMethod.Get ) // define HTTP method

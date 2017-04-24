@@ -18,7 +18,7 @@ namespace Fuuko.Implementations {
 	/// <summary>
 	/// Request based on <see cref="HttpClient"/> class.
 	/// </summary>
-	public class HttpFluentRequest : IHttFluentRequest {
+	public class HttpFluentRequest : IHttpFluentRequest {
 
 		private readonly RequestSettingsModel m_RequestSettings = new RequestSettingsModel ();
 
@@ -38,8 +38,10 @@ namespace Fuuko.Implementations {
 		/// <summary>
 		/// Settings.
 		/// </summary>
-		public RequestSettingsModel Settings {
-			get {
+		internal RequestSettingsModel Settings
+		{
+			get
+			{
 				return m_RequestSettings;
 			}
 		}
@@ -49,7 +51,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="url">Url.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Url ( string url ) {
+		public IHttpFluentRequest Url ( string url ) {
 			Contract.Requires ( url != null );
 			if ( url == null ) throw new ArgumentNullException ( "url" );
 
@@ -63,7 +65,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="extraParameterUri">Value.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest ExtraParameterUri ( string extraParameterUri ) {
+		public IHttpFluentRequest ExtraParameterUri ( string extraParameterUri ) {
 			Contract.Requires ( extraParameterUri != null );
 			if ( extraParameterUri == null ) throw new ArgumentNullException ( "extraParameterUri" );
 
@@ -76,7 +78,7 @@ namespace Fuuko.Implementations {
 		/// Method.
 		/// </summary>
 		/// <param name="method">Method.</param>
-		public IHttFluentRequest Method ( RequestMethod method ) {
+		public IHttpFluentRequest Method ( RequestMethod method ) {
 			m_RequestSettings.Method = method;
 
 			return this;
@@ -87,7 +89,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <typeparam name="T">Concrete type of parameter.</typeparam>
 		/// <exception cref="ParameterException"></exception>
-		private T GetParameter<T> ( string name ) where T : RequestParameterModel , new () {
+		private T GetParameter<T> ( string name ) where T : RequestParameterModel, new() {
 			var parameter = m_RequestSettings.Parameters.FirstOrDefault ( a => a.Name == name );
 			if ( parameter == null ) {
 				var newParameter = new T {
@@ -109,7 +111,7 @@ namespace Fuuko.Implementations {
 		/// <param name="name">Name.</param>
 		/// <param name="value">Value.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Parameter ( string name , string value ) {
+		public IHttpFluentRequest Parameter ( string name , string value ) {
 			Contract.Requires ( name != null );
 			Contract.Requires ( value != null );
 			if ( name == null ) throw new ArgumentNullException ( "name" );
@@ -127,7 +129,7 @@ namespace Fuuko.Implementations {
 		/// <param name="name">Name.</param>
 		/// <param name="value">Value.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Parameter ( string name , int value ) {
+		public IHttpFluentRequest Parameter ( string name , int value ) {
 			Contract.Requires ( name != null );
 			if ( name == null ) throw new ArgumentNullException ( "name" );
 
@@ -143,7 +145,7 @@ namespace Fuuko.Implementations {
 		/// <param name="name">Name.</param>
 		/// <param name="value">Value.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Parameter ( string name , Stream value ) {
+		public IHttpFluentRequest Parameter ( string name , Stream value ) {
 			Contract.Requires ( name != null );
 			Contract.Requires ( value != null );
 			Contract.Ensures (
@@ -172,7 +174,7 @@ namespace Fuuko.Implementations {
 		/// <param name="filePath">File path.</param>
 		/// <param name="fileName">File name.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Parameter ( string name , string filePath , string fileName ) {
+		public IHttpFluentRequest Parameter ( string name , string filePath , string fileName ) {
 			Contract.Requires ( name != null );
 			Contract.Requires ( filePath != null );
 			Contract.Requires ( fileName != null );
@@ -198,11 +200,37 @@ namespace Fuuko.Implementations {
 		}
 
 		/// <summary>
+		/// Remove parameter.
+		/// </summary>
+		/// <param name="name">Name parameter.</param>
+		public void RemoveParameter ( string name ) {
+			Contract.Requires ( name != null );
+			if ( name == null ) throw new ArgumentNullException ( nameof ( name ) );
+
+			m_RequestSettings.Parameters = m_RequestSettings.Parameters
+				.Where ( a => a.Name != name )
+				.ToList ();
+		}
+
+		/// <summary>
+		/// Remove parameters.
+		/// </summary>
+		/// <param name="names">Names sequence.</param>
+		public void RemoveParameters ( IEnumerable<string> names ) {
+			Contract.Requires ( names != null );
+			if ( names == null ) throw new ArgumentNullException ( nameof ( names ) );
+
+			m_RequestSettings.Parameters = m_RequestSettings.Parameters
+				.Where ( a => !names.Contains ( a.Name ) )
+				.ToList ();
+		}
+
+		/// <summary>
 		/// Content type (Content-Type header).
 		/// </summary>
 		/// <param name="type">Content type in string respresent.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest ContentType ( string type ) {
+		public IHttpFluentRequest ContentType ( string type ) {
 			Contract.Requires ( type != null );
 			if ( type == null ) throw new ArgumentNullException ( "type" );
 
@@ -216,7 +244,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="contentLength">Content length in long digit.</param>
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
-		public IHttFluentRequest ContentLength ( long contentLength ) {
+		public IHttpFluentRequest ContentLength ( long contentLength ) {
 			Contract.Requires ( contentLength > -1 );
 			Contract.Ensures ( m_RequestSettings.ContentLength == contentLength );
 			if ( contentLength < 0 ) throw new ArgumentOutOfRangeException ( "contentLength" );
@@ -231,7 +259,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="referer">Referer.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Referer ( string referer ) {
+		public IHttpFluentRequest Referer ( string referer ) {
 			Contract.Requires ( referer != null );
 			Contract.Ensures ( m_RequestSettings.Referer == referer );
 			if ( referer == null ) throw new ArgumentNullException ( "referer" );
@@ -246,7 +274,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="accept">Accept.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Accept ( IEnumerable<string> accepts ) {
+		public IHttpFluentRequest Accept ( IEnumerable<string> accepts ) {
 			Contract.Requires ( accepts != null );
 			Contract.Requires ( accepts.Count () > 0 );
 			if ( accepts == null ) throw new ArgumentNullException ( "accepts" );
@@ -266,7 +294,7 @@ namespace Fuuko.Implementations {
 		/// <param name="encodings">Encoding.</param>
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="ArgumentException"></exception>
-		public IHttFluentRequest AcceptEncodings ( IEnumerable<AcceptEncoding> encodings ) {
+		public IHttpFluentRequest AcceptEncodings ( IEnumerable<AcceptEncoding> encodings ) {
 			Contract.Requires ( encodings != null );
 			Contract.Requires ( encodings.Count () > 0 );
 			if ( encodings == null ) throw new ArgumentNullException ( "encodings" );
@@ -286,7 +314,7 @@ namespace Fuuko.Implementations {
 		/// <param name="locales"></param>
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="ArgumentException"></exception>
-		public IHttFluentRequest AcceptLanguage ( IEnumerable<CultureInfo> locales ) {
+		public IHttpFluentRequest AcceptLanguage ( IEnumerable<CultureInfo> locales ) {
 			Contract.Requires ( locales != null );
 			Contract.Requires ( locales.Count () > 0 );
 			if ( locales == null ) throw new ArgumentNullException ( "locales" );
@@ -304,7 +332,7 @@ namespace Fuuko.Implementations {
 		/// If modified since (If-Modified-Since header).
 		/// </summary>
 		/// <param name="date">Date.</param>
-		public IHttFluentRequest IfModifiedSince ( DateTimeOffset date ) {
+		public IHttpFluentRequest IfModifiedSince ( DateTimeOffset date ) {
 			Contract.Ensures ( m_RequestSettings.IfModifiedSince == date );
 
 			m_RequestSettings.IfModifiedSince = date;
@@ -317,7 +345,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="origin">Origin</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Origin ( string origin ) {
+		public IHttpFluentRequest Origin ( string origin ) {
 			Contract.Requires ( origin != null );
 			Contract.Ensures ( m_RequestSettings.Origin == origin );
 			if ( origin == null ) throw new ArgumentNullException ( "origin" );
@@ -331,7 +359,7 @@ namespace Fuuko.Implementations {
 		/// Accept-Datetime header.
 		/// </summary>
 		/// <param name="date">Date.</param>
-		public IHttFluentRequest AcceptDatetime ( DateTimeOffset date ) {
+		public IHttpFluentRequest AcceptDatetime ( DateTimeOffset date ) {
 			Contract.Ensures ( m_RequestSettings.AcceptDatetime == date );
 
 			m_RequestSettings.AcceptDatetime = date;
@@ -344,7 +372,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="email">Email address sender.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest From ( string email ) {
+		public IHttpFluentRequest From ( string email ) {
 			Contract.Requires ( email != null );
 			Contract.Ensures ( m_RequestSettings.FromEmail == email );
 			if ( email == null ) throw new ArgumentNullException ( "email" );
@@ -359,7 +387,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="host">Host client.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Host ( string host ) {
+		public IHttpFluentRequest Host ( string host ) {
 			Contract.Requires ( host != null );
 			Contract.Ensures ( m_RequestSettings.Host == host );
 			if ( host == null ) throw new ArgumentNullException ( "host" );
@@ -373,7 +401,7 @@ namespace Fuuko.Implementations {
 		/// Date header.
 		/// </summary>
 		/// <param name="date">Date.</param>
-		public IHttFluentRequest Date ( DateTimeOffset date ) {
+		public IHttpFluentRequest Date ( DateTimeOffset date ) {
 			Contract.Ensures ( m_RequestSettings.Date == date );
 
 			m_RequestSettings.Date = date;
@@ -386,7 +414,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="userAgent">User agent.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest UserAgent ( string userAgent ) {
+		public IHttpFluentRequest UserAgent ( string userAgent ) {
 			Contract.Requires ( userAgent != null );
 			Contract.Ensures ( m_RequestSettings.UserAgent == userAgent );
 			if ( userAgent == null ) throw new ArgumentNullException ( "userAgent" );
@@ -405,7 +433,7 @@ namespace Fuuko.Implementations {
 		/// <param name="secure">Secure.</param>
 		/// <param name="expires">Expires.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires ) {
+		public IHttpFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires ) {
 			Contract.Requires ( values != null );
 			Contract.Requires ( domain != null );
 			Contract.Requires ( path != null );
@@ -435,7 +463,7 @@ namespace Fuuko.Implementations {
 		/// <param name="charsets">Charsets.</param>
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="ArgumentException"></exception>
-		public IHttFluentRequest AcceptCharsets ( IEnumerable<Encoding> charsets ) {
+		public IHttpFluentRequest AcceptCharsets ( IEnumerable<Encoding> charsets ) {
 			Contract.Requires ( charsets != null );
 			Contract.Requires ( charsets.Count () > 0 );
 			Contract.Ensures ( m_RequestSettings.Charsets.Count () == charsets.Count () );
@@ -464,7 +492,7 @@ namespace Fuuko.Implementations {
 		/// Send request asynchronized.
 		/// </summary>
 		/// <returns>Response.</returns>
-		public async Task<IHttpResponse> SendAsync ( CancellationToken cancellationToken = default(CancellationToken) ) {
+		public async Task<IHttpResponse> SendAsync ( CancellationToken cancellationToken = default ( CancellationToken ) ) {
 			var response = await m_HttpBroker.SendRequestAsync ( m_RequestSettings , cancellationToken );
 
 			return new HttpResponse ( response );
@@ -474,7 +502,7 @@ namespace Fuuko.Implementations {
 		/// Clear parameters.
 		/// </summary>
 		/// <returns></returns>
-		public IHttFluentRequest ClearParameters () {
+		public IHttpFluentRequest ClearParameters () {
 			m_RequestSettings.Parameters.Clear ();
 
 			return this;
@@ -483,7 +511,7 @@ namespace Fuuko.Implementations {
 		/// <summary>
 		/// Clear cookie.
 		/// </summary>
-		public IHttFluentRequest ClearCookie () {
+		public IHttpFluentRequest ClearCookie () {
 			m_RequestSettings.Cookies.Clear ();
 
 			return this;
@@ -494,7 +522,7 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <param name="timeout">Timeout.</param>
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
-		public IHttFluentRequest Timeout ( TimeSpan timeout ) {
+		public IHttpFluentRequest Timeout ( TimeSpan timeout ) {
 			Contract.Requires ( timeout > TimeSpan.Zero );
 			Contract.Ensures ( timeout == m_RequestSettings.Timeout );
 			if ( timeout < TimeSpan.Zero ) throw new ArgumentOutOfRangeException ( "timeout" );

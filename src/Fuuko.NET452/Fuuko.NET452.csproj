@@ -58,11 +58,11 @@
     <Compile Include="..\HttFluent\Exceptions\ParameterException.cs">
       <Link>ParameterException.cs</Link>
     </Compile>
-    <Compile Include="..\HttFluent\IHttFluentRequest.cs">
-      <Link>IHttFluentRequest.cs</Link>
-    </Compile>
     <Compile Include="..\HttFluent\IHttpBroker.cs">
       <Link>IHttpBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\HttFluent\IHttpFluentRequest.cs">
+      <Link>IHttpFluentRequest.cs</Link>
     </Compile>
     <Compile Include="..\HttFluent\IHttpResponse.cs">
       <Link>IHttpResponse.cs</Link>

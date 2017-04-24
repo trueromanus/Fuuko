@@ -28,7 +28,7 @@ namespace Fuuko.Examples.UploadFileExample {
 		/// Get request.
 		/// </summary>
 		/// <returns></returns>
-		private static IHttFluentRequest GetRequest () {
+		private static IHttpFluentRequest GetRequest () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
 			return new HttpFluentRequest ( new NetHttpBroker () )

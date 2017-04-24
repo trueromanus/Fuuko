@@ -55,7 +55,7 @@ namespace Fuuko.Models.RequestModels {
 		/// </summary>
 		public ICollection<RequestParameterModel> Parameters {
 			get;
-			private set;
+			set;
 		}
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace Fuuko.Models.RequestModels {
 		/// </summary>
 		public ICollection<string> Accepts {
 			get;
-			private set;
+			set;
 		}
 
 		/// <summary>
@@ -103,7 +103,7 @@ namespace Fuuko.Models.RequestModels {
 		/// </summary>
 		public ICollection<AcceptEncoding> Encodings {
 			get;
-			private set;
+			set;
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace Fuuko.Models.RequestModels {
 		/// </summary>
 		public ICollection<CultureInfo> Locales {
 			get;
-			private set;
+			set;
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace Fuuko.Models.RequestModels {
 		/// </summary>
 		public ICollection<Encoding> Charsets {
 			get;
-			private set;
+			set;
 		}
 
 		/// <summary>
@@ -183,7 +183,7 @@ namespace Fuuko.Models.RequestModels {
 		/// </summary>
 		public ICollection<CookieModel> Cookies {
 			get;
-			private set;
+			set;
 		}
 
 		/// <summary>

@@ -22,12 +22,14 @@ namespace HttFluentTests {
 
 		private class Wrapper {
 
-			public HttpFluentRequest Request {
+			public HttpFluentRequest Request
+			{
 				get;
 				set;
 			}
 
-			public Mock<IHttpBroker> StubBroker {
+			public Mock<IHttpBroker> StubBroker
+			{
 				get;
 				set;
 			}
@@ -675,12 +677,89 @@ namespace HttFluentTests {
 			//Arrange
 			var wrapper = CreateWrapper ();
 			wrapper.Request.Cookie ( new Dictionary<string , string> () , "test" , "/" , true , DateTime.Now );
-			
+
 			//Act
 			wrapper.Request.ClearCookie ();
 
 			//Assert
 			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count , 0 );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void RemoveParameter_Throw_Name_Null () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+
+			//Act and Assert
+			wrapper.Request.RemoveParameter ( null );
+		}
+
+		[TestMethod]
+		public void RemoveParameter_CheckResult_SingleParameters () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "scarletrain" , 10 );
+
+			//Act
+			wrapper.Request.RemoveParameter ( "scarletrain" );
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 0 );
+		}
+
+		[TestMethod]
+		public void RemoveParameter_CheckResult_FewParameters () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "scarletrain" , 10 );
+			wrapper.Request.Parameter ( "bloodykitty" , 9 );
+
+			//Act
+			wrapper.Request.RemoveParameter ( "scarletrain" );
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 1 );
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.First ().Name , "bloodykitty" );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void RemoveParameters_Throw_Names_Null () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+
+			//Act and Assert
+			wrapper.Request.RemoveParameters ( null );
+		}
+
+		[TestMethod]
+		public void RemoveParameters_CheckResult_SingleParameters () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "scarletrain" , 10 );
+
+			//Act
+			wrapper.Request.RemoveParameters ( new[] { "scarletrain" } );
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 0 );
+		}
+
+		[TestMethod]
+		public void RemoveParameters_CheckResult_FewParameters () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Parameter ( "scarletrain" , 10 );
+			wrapper.Request.Parameter ( "bloodykitty" , 9 );
+			wrapper.Request.Parameter ( "redrider" , 10 );
+
+			//Act
+			wrapper.Request.RemoveParameters ( new[] { "scarletrain" , "redrider" } );
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.Count , 1 );
+			Assert.AreEqual ( wrapper.Request.Settings.Parameters.First ().Name , "bloodykitty" );
 		}
 
 	}

@@ -48,7 +48,7 @@
     <Compile Include="Classifiers\ResponseStatusCode.cs" />
     <Compile Include="Exceptions\NetBrokerException.cs" />
     <Compile Include="Exceptions\ParameterException.cs" />
-    <Compile Include="IHttFluentRequest.cs" />
+    <Compile Include="IHttpFluentRequest.cs" />
     <Compile Include="IHttpBroker.cs" />
     <Compile Include="IHttpResponse.cs" />
     <Compile Include="Implementations\HttpFluentRequest.cs" />
