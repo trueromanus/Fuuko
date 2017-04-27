@@ -6,6 +6,10 @@ Fuuko is small library based on [HttpClient](https://msdn.microsoft.com/en-us/li
 The purpose of this project is to make the execution of HTTP requests easier.
 Supported synchronized and asynchronized execution.
 
+## Documentation
+
+The documentation is [here](https://github.com/trueromanus/Fuuko/wiki)
+
 ## Quick examples
 
 ### Google search
