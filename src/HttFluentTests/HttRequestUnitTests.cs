@@ -11,6 +11,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Fuuko.Exceptions;
+using Fuuko.Models.CookieModels;
 
 namespace HttFluentTests {
 
@@ -514,21 +515,7 @@ namespace HttFluentTests {
 		[ExpectedException ( typeof ( ArgumentNullException ) )]
 		public void Cookie_Throw_Values_Null () {
 			var wrapper = CreateWrapper ();
-			wrapper.Request.Cookie ( null , "" , "" , false , DateTime.Now );
-		}
-
-		[TestMethod]
-		[ExpectedException ( typeof ( ArgumentNullException ) )]
-		public void Cookie_Throw_Domain_Null () {
-			var wrapper = CreateWrapper ();
-			wrapper.Request.Cookie ( new Dictionary<string , string> () , null , "" , false , DateTime.Now );
-		}
-
-		[TestMethod]
-		[ExpectedException ( typeof ( ArgumentNullException ) )]
-		public void Cookie_Throw_Path_Null () {
-			var wrapper = CreateWrapper ();
-			wrapper.Request.Cookie ( new Dictionary<string , string> () , "" , null , false , DateTime.Now );
+			wrapper.Request.Cookie ( null );
 		}
 
 		[TestMethod]
@@ -537,11 +524,7 @@ namespace HttFluentTests {
 			wrapper.Request.Cookie (
 				new Dictionary<string , string> {
 					{ "test" , "value" }
-				} ,
-				"sex.com" ,
-				"/" ,
-				false ,
-				DateTime.Now
+				}
 			);
 
 			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count () , 1 );
@@ -553,11 +536,7 @@ namespace HttFluentTests {
 			wrapper.Request.Cookie (
 				new Dictionary<string , string> {
 					{ "test" , "value" }
-				} ,
-				"sex.com" ,
-				"/" ,
-				false ,
-				DateTime.Now
+				}
 			);
 
 			var firstValue = wrapper.Request.Settings.Cookies.First ();
@@ -566,73 +545,124 @@ namespace HttFluentTests {
 		}
 
 		[TestMethod]
-		public void Cookie_CheckResult_Domain () {
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Cookie_Single_Throw_Name_Null () {
 			var wrapper = CreateWrapper ();
-			wrapper.Request.Cookie (
-				new Dictionary<string , string> {
-					{ "test" , "value" }
-				} ,
-				"sex.com" ,
-				"/" ,
-				false ,
-				DateTime.Now
-			);
-
-			var firstValue = wrapper.Request.Settings.Cookies.First ();
-			Assert.AreEqual ( firstValue.Domain , "sex.com" );
+			wrapper.Request.Cookie ( null , "" );
 		}
 
 		[TestMethod]
-		public void Cookie_CheckResult_Path () {
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void Cookie_Single_Throw_Value_Null () {
 			var wrapper = CreateWrapper ();
-			wrapper.Request.Cookie (
-				new Dictionary<string , string> {
-					{ "test" , "value" }
-				} ,
-				"sex.com" ,
-				"/" ,
-				false ,
-				DateTime.Now
-			);
-
-			var firstValue = wrapper.Request.Settings.Cookies.First ();
-			Assert.AreEqual ( firstValue.Path , "/" );
+			wrapper.Request.Cookie ( "" , null );
 		}
 
 		[TestMethod]
-		public void Cookie_CheckResult_Secure () {
+		public void Cookie_CheckResult_Add () {
+			//Arrange
 			var wrapper = CreateWrapper ();
-			wrapper.Request.Cookie (
-				new Dictionary<string , string> {
-					{ "test" , "value" }
-				} ,
-				"sex.com" ,
-				"/" ,
-				true ,
-				DateTime.Now
-			);
 
+			//Act
+			wrapper.Request.Cookie ( "lailah" , "seraph" );
+
+			//Assert
 			var firstValue = wrapper.Request.Settings.Cookies.First ();
-			Assert.AreEqual ( firstValue.Secure , true );
+			Assert.AreEqual ( firstValue.Name , "lailah" );
+			Assert.AreEqual ( firstValue.Value , "seraph" );
 		}
 
 		[TestMethod]
-		public void Cookie_CheckResult_Expires () {
+		public void Cookie_CheckResult_Update () {
+			//Arrange
 			var wrapper = CreateWrapper ();
-			var date = DateTime.Now;
-			wrapper.Request.Cookie (
-				new Dictionary<string , string> {
-					{ "test" , "value" }
-				} ,
-				"sex.com" ,
-				"/" ,
-				true ,
-				date
+			wrapper.Request.Settings.Cookies.Add (
+				new CookieModel {
+					Name = "lailah" ,
+					Value = "seraph"
+				}
 			);
 
+			//Act
+			wrapper.Request.Cookie ( "lailah" , "fire" );
+
+			//Assert
 			var firstValue = wrapper.Request.Settings.Cookies.First ();
-			Assert.AreEqual ( firstValue.Expires , date );
+			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count , 1 );
+			Assert.AreEqual ( firstValue.Name , "lailah" );
+			Assert.AreEqual ( firstValue.Value , "fire" );
 		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void RemoveCookie_Throw_Name_Null () {
+			var wrapper = CreateWrapper ();
+			string parameter = null;
+			wrapper.Request.RemoveCookie ( parameter );
+		}
+
+		[TestMethod]
+		public void RemoveCookie_CheckResult_ExistingCookie () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie ( "mikleo" , "water" );
+
+			//Act
+			wrapper.Request.RemoveCookie ( "mikleo" );
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count , 0 );
+		}
+
+		[TestMethod]
+		public void RemoveCookie_CheckResult_NotExistingCookie () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+
+			//Act
+			wrapper.Request.RemoveCookie ( "mikleo" );
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count , 0 );
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void RemoveCookie_Multiple_Throw_Name_Null () {
+			var wrapper = CreateWrapper ();
+			IEnumerable<string> parameter = null;
+			wrapper.Request.RemoveCookie ( parameter );
+		}
+
+		[TestMethod]
+		public void RemoveCookie_Multiple_CheckResult_ExistingCookie () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie ( "mikleo" , "water" );
+			wrapper.Request.Cookie ( "lailah" , "fire" );
+			wrapper.Request.Cookie ( "zaveid" , "wind" );
+
+			//Act
+			wrapper.Request.RemoveCookie ( new string[] { "mikleo" , "lailah" , "zaveid" } );
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count , 0 );
+		}
+
+		[TestMethod]
+		public void RemoveCookie_Multiple_CheckResult_NotExistingCookie () {
+			//Arrange
+			var wrapper = CreateWrapper ();
+			wrapper.Request.Cookie ( "mikleo" , "water" );
+			wrapper.Request.Cookie ( "lailah" , "fire" );
+
+			//Act
+			wrapper.Request.RemoveCookie ( new string[] { "mikleo" , "lailah" , "zaveid" } );
+
+			//Assert
+			Assert.AreEqual ( wrapper.Request.Settings.Cookies.Count , 0 );
+		}
+
 
 		[TestMethod]
 		public void ClearParameters_CheckResult_HappyPath () {
@@ -676,7 +706,7 @@ namespace HttFluentTests {
 		public void ClearCookie_CheckResult_HappyPath () {
 			//Arrange
 			var wrapper = CreateWrapper ();
-			wrapper.Request.Cookie ( new Dictionary<string , string> () , "test" , "/" , true , DateTime.Now );
+			wrapper.Request.Cookie ( new Dictionary<string , string> () );
 
 			//Act
 			wrapper.Request.ClearCookie ();

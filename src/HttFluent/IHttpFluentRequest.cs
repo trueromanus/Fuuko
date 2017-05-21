@@ -174,14 +174,29 @@ namespace Fuuko {
 		IHttpFluentRequest Timeout ( TimeSpan timeout );
 
 		/// <summary>
-		/// Cookie header.
+		/// Add cookies.
 		/// </summary>
 		/// <param name="values">Cookie values.</param>
-		/// <param name="domain">Domain.</param>
-		/// <param name="path">Path.</param>
-		/// <param name="secure">Secure.</param>
-		/// <param name="expires">Expires.</param>
-		IHttpFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires );
+		IHttpFluentRequest Cookie ( IDictionary<string , string> values );
+
+		/// <summary>
+		/// Add cookie.
+		/// </summary>
+		/// <param name="name">Cookie name.</param>
+		/// <param name="value">Cookie value.</param>
+		IHttpFluentRequest Cookie ( string name , string value );
+
+		/// <summary>
+		/// Remove cookie.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		void RemoveCookie ( string name );
+
+		/// <summary>
+		/// Remove cookie.
+		/// </summary>
+		/// <param name="names">Names.</param>
+		void RemoveCookie ( IEnumerable<string> names );
 
 		/// <summary>
 		/// Clear cookie.

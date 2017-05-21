@@ -428,33 +428,78 @@ namespace Fuuko.Implementations {
 		/// Cookie header.
 		/// </summary>
 		/// <param name="values">Values.</param>
-		/// <param name="domain">Domain.</param>
-		/// <param name="path">Path.</param>
-		/// <param name="secure">Secure.</param>
-		/// <param name="expires">Expires.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IHttpFluentRequest Cookie ( IDictionary<string , string> values , string domain , string path , bool secure , DateTime expires ) {
+		public IHttpFluentRequest Cookie ( IDictionary<string , string> values ) {
 			Contract.Requires ( values != null );
-			Contract.Requires ( domain != null );
-			Contract.Requires ( path != null );
-			if ( values == null ) throw new ArgumentNullException ( "locales" );
-			if ( domain == null ) throw new ArgumentNullException ( "domain" );
-			if ( path == null ) throw new ArgumentNullException ( "path" );
+			if ( values == null ) throw new ArgumentNullException ( nameof ( values ) );
 
-			foreach ( var value in values ) {
-				m_RequestSettings.Cookies.Add (
-					new CookieModel {
-						Name = value.Key ,
-						Value = value.Value ,
-						Secure = secure ,
-						Path = path ,
-						Expires = expires ,
-						Domain = domain
-					}
-				);
+			foreach ( var cookie in values ) {
+				AddCookie ( cookie.Key , cookie.Value );
 			}
 
 			return this;
+		}
+
+		/// <summary>
+		/// Add cookie.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <param name="value">Value.</param>
+		private void AddCookie ( string name , string value ) {
+			var existingCookie = m_RequestSettings.Cookies.FirstOrDefault ( a => a.Name == name );
+			if ( existingCookie == null ) {
+				m_RequestSettings.Cookies.Add (
+					new CookieModel {
+						Name = name ,
+						Value = value
+					}
+				);
+			}
+			else {
+				existingCookie.Value = value;
+			}
+		}
+
+		/// <summary>
+		/// Add cookie.
+		/// </summary>
+		/// <param name="name">Cookie name.</param>
+		/// <param name="value">Cookie value.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public IHttpFluentRequest Cookie ( string name , string value ) {
+			Contract.Requires ( name != null );
+			Contract.Requires ( value != null );
+			if ( name == null ) throw new ArgumentNullException ( nameof ( name ) );
+			if ( value == null ) throw new ArgumentNullException ( nameof ( value ) );
+
+			AddCookie ( name , value );
+
+			return this;
+		}
+
+		/// <summary>
+		/// Remove cookie.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		public void RemoveCookie ( string name ) {
+			Contract.Requires ( name != null );
+			if ( name == null ) throw new ArgumentNullException ( nameof ( name ) );
+
+			var cookie = m_RequestSettings.Cookies.FirstOrDefault ( a => a.Name == name );
+			if ( cookie != null ) m_RequestSettings.Cookies.Remove ( cookie );
+		}
+
+		/// <summary>
+		/// Remove cookie.
+		/// </summary>
+		/// <param name="names">Names.</param>
+		public void RemoveCookie ( IEnumerable<string> names ) {
+			Contract.Requires ( names != null );
+			if ( names == null ) throw new ArgumentNullException ( nameof ( names ) );
+
+			foreach ( var name in names ) {
+				RemoveCookie ( name );
+			}
 		}
 
 		/// <summary>

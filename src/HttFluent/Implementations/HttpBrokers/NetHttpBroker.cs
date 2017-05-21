@@ -69,12 +69,8 @@ namespace Fuuko.Implementations.HttpBrokers {
 				clientHandler.CookieContainer.Add (
 					new Cookie {
 						Name = cookie.Name ,
-						Path = cookie.Path ,
-						Secure = cookie.Secure ,
 						Value = cookie.Value ,
-						Expires = cookie.Expires ,
-						Expired = cookie.Expires < DateTime.Now ,
-						Domain = cookie.Domain
+						Domain = requestSettings.Url.Host
 					}
 				);
 			}

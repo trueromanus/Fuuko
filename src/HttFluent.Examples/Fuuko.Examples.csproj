@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BasicExamples\GoogleSearchExample.cs" />
     <Compile Include="BasicExamples\GoogleSearchWithEncodingExample.cs" />
+    <Compile Include="CookieExample\CookieExample.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="MultipleRequests\SimpleMultipleRequestExample.cs" />
     <Compile Include="Program.cs" />
@@ -52,9 +53,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CookieExample\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\HttFluent\Fuuko.csproj">
       <Project>{91b6f80c-f6f7-4f2b-991c-c794c09437a0}</Project>
