@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HttFluent.NET451")]
+[assembly: AssemblyTitle ( "Fuuko" )]
 [assembly: AssemblyDescription ( "Performing HTTP queries in a declarative style" )]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany ( "GeekIT" )]
-[assembly: AssemblyProduct ( "HttFluent" )]
+[assembly: AssemblyCompany ( "" )]
+[assembly: AssemblyProduct ( "Fuuko" )]
 [assembly: AssemblyCopyright ( "Copyright © RomanAsylum  2016" )]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

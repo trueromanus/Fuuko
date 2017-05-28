@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Fuuko.NET46")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle ( "Fuuko" )]
+[assembly: AssemblyDescription ( "Performing HTTP queries in a declarative style" )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Fuuko.NET46")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyProduct ( "Fuuko" )]
+[assembly: AssemblyCopyright ( "Copyright © RomanAsylum 2016" )]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

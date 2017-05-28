@@ -46,7 +46,7 @@ namespace Fuuko.Implementations {
 			Contract.Requires ( encoding != null );
 			if ( encoding == null ) throw new ArgumentNullException ( "encoding" );
 
-			if ( m_Response.Content == null ) return String.Empty;
+			if ( m_Response.Content == null ) return string.Empty;
 
 			var memoryStream = Data.Content as MemoryStream;
 			if ( memoryStream == null ) throw new InvalidProgramException ( "Failed cast response content with MemoryStream." );
@@ -59,8 +59,8 @@ namespace Fuuko.Implementations {
 		/// </summary>
 		/// <returns>Content as string.</returns>
 		public string GetContentAsString () {
-			if ( m_Response.Content == null ) return String.Empty;
-			if ( m_Response.ContentEncoding == null ) return String.Empty;
+			if ( m_Response.Content == null ) return string.Empty;
+			if ( m_Response.ContentEncoding == null ) return string.Empty;
 
 			var memoryStream = Data.Content as MemoryStream;
 			if ( memoryStream == null ) throw new InvalidProgramException ( "Failed cast response content with MemoryStream." );
