@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using FakeItEasy;
+using Fuuko;
 using Fuuko.Implementations;
 using Fuuko.Models.ResponseModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -139,6 +141,40 @@ namespace HttFluentTests {
 					}
 				);
 				var result = response.GetContentAsString ();
+			}
+		}
+
+		[TestMethod]
+		[ExpectedException ( typeof ( ArgumentNullException ) )]
+		public void GetContentAsObject_Throw_ResponseReader_Null () {
+			//Arrange
+			var response = new HttpResponse ( new ResponseModel () );
+
+			//Act
+			var result = response.GetContentAsObject<int> ( null );
+		}
+
+		[TestMethod]
+		public void GetContentAsObject_CheckResult_ExecuteReadMethod () {
+			//Arrange
+			using ( var stream = new MemoryStream () ) {
+				var encoding = Encoding.UTF8;
+				var bytes = encoding.GetBytes ( "Nina" );
+				stream.Write ( bytes , 0 , bytes.Length );
+				stream.Position = 0;
+				var response = new HttpResponse ( new ResponseModel {
+					Content = stream ,
+					ContentEncoding = encoding
+				} );
+				
+				var fake = A.Fake<IResponseReader<int>> ();
+				A.CallTo ( () => fake.Read ( A<Stream>._ , A<Encoding>._ ) ).Returns ( 150 );
+
+				//Act
+				var result = response.GetContentAsObject ( fake );
+
+				//Assert
+				Assert.AreEqual ( result , 150 );
 			}
 		}
 

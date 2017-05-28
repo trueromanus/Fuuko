@@ -28,6 +28,13 @@ namespace Fuuko {
 		/// <returns>Content as string.</returns>
 		string GetContentAsString ();
 
+		/// <summary>
+		/// Get content as object with type <see cref="T"/>.
+		/// </summary>
+		/// <param name="responseReader">Reader of response.</param>
+		/// <returns>Generated object.</returns>
+		T GetContentAsObject<T> ( IResponseReader<T> responseReader );
+
 	}
 
 }

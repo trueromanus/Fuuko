@@ -46,11 +46,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\JsonResponseReader.cs" />
-    <Compile Include="IResponseReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HttFluent\Fuuko.csproj">
+      <Project>{91b6f80c-f6f7-4f2b-991c-c794c09437a0}</Project>
+      <Name>Fuuko</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

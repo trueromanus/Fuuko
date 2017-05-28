@@ -29,8 +29,10 @@ namespace Fuuko.Implementations {
 		/// <summary>
 		/// Data.
 		/// </summary>
-		public ResponseModel Data {
-			get {
+		public ResponseModel Data
+		{
+			get
+			{
 				return m_Response;
 			}
 		}
@@ -66,6 +68,20 @@ namespace Fuuko.Implementations {
 			if ( memoryStream == null ) throw new InvalidProgramException ( "Failed cast response content with MemoryStream." );
 
 			return m_Response.ContentEncoding.GetString ( memoryStream.ToArray () );
+		}
+
+		/// <summary>
+		/// Get content as object with type <see cref="T"/>.
+		/// </summary>
+		/// <param name="responseReader">Reader of response.</param>
+		/// <returns>Generated object.</returns>
+		/// <exception cref="ArgumentNullException"></exception>
+		public T GetContentAsObject<T> ( IResponseReader<T> responseReader ) {
+			if ( responseReader == null ) throw new ArgumentNullException ( nameof ( responseReader ) );
+			if ( m_Response.Content == null ) return default ( T );
+			if ( m_Response.ContentEncoding == null ) return default ( T );
+
+			return responseReader.Read ( m_Response.Content , m_Response.ContentEncoding );
 		}
 
 	}

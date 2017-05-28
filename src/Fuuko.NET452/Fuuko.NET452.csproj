@@ -76,6 +76,9 @@
     <Compile Include="..\HttFluent\Implementations\HttpResponse.cs">
       <Link>HttpResponse.cs</Link>
     </Compile>
+    <Compile Include="..\HttFluent\IResponseReader.cs">
+      <Link>IResponseReader.cs</Link>
+    </Compile>
     <Compile Include="..\HttFluent\Models\CookieModels\CookieModel.cs">
       <Link>CookieModel.cs</Link>
     </Compile>

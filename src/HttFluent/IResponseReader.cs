@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Fuuko.Readers {
+namespace Fuuko {
 
 	/// <summary>
 	/// Reader of response.
