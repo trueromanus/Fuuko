@@ -1,0 +1,78 @@
+﻿using System;
+using System.Threading.Tasks;
+using Fuuko.Classifiers;
+using Fuuko.Implementations;
+using Fuuko.Implementations.HttpBrokers;
+using Fuuko.Readers.Implementations;
+
+namespace Fuuko.Examples.JsonDeserialize {
+
+	/// <summary>
+	/// Deserialize response from JSON format to 
+	/// </summary>
+	public class JsonDeserializeExample : Example {
+
+		private class Post {
+
+			public int UserId
+			{
+				get;
+				set;
+			}
+
+			public int Id
+			{
+				get;
+				set;
+			}
+
+			public string Title
+			{
+				get;
+				set;
+			}
+
+
+			public string Body
+			{
+				get;
+				set;
+			}
+
+		}
+
+		public override void Execute () {
+			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
+
+			var post = new HttpFluentRequest ( new NetHttpBroker () )
+				.Url ( "https://jsonplaceholder.typicode.com/posts/1" ) //define api url
+				.Method ( RequestMethod.Get )
+				.Send ()
+				.GetContentAsObject ( new JsonResponseReader<Post> () ); // define HTTP method
+
+			Console.WriteLine ( "Post" );
+			Console.WriteLine ( "User id: " + post.UserId );
+			Console.WriteLine ( "Id: " + post.Id );
+			Console.WriteLine ( "Title: " + post.Title );
+			Console.WriteLine ( "Body: " + post.Body );
+		}
+
+		public override async Task ExecuteAsync () {
+			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
+
+			var response = await new HttpFluentRequest ( new NetHttpBroker () )
+				.Url ( "https://jsonplaceholder.typicode.com/posts/1" ) //define api url
+				.Method ( RequestMethod.Get )
+				.SendAsync ();
+			var post = response.GetContentAsObject ( new JsonResponseReader<Post> () );
+
+			Console.WriteLine ( "Post" );
+			Console.WriteLine ( "User id: " + post.UserId );
+			Console.WriteLine ( "Id: " + post.Id );
+			Console.WriteLine ( "Title: " + post.Title );
+			Console.WriteLine ( "Body: " + post.Body );
+		}
+
+	}
+
+}

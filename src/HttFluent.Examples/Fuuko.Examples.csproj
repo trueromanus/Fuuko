@@ -45,6 +45,7 @@
     <Compile Include="BasicExamples\GoogleSearchWithEncodingExample.cs" />
     <Compile Include="CookieExample\CookieExample.cs" />
     <Compile Include="Example.cs" />
+    <Compile Include="JsonDeserialize\JsonDeserializeExample.cs" />
     <Compile Include="MultipleRequests\SimpleMultipleRequestExample.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,6 +56,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Fuuko.Readers\Fuuko.Readers.csproj">
+      <Project>{a44f51e1-4e86-4403-a92c-e76d4aaa20f9}</Project>
+      <Name>Fuuko.Readers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HttFluent\Fuuko.csproj">
       <Project>{91b6f80c-f6f7-4f2b-991c-c794c09437a0}</Project>
       <Name>Fuuko</Name>
