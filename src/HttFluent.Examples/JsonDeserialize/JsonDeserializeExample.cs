@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Fuuko.Classifiers;
 using Fuuko.Implementations;
-using Fuuko.Implementations.HttpBrokers;
 using Fuuko.Readers.Implementations;
 
 namespace Fuuko.Examples.JsonDeserialize {
@@ -44,7 +43,7 @@ namespace Fuuko.Examples.JsonDeserialize {
 		public override void Execute () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
-			var post = new HttpFluentRequest ( new NetHttpBroker () )
+			var post = HttpFluentRequestFactory.CreateRequest ()
 				.Url ( "https://jsonplaceholder.typicode.com/posts/1" ) //define api url
 				.Method ( RequestMethod.Get )
 				.Send ()
@@ -60,7 +59,7 @@ namespace Fuuko.Examples.JsonDeserialize {
 		public override async Task ExecuteAsync () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
-			var response = await new HttpFluentRequest ( new NetHttpBroker () )
+			var response = await HttpFluentRequestFactory.CreateRequest ()
 				.Url ( "https://jsonplaceholder.typicode.com/posts/1" ) //define api url
 				.Method ( RequestMethod.Get )
 				.SendAsync ();
