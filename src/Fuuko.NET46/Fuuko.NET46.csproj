@@ -74,6 +74,9 @@
     <Compile Include="..\HttFluent\Implementations\HttpFluentRequest.cs">
       <Link>HttpFluentRequest.cs</Link>
     </Compile>
+    <Compile Include="..\HttFluent\Implementations\HttpFluentRequestFactory.cs">
+      <Link>HttpFluentRequestFactory.cs</Link>
+    </Compile>
     <Compile Include="..\HttFluent\Implementations\HttpResponse.cs">
       <Link>HttpResponse.cs</Link>
     </Compile>
