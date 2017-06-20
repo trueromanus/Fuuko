@@ -27,6 +27,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuuko.Extensions.NET451", "Extensions\Fuuko.Extensions.NET451\Fuuko.Extensions.NET451.csproj", "{6FA57968-5C2A-42BD-8CC3-D70AA2577D2A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readers", "Readers", "{03DC435B-188C-408D-887A-FF697D0138CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuuko.Readers.NET451", "Fuuko.Readers.NET451\Fuuko.Readers.NET451.csproj", "{91131C09-D550-4C20-9280-D916DFC21711}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,12 +81,18 @@ Global
 		{6FA57968-5C2A-42BD-8CC3-D70AA2577D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FA57968-5C2A-42BD-8CC3-D70AA2577D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FA57968-5C2A-42BD-8CC3-D70AA2577D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91131C09-D550-4C20-9280-D916DFC21711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91131C09-D550-4C20-9280-D916DFC21711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91131C09-D550-4C20-9280-D916DFC21711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91131C09-D550-4C20-9280-D916DFC21711}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{A44F51E1-4E86-4403-A92C-E76D4AAA20F9} = {03DC435B-188C-408D-887A-FF697D0138CC}
 		{1C599F8F-0F09-419A-AD04-1EC4AD10FFB8} = {E2B70B7A-3E40-4221-89D9-FA2D2C1E3185}
 		{6FA57968-5C2A-42BD-8CC3-D70AA2577D2A} = {E2B70B7A-3E40-4221-89D9-FA2D2C1E3185}
+		{91131C09-D550-4C20-9280-D916DFC21711} = {03DC435B-188C-408D-887A-FF697D0138CC}
 	EndGlobalSection
 EndGlobal

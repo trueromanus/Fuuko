@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6FA57968-5C2A-42BD-8CC3-D70AA2577D2A}</ProjectGuid>
+    <ProjectGuid>{91131C09-D550-4C20-9280-D916DFC21711}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fuuko.Extensions.NET451</RootNamespace>
-    <AssemblyName>Fuuko.Extensions.NET451</AssemblyName>
+    <RootNamespace>Fuuko.Readers.NET451</RootNamespace>
+    <AssemblyName>Fuuko.Readers.NET451</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,20 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Fuuko.Extensions\HttpResponseExtensions.cs">
-      <Link>HttpResponseExtensions.cs</Link>
+    <Compile Include="..\Fuuko.Readers\Implementations\JsonResponseReader.cs">
+      <Link>JsonResponseReader.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Fuuko.Readers.NET451\Fuuko.Readers.NET451.csproj">
-      <Project>{91131c09-d550-4c20-9280-d916dfc21711}</Project>
-      <Name>Fuuko.Readers.NET451</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\HttFluent.NET451\Fuuko.NET451.csproj">
+    <ProjectReference Include="..\HttFluent.NET451\Fuuko.NET451.csproj">
       <Project>{41ae78b6-6cc8-4045-8b81-0525542c4454}</Project>
       <Name>Fuuko.NET451</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
