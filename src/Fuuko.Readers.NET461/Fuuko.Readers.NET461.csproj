@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A44F51E1-4E86-4403-A92C-E76D4AAA20F9}</ProjectGuid>
+    <ProjectGuid>{CC36FFD3-DCA6-45CC-BB0A-0938D4CD6827}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fuuko.Readers</RootNamespace>
-    <AssemblyName>Fuuko.Readers</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Fuuko.Readers.NET461</RootNamespace>
+    <AssemblyName>Fuuko.Readers.NET461</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -45,13 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\JsonResponseReader.cs" />
+    <Compile Include="..\Fuuko.Readers\Implementations\JsonResponseReader.cs">
+      <Link>JsonResponseReader.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HttFluent\Fuuko.csproj">
-      <Project>{91b6f80c-f6f7-4f2b-991c-c794c09437a0}</Project>
-      <Name>Fuuko</Name>
+    <ProjectReference Include="..\Fuuko.NET461\Fuuko.NET461.csproj">
+      <Project>{6579ed6b-18ec-4f13-89b8-182dbf5ab207}</Project>
+      <Name>Fuuko.NET461</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

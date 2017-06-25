@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A44F51E1-4E86-4403-A92C-E76D4AAA20F9}</ProjectGuid>
+    <ProjectGuid>{C85C22B9-0AB4-48EC-93A6-250E0057B099}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fuuko.Readers</RootNamespace>
-    <AssemblyName>Fuuko.Readers</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Fuuko.Readers.NET462</RootNamespace>
+    <AssemblyName>Fuuko.Readers.NET462</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -45,17 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\JsonResponseReader.cs" />
+    <Compile Include="..\Fuuko.Readers\Implementations\JsonResponseReader.cs">
+      <Link>JsonResponseReader.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HttFluent\Fuuko.csproj">
-      <Project>{91b6f80c-f6f7-4f2b-991c-c794c09437a0}</Project>
-      <Name>Fuuko</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Fuuko.NET462\Fuuko.NET462.csproj">
+      <Project>{a9fc307b-bbcd-41f3-a9f9-c996e15714e9}</Project>
+      <Name>Fuuko.NET462</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
