@@ -14,7 +14,7 @@ The documentation is [here](https://github.com/trueromanus/Fuuko/wiki)
 
 ### Google search
 ```csharp
-var response = HttpFluentRequestFactory.CreateRequest ()
+var response = RequestFactory.CreateRequest ()
 	.Url ( "https://www.google.ru/webhp" ) //define full url
 	.Method ( RequestMethod.Get ) // define HTTP method
 	.Parameter ( "q" , "cats" ) // define parameter q=cats
@@ -32,7 +32,7 @@ Console.WriteLine ( "Content: {0}" , response.GetContentAsString ( Encoding.UTF8
 
 ### Few queries
 ```csharp
-var request = HttpFluentRequestFactory.CreateRequest ()
+var request = RequestFactory.CreateRequest ()
 	.Url ( "https://example.com/" )
 	.Method ( RequestMethod.Get );
 
