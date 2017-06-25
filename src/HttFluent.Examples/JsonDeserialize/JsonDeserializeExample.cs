@@ -44,7 +44,7 @@ namespace Fuuko.Examples.JsonDeserialize {
 		public override void Execute () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
-			var post = HttpFluentRequestFactory.CreateRequest ()
+			var post = RequestFactory.CreateRequest ()
 				.Url ( "https://jsonplaceholder.typicode.com/posts/1" ) //define api url
 				.Method ( RequestMethod.Get )
 				.Send ()
@@ -60,7 +60,7 @@ namespace Fuuko.Examples.JsonDeserialize {
 		public override async Task ExecuteAsync () {
 			//Create instance HttFluentRequest and pass into first parameter NetHttpBroker.
 
-			var response = (HttpResponse) await HttpFluentRequestFactory.CreateRequest ()
+			var response = (HttpResponse) await RequestFactory.CreateRequest ()
 				.Url ( "https://jsonplaceholder.typicode.com/posts/1" ) //define api url
 				.Method ( RequestMethod.Get )
 				.SendAsync ();
