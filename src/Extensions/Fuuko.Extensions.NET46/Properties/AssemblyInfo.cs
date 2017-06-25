@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle ( "Fuuko.Extensions" )]
 [assembly: AssemblyDescription ( "Extensions for Fuuko library." )]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany ( "" )]
 [assembly: AssemblyProduct ( "Fuuko" )]
 [assembly: AssemblyCopyright ( "Copyright © RomanAsylum 2017" )]
 [assembly: AssemblyTrademark("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6fa57968-5c2a-42bd-8cc3-d70aa2577d2a")]
+[assembly: Guid("ee34e0de-95f2-4901-a45b-d8b1b380f6e2")]
 
 // Version information for an assembly consists of the following four values:
 //
