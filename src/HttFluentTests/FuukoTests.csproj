@@ -63,15 +63,15 @@
     <Compile Include="HttpResponseUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HttFluent\Fuuko.csproj">
-      <Project>{91b6f80c-f6f7-4f2b-991c-c794c09437a0}</Project>
-      <Name>Fuuko</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NET_4.5\Fuuko\Fuuko.csproj">
+      <Project>{91b6f80c-f6f7-4f2b-991c-c794c09437a0}</Project>
+      <Name>Fuuko</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

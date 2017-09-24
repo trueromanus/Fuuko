@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9887837B-8909-4CBC-B139-E290715793A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fuuko</RootNamespace>
+    <AssemblyName>Fuuko</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\NET_4.5\Fuuko\Classifiers\AcceptEncoding.cs">
+      <Link>AcceptEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Classifiers\ContentDispositionType.cs">
+      <Link>ContentDispositionType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Classifiers\RequestMethod.cs">
+      <Link>RequestMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Classifiers\ResponseStatusCode.cs">
+      <Link>ResponseStatusCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Exceptions\NetBrokerException.cs">
+      <Link>NetBrokerException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Exceptions\ParameterException.cs">
+      <Link>ParameterException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\IHttpBroker.cs">
+      <Link>IHttpBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\IHttpFluentRequest.cs">
+      <Link>IHttpFluentRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\IHttpResponse.cs">
+      <Link>IHttpResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Implementations\HttpBrokers\NetHttpBroker.cs">
+      <Link>NetHttpBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Implementations\HttpFluentRequest.cs">
+      <Link>HttpFluentRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Implementations\HttpResponse.cs">
+      <Link>HttpResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Implementations\RequestFactory.cs">
+      <Link>RequestFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\IResponseReader.cs">
+      <Link>IResponseReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\CookieModels\CookieModel.cs">
+      <Link>CookieModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\ParameterModels\RequestFileParameterModel.cs">
+      <Link>RequestFileParameterModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\ParameterModels\RequestNumberParameterModel.cs">
+      <Link>RequestNumberParameterModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\ParameterModels\RequestParameterModel.cs">
+      <Link>RequestParameterModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\ParameterModels\RequestPlainBodyParameterModel.cs">
+      <Link>RequestPlainBodyParameterModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\ParameterModels\RequestStringParameterModel.cs">
+      <Link>RequestStringParameterModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\RequestModels\RequestSettingsModel.cs">
+      <Link>RequestSettingsModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\ResponseModels\ContentDispositionModel.cs">
+      <Link>ContentDispositionModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\ResponseModels\ETag.cs">
+      <Link>ETag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NET_4.5\Fuuko\Models\ResponseModels\ResponseModel.cs">
+      <Link>ResponseModel.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
