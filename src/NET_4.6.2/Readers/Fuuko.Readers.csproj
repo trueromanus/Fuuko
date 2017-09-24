@@ -7,8 +7,8 @@
     <ProjectGuid>{C85C22B9-0AB4-48EC-93A6-250E0057B099}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fuuko.Readers.NET462</RootNamespace>
-    <AssemblyName>Fuuko.Readers.NET462</AssemblyName>
+    <RootNamespace>Fuuko.Readers</RootNamespace>
+    <AssemblyName>Fuuko.Readers</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

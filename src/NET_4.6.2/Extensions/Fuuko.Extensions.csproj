@@ -7,8 +7,8 @@
     <ProjectGuid>{EFF41F0F-8B19-4AA7-AF70-9DB0A8F9B893}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fuuko.Extensions.NET462</RootNamespace>
-    <AssemblyName>Fuuko.Extensions.NET462</AssemblyName>
+    <RootNamespace>Fuuko.Extensions</RootNamespace>
+    <AssemblyName>Fuuko.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
