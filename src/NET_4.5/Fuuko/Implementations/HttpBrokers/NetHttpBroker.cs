@@ -66,6 +66,17 @@ namespace Fuuko.Implementations.HttpBrokers {
 			if ( requestSettings == null ) throw new ArgumentNullException ( "requestSettings" );
 
 			foreach ( var cookie in requestSettings.Cookies ) {
+#if WINDOWS_UWP
+				clientHandler.CookieContainer.Add (
+					requestSettings.Url ,
+					new Cookie {
+						Name = cookie.Name ,
+						Value = cookie.Value ,
+						Domain = requestSettings.Url.Host
+					}
+				);
+
+#else
 				clientHandler.CookieContainer.Add (
 					new Cookie {
 						Name = cookie.Name ,
@@ -73,6 +84,7 @@ namespace Fuuko.Implementations.HttpBrokers {
 						Domain = requestSettings.Url.Host
 					}
 				);
+#endif
 			}
 		}
 
@@ -92,7 +104,7 @@ namespace Fuuko.Implementations.HttpBrokers {
 				client.DefaultRequestHeaders.Accept.Add ( new MediaTypeWithQualityHeaderValue ( accept ) );
 			}
 			foreach ( var locale in requestSettings.Locales ) {
-				var regionInfo = new RegionInfo ( locale.LCID );
+				var regionInfo = new RegionInfo ( locale.Name );
 				client.DefaultRequestHeaders.AcceptLanguage.Add ( new StringWithQualityHeaderValue ( regionInfo.TwoLetterISORegionName ) );
 			}
 			foreach ( var encoding in requestSettings.Encodings ) {
