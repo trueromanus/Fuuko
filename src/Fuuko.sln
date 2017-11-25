@@ -63,9 +63,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UWP", "UWP", "{1DF3C32B-F72
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuuko", "UWP\Fuuko\Fuuko.csproj", "{CD81D976-C5D4-436A-88C2-AE62629DF0B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuuko.Extensions", "UWP\Fuuko.Extensions\Fuuko.Extensions.csproj", "{2954906E-67FC-4B54-AEFE-99674DFABA00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuuko.Extensions", "UWP\Extensions\Fuuko.Extensions.csproj", "{2954906E-67FC-4B54-AEFE-99674DFABA00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuuko.Readers", "UWP\Fuuko.Readers\Fuuko.Readers.csproj", "{3E8ADD31-BBAC-4B82-B6B6-BCD2D02A1104}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuuko.Readers", "UWP\Readers\Fuuko.Readers.csproj", "{3E8ADD31-BBAC-4B82-B6B6-BCD2D02A1104}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -118,7 +118,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fuuko.Readers\Fuuko.Readers.csproj">
+    <ProjectReference Include="..\Readers\Fuuko.Readers.csproj">
       <Project>{3e8add31-bbac-4b82-b6b6-bcd2d02a1104}</Project>
       <Name>Fuuko.Readers</Name>
     </ProjectReference>
